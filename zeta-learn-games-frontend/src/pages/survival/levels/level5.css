@@ -1,0 +1,1585 @@
+* {
+  box-sizing: border-box;
+}
+
+.l5-page {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #07090b;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.l5-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #171f28;
+}
+
+/* =========================================================
+   OLD STATION BACKGROUND
+========================================================= */
+
+.l5-sky {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      to bottom,
+      #101a28 0%,
+      #1d3041 38%,
+      #515d64 67%,
+      #292c2f 100%
+    );
+}
+
+.l5-moon {
+  position: absolute;
+  width: 112px;
+  height: 112px;
+  top: 7%;
+  right: 12%;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #fff 0%,
+      #e7edf0 58%,
+      #b8c2c8 100%
+    );
+  box-shadow:
+    0 0 30px rgba(255,255,255,.3),
+    0 0 80px rgba(210,225,235,.16);
+}
+
+.l5-stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(
+      circle,
+      rgba(255,255,255,.8) 1px,
+      transparent 1px
+    );
+}
+
+.l5-stars-1 {
+  background-size: 95px 95px;
+  opacity: .4;
+}
+
+.l5-stars-2 {
+  background-size: 145px 145px;
+  opacity: .22;
+}
+
+.l5-stars-3 {
+  background-size: 210px 210px;
+  opacity: .16;
+}
+
+.l5-station-building {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 31%;
+  height: 46%;
+  z-index: 5;
+  background:
+    linear-gradient(
+      to bottom,
+      #4b5156,
+      #383d41 55%,
+      #282c2f
+    );
+  border-top: 5px solid #1c2023;
+  box-shadow:
+    inset 0 -30px 50px rgba(0,0,0,.45),
+    0 15px 35px rgba(0,0,0,.35);
+}
+
+.l5-station-roof {
+  position: absolute;
+  left: -2%;
+  top: -35px;
+  width: 104%;
+  height: 40px;
+  background: linear-gradient(to bottom,#171b1e,#30363a);
+  border-bottom: 4px solid #111416;
+}
+
+.l5-station-sign {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 260px;
+  padding: 12px 30px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: 7px;
+  color: #e4e7e8;
+  background: linear-gradient(to bottom,#242a2e,#161a1d);
+  border: 2px solid #62686c;
+  box-shadow: 0 5px 15px rgba(0,0,0,.5);
+}
+
+.l5-station-window {
+  position: absolute;
+  top: 31%;
+  width: 110px;
+  height: 115px;
+  background: linear-gradient(135deg,#17242d,#31434e);
+  border: 5px solid #1d2225;
+  box-shadow:
+    inset 0 0 18px rgba(0,0,0,.6),
+    0 5px 12px rgba(0,0,0,.35);
+}
+
+.l5-sw1 { left: 8%; }
+.l5-sw2 { left: 27%; }
+.l5-sw3 { right: 27%; }
+.l5-sw4 { right: 8%; }
+
+.l5-station-door {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 135px;
+  height: 190px;
+  background: linear-gradient(to right,#15191b,#2b3033,#15191b);
+  border: 6px solid #171b1d;
+  box-shadow: inset 0 0 30px rgba(0,0,0,.8);
+}
+
+.l5-platform {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 23%;
+  height: 12%;
+  z-index: 12;
+  background: linear-gradient(to bottom,#767778,#5c5d5e,#3e4041);
+}
+
+.l5-platform-edge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 9px;
+  background: linear-gradient(to right,#a28d43,#e0c767,#9c883b);
+}
+
+.l5-railway {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 24%;
+  z-index: 10;
+  background: linear-gradient(to bottom,#3c3d3e,#191b1d);
+}
+
+.l5-rail {
+  position: absolute;
+  bottom: 0;
+  width: 9px;
+  height: 100%;
+  background: linear-gradient(to right,#4e5356,#b3b7b8,#464a4c);
+}
+
+.l5-rail-left {
+  left: 37%;
+  transform: rotate(1deg);
+}
+
+.l5-rail-right {
+  right: 37%;
+  transform: rotate(-1deg);
+}
+
+.l5-sleeper {
+  position: absolute;
+  left: 25%;
+  width: 50%;
+  height: 12px;
+  background: linear-gradient(to bottom,#17191a,#333638);
+  transform: perspective(300px) rotateX(30deg);
+}
+
+.l5-lamp {
+  position: absolute;
+  bottom: 29%;
+  width: 10px;
+  height: 170px;
+  z-index: 20;
+  background: linear-gradient(to right,#17191b,#53585b,#1a1c1e);
+}
+
+.l5-lamp-left { left: 10%; }
+.l5-lamp-right { right: 10%; }
+
+.l5-lamp-light {
+  position: absolute;
+  left: 50%;
+  top: -25px;
+  transform: translateX(-50%);
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: radial-gradient(circle,#fffbd2 0%,#f4e58e 35%,#77714c 60%,transparent 72%);
+  box-shadow:
+    0 0 25px rgba(255,238,140,.5),
+    0 0 70px rgba(255,220,100,.18);
+}
+
+.l5-fog {
+  position: absolute;
+  z-index: 25;
+  border-radius: 50%;
+  filter: blur(35px);
+  background: rgba(220,225,225,.1);
+  pointer-events: none;
+}
+
+.l5-fog-1 {
+  width: 550px;
+  height: 100px;
+  left: 5%;
+  bottom: 24%;
+}
+
+.l5-fog-2 {
+  width: 650px;
+  height: 120px;
+  right: 5%;
+  bottom: 18%;
+}
+
+.l5-fog-3 {
+  width: 500px;
+  height: 90px;
+  left: 35%;
+  bottom: 34%;
+  opacity: .5;
+}
+
+/* =========================================================
+   GREEN TRAIN — ENTERS FROM LEFT
+========================================================= */
+
+.l5-train-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 45;
+  pointer-events: none;
+}
+
+.l5-green-train {
+  position: absolute;
+  left: 3%;
+  bottom: 23%;
+  width: 620px;
+  height: 230px;
+  transform: translateX(-125vw);
+  animation:
+    l5-train-arrival
+    6.2s
+    cubic-bezier(.22,.05,.16,1)
+    forwards;
+  filter: drop-shadow(0 18px 18px rgba(0,0,0,.65));
+}
+
+@keyframes l5-train-arrival {
+  0% { transform: translateX(-125vw); }
+  72% { transform: translateX(0); }
+  86% { transform: translateX(14px); }
+  93% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.l5-train-roof {
+  position: absolute;
+  left: -12px;
+  top: -18px;
+  width: 644px;
+  height: 28px;
+  border-radius: 16px 16px 5px 5px;
+  background: linear-gradient(to bottom,#263b38,#182522,#0c1211);
+  border: 3px solid #465854;
+  box-shadow: 0 8px 18px rgba(0,0,0,.55);
+}
+
+.l5-train-body {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 16px 16px 7px 7px;
+  background:
+    radial-gradient(ellipse at 18% 78%,rgba(129,83,51,.35),transparent 12%),
+    radial-gradient(ellipse at 72% 34%,rgba(117,75,49,.25),transparent 10%),
+    linear-gradient(to bottom,#31544f,#25433f 35%,#19302e 68%,#101b1a);
+  border: 4px solid #536d68;
+  box-shadow:
+    inset 0 0 35px rgba(0,0,0,.55),
+    0 18px 35px rgba(0,0,0,.65);
+}
+
+.l5-train-body::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 116px;
+  height: 13px;
+  background: linear-gradient(to right,#10201e,#725d43,#233c38,#87684a,#142522);
+  opacity: .7;
+}
+
+.l5-train-window {
+  position: absolute;
+  top: 34px;
+  width: 92px;
+  height: 70px;
+  background: linear-gradient(135deg,#17292b,#314e50 45%,#0e191a);
+  border: 5px solid #101817;
+  box-shadow: inset 0 0 20px rgba(0,0,0,.75);
+}
+
+.l5-window-1 { left: 42px; }
+.l5-window-2 { left: 150px; }
+.l5-window-3 { left: 258px; }
+.l5-window-4 { left: 480px; }
+
+.l5-train-door {
+  position: absolute;
+  top: 10px;
+  left: 365px;
+  width: 98px;
+  height: 202px;
+  overflow: hidden;
+  background: #142421;
+  border: 4px solid #4f625e;
+  box-shadow: inset 0 0 25px rgba(0,0,0,.75);
+}
+
+.l5-door-window {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 12px;
+  height: 58px;
+  background: linear-gradient(135deg,#20383a,#45666a,#101b1c);
+  border: 4px solid #101615;
+}
+
+.l5-door-panel {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 12px;
+  height: 58px;
+  background: linear-gradient(to bottom,#29413e,#172724);
+  border-top: 2px solid #536762;
+}
+
+.l5-door-left,
+.l5-door-right {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to bottom,#3b4d4a,#182724);
+  transition: transform .8s ease;
+  z-index: 3;
+}
+
+.l5-door-left {
+  left: 0;
+  border-right: 2px solid #52605d;
+}
+
+.l5-door-right {
+  right: 0;
+  border-left: 2px solid #52605d;
+}
+
+.l5-train-door-open .l5-door-left {
+  transform: translateX(-100%);
+}
+
+.l5-train-door-open .l5-door-right {
+  transform: translateX(100%);
+}
+
+.l5-train-headlight {
+  position: absolute;
+  right: 15px;
+  top: 94px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: radial-gradient(circle,#fffef0,#e7d78c 35%,#6e6740 62%,transparent 76%);
+  box-shadow: 0 0 30px rgba(255,220,100,.25);
+}
+
+.l5-train-label {
+  position: absolute;
+  right: 30px;
+  bottom: 25px;
+  color: rgba(210,215,216,.7);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.l5-train-wheel {
+  position: absolute;
+  bottom: -18px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: radial-gradient(circle,#686d6a,#303735 30%,#111615 55%,#050707);
+  border: 5px solid #101414;
+}
+
+.l5-wheel-1 { left: 68px; }
+.l5-wheel-2 { left: 210px; }
+.l5-wheel-3 { left: 400px; }
+.l5-wheel-4 { left: 535px; }
+
+/* =========================================================
+   PLAYER
+========================================================= */
+
+.l5-player {
+  position: absolute;
+  width: 48px;
+  height: 132px;
+  z-index: 70;
+  pointer-events: none;
+  transform-origin: center bottom;
+}
+
+.l5-player-exit {
+  left: calc(3% + 365px + 25px);
+  bottom: 23%;
+  animation: l5-player-exit 3.8s ease-out forwards;
+}
+
+@keyframes l5-player-exit {
+  0% {
+    left: calc(3% + 365px + 25px);
+    bottom: 23%;
+    transform: translateY(0);
+  }
+  12% {
+    left: calc(3% + 365px + 25px);
+    bottom: 23%;
+  }
+  38% {
+    left: 40%;
+    bottom: 23%;
+    transform: translateY(-1px);
+  }
+  65% {
+    left: 46%;
+    bottom: 23%;
+    transform: translateY(0);
+  }
+  88% {
+    left: 49%;
+    bottom: 23%;
+    transform: translateY(-1px);
+  }
+  100% {
+    left: 50%;
+    bottom: 23%;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.l5-player-center {
+  left: 50%;
+  bottom: 23%;
+  transform: translateX(-50%);
+}
+
+.l5-player-center .l5-player-arm,
+.l5-player-center .l5-player-leg {
+  animation: none !important;
+  transform: rotate(0deg);
+}
+
+.l5-player-glass {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  transform: none;
+}
+
+.l5-player-shadow {
+  position: absolute;
+  left: -5px;
+  bottom: -5px;
+  width: 58px;
+  height: 13px;
+  border-radius: 50%;
+  background: rgba(0,0,0,.5);
+  filter: blur(4px);
+}
+
+.l5-player-head {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  width: 28px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg,#d49a73,#a9674a);
+  border: 2px solid #633e30;
+  z-index: 5;
+}
+
+.l5-player-hair {
+  position: absolute;
+  left: 1px;
+  top: -2px;
+  width: 26px;
+  height: 13px;
+  border-radius: 15px 15px 7px 7px;
+  background: linear-gradient(to bottom,#17191a,#2d2d2d);
+}
+
+.l5-player-body {
+  position: absolute;
+  left: 7px;
+  top: 27px;
+  width: 34px;
+  height: 50px;
+  border-radius: 10px 10px 7px 7px;
+  background: linear-gradient(to right,#293d4b,#172531,#2d4351);
+  border: 2px solid #0d151b;
+}
+
+.l5-player-arm {
+  position: absolute;
+  top: 31px;
+  width: 10px;
+  height: 48px;
+  border-radius: 7px;
+  background: linear-gradient(to bottom,#304554,#182832);
+  transform-origin: top center;
+}
+
+.l5-arm-left { left: 2px; }
+.l5-arm-right { right: 2px; }
+
+.l5-player-hand {
+  position: absolute;
+  left: 1px;
+  bottom: -5px;
+  width: 8px;
+  height: 9px;
+  border-radius: 50%;
+  background: #b97857;
+}
+
+.l5-player-leg {
+  position: absolute;
+  top: 72px;
+  width: 12px;
+  height: 43px;
+  border-radius: 5px;
+  background: linear-gradient(to right,#253642,#111b22);
+}
+
+.l5-leg-left { left: 9px; }
+.l5-leg-right { right: 9px; }
+
+.l5-player-shoe {
+  position: absolute;
+  left: -1px;
+  bottom: -4px;
+  width: 14px;
+  height: 8px;
+  border-radius: 3px;
+  background: #0b1013;
+}
+
+.l5-player-exit .l5-player-arm,
+.l5-player-exit .l5-player-leg {
+  animation: l5-walk .32s 8 alternate ease-in-out;
+}
+
+@keyframes l5-walk {
+  from { transform: rotate(-12deg); }
+  to { transform: rotate(12deg); }
+}
+
+/* =========================================================
+   STORY — LARGE TEXT ON RIGHT
+========================================================= */
+
+.l5-story-right {
+  position: absolute;
+  z-index: 100;
+  right: 6%;
+  top: 27%;
+  width: min(470px, 38vw);
+  text-align: right;
+  text-shadow: 0 4px 18px rgba(0,0,0,.95);
+  animation: l5-story-in .9s ease forwards;
+}
+
+@keyframes l5-story-in {
+  from {
+    opacity: 0;
+    transform: translateX(45px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.l5-story-kicker {
+  color: #c9ced0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 7px;
+}
+
+.l5-story-line {
+  width: 100%;
+  height: 1px;
+  margin: 14px 0 22px;
+  background: rgba(225,225,225,.45);
+}
+
+.l5-story-right h1 {
+  margin: 0 0 22px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(36px, 4vw, 64px);
+  line-height: .95;
+  letter-spacing: 3px;
+}
+
+.l5-story-right p {
+  margin: 8px 0;
+  color: #d2d6d8;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  line-height: 1.45;
+}
+
+.l5-cinematic-button,
+.l5-return-button {
+  margin-top: 28px;
+  padding: 14px 26px;
+  color: #e9ecec;
+  background: rgba(12,17,18,.82);
+  border: 1px solid rgba(211,205,170,.6);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: .25s ease;
+}
+
+.l5-cinematic-button:hover,
+.l5-return-button:hover {
+  background: rgba(61,75,70,.9);
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   BIRD — APPROACH / HIT / EXIT RIGHT
+========================================================= */
+
+.l5-bird-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 110;
+  pointer-events: none;
+}
+
+.l5-bird {
+  position: absolute;
+  width: 115px;
+  height: 80px;
+  left: -140px;
+  top: 37%;
+  transform-origin: center;
+}
+
+.l5-bird-approach .l5-bird {
+  animation: l5-bird-approach 1.7s cubic-bezier(.15,.75,.25,1) forwards;
+}
+
+@keyframes l5-bird-approach {
+  from {
+    left: -140px;
+    top: 36%;
+    transform: scale(.55) rotate(-4deg);
+  }
+  75% {
+    left: 43%;
+    top: 31%;
+    transform: scale(.85) rotate(4deg);
+  }
+  100% {
+    left: 48%;
+    top: 29%;
+    transform: scale(1) rotate(0);
+  }
+}
+
+.l5-bird-hit .l5-bird {
+  left: 48%;
+  top: 29%;
+  transform: scale(1);
+  animation: l5-bird-hit 550ms ease forwards;
+}
+
+@keyframes l5-bird-hit {
+  0% {
+    left: 48%;
+    top: 29%;
+    transform: scale(1) rotate(0);
+  }
+  35% {
+    left: 50%;
+    top: 27%;
+    transform: scale(1.15) rotate(-8deg);
+  }
+  55% {
+    left: 47%;
+    top: 31%;
+    transform: scale(.95) rotate(9deg);
+  }
+  100% {
+    left: 49%;
+    top: 29%;
+    transform: scale(1) rotate(0);
+  }
+}
+
+.l5-bird-leaving .l5-bird {
+  animation: l5-bird-leave 2.5s cubic-bezier(.2,.5,.1,1) forwards;
+}
+
+@keyframes l5-bird-leave {
+  from {
+    left: 49%;
+    top: 29%;
+    transform: scale(1) rotate(0);
+  }
+  25% {
+    left: 59%;
+    top: 22%;
+    transform: scale(.95) rotate(12deg);
+  }
+  55% {
+    left: 77%;
+    top: 17%;
+    transform: scale(.8) rotate(8deg);
+  }
+  100% {
+    left: 115%;
+    top: 10%;
+    transform: scale(.45) rotate(15deg);
+  }
+}
+
+.l5-bird-body,
+.l5-bird-head,
+.l5-bird-wing,
+.l5-bird-tail {
+  position: absolute;
+  background: #f2f4f4;
+  box-shadow: 0 3px 8px rgba(0,0,0,.4);
+}
+
+.l5-bird-body {
+  left: 34px;
+  top: 28px;
+  width: 52px;
+  height: 27px;
+  border-radius: 55% 45% 50% 50%;
+}
+
+.l5-bird-head {
+  left: 72px;
+  top: 12px;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+}
+
+.l5-bird-eye {
+  position: absolute;
+  left: 90px;
+  top: 20px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #111;
+}
+
+.l5-bird-beak {
+  position: absolute;
+  left: 96px;
+  top: 21px;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 13px solid #c49a4c;
+}
+
+.l5-bird-wing {
+  width: 45px;
+  height: 22px;
+  border-radius: 70% 20% 70% 20%;
+}
+
+.l5-bird-wing-left {
+  left: 28px;
+  top: 14px;
+  transform: rotate(-30deg);
+}
+
+.l5-bird-wing-right {
+  left: 35px;
+  top: 40px;
+  transform: rotate(22deg);
+}
+
+.l5-bird-tail {
+  left: 22px;
+  top: 29px;
+  width: 25px;
+  height: 15px;
+  clip-path: polygon(100% 50%,0 0,20% 100%);
+}
+
+.l5-hit-flash {
+  position: absolute;
+  z-index: 120;
+  left: 50%;
+  top: 30%;
+  width: 110px;
+  height: 110px;
+  transform: translate(-50%,-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle,rgba(255,255,255,.8),rgba(255,255,255,0) 70%);
+  animation: l5-hit-flash .45s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes l5-hit-flash {
+  from { opacity: .9; transform: translate(-50%,-50%) scale(.5); }
+  to { opacity: 0; transform: translate(-50%,-50%) scale(1.8); }
+}
+
+/* =========================================================
+   GLASS REVEAL BACKGROUND
+========================================================= */
+
+.l5-glass-world {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 40;
+  background:
+    linear-gradient(to bottom,#07101a 0%,#172b38 45%,#101719 100%);
+}
+
+.l5-glass-sky {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 14%,rgba(205,225,232,.22),transparent 18%),
+    linear-gradient(to bottom,rgba(22,42,55,.5),rgba(2,7,9,.7));
+}
+
+.l5-glass-haze {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 45%;
+  background: radial-gradient(ellipse,rgba(173,192,190,.12),transparent 70%);
+  filter: blur(18px);
+}
+
+.l5-side-path {
+  position: absolute;
+  top: 20%;
+  bottom: 17%;
+  width: 19%;
+  z-index: 10;
+  background:
+    linear-gradient(90deg,#323b3b,#626866,#373e3e);
+  border: 5px solid #202727;
+  box-shadow:
+    inset 0 0 30px rgba(0,0,0,.5),
+    0 12px 25px rgba(0,0,0,.6);
+}
+
+.l5-path-left {
+  left: 5%;
+  clip-path: polygon(0 7%,100% 0,82% 100%,18% 100%);
+}
+
+.l5-path-right {
+  right: 5%;
+  clip-path: polygon(0 0,100% 7%,82% 100%,18% 100%);
+}
+
+.l5-side-path span {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(220,225,225,.5);
+}
+
+.l5-gap {
+  position: absolute;
+  z-index: 4;
+  left: 22%;
+  right: 22%;
+  top: 17%;
+  bottom: 0;
+  background:
+    radial-gradient(ellipse at center top,#243034,#050707 45%,#010202 100%);
+  clip-path: polygon(15% 0,85% 0,100% 100%,0 100%);
+}
+
+.l5-gap-depth {
+  position: absolute;
+  inset: 8% 8% 0;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(70,79,77,.08) 0 7px,
+      transparent 7px 17px
+    );
+  opacity: .55;
+}
+
+.l5-glass-bridge {
+  position: absolute;
+  z-index: 20;
+  left: 29%;
+  right: 29%;
+  top: 18%;
+  bottom: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transform: perspective(700px) rotateX(4deg);
+}
+
+.l5-glass-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  height: 8%;
+}
+
+.l5-glass-panel {
+  position: relative;
+  border: 3px solid rgba(187,220,224,.65);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(220,248,250,.22),
+      rgba(91,151,157,.08) 45%,
+      rgba(225,250,250,.2)
+    );
+  box-shadow:
+    inset 0 0 20px rgba(192,242,247,.13),
+    0 0 10px rgba(173,230,235,.12);
+}
+
+.l5-glass-panel::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  top: 20%;
+  width: 65%;
+  height: 2px;
+  background: rgba(255,255,255,.35);
+  transform: rotate(-14deg);
+}
+
+.l5-glass-panel span {
+  position: absolute;
+  right: 8px;
+  bottom: 5px;
+  font-size: 9px;
+  color: rgba(230,240,240,.45);
+}
+
+.l5-glass-door,
+.l5-game-exit-door {
+  position: absolute;
+  z-index: 35;
+  right: 6%;
+  top: 25%;
+  width: 150px;
+  height: 320px;
+  background: linear-gradient(to bottom,#111a19,#24302e);
+  border: 8px solid #4f5b57;
+  box-shadow:
+    inset 0 0 40px rgba(0,0,0,.8),
+    0 15px 30px rgba(0,0,0,.7);
+}
+
+.l5-door-frame {
+  position: absolute;
+  inset: 14px;
+  border: 3px solid #7e8b85;
+}
+
+.l5-door-light {
+  position: absolute;
+  inset: 22px;
+  background: radial-gradient(circle at center top,rgba(225,238,221,.35),rgba(4,7,7,.9) 65%);
+}
+
+.l5-door-handle {
+  position: absolute;
+  right: 25px;
+  top: 52%;
+  width: 10px;
+  height: 34px;
+  border-radius: 5px;
+  background: #b6a46a;
+}
+
+.l5-glass-door span,
+.l5-game-exit-door span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 12px;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 5px;
+  color: #d7d5bd;
+}
+
+.l5-glass-title {
+  position: absolute;
+  z-index: 50;
+  left: 6%;
+  top: 8%;
+  text-shadow: 0 4px 15px #000;
+}
+
+.l5-glass-title span {
+  display: block;
+  color: #c4ccce;
+  font-size: 11px;
+  letter-spacing: 5px;
+}
+
+.l5-glass-title strong {
+  display: block;
+  margin-top: 8px;
+  font-family: Georgia,serif;
+  font-size: 35px;
+  letter-spacing: 3px;
+}
+
+.l5-return-button {
+  position: absolute;
+  z-index: 80;
+  left: 50%;
+  bottom: 7%;
+  transform: translateX(-50%);
+}
+
+.l5-return-story {
+  position: absolute;
+  z-index: 100;
+  right: 7%;
+  top: 28%;
+  width: 420px;
+  text-align: right;
+  text-shadow: 0 4px 18px #000;
+}
+
+.l5-return-story span {
+  color: #c7cdcf;
+  font-size: 12px;
+  letter-spacing: 5px;
+}
+
+.l5-return-story strong {
+  display: block;
+  margin: 12px 0;
+  font-family: Georgia,serif;
+  font-size: 38px;
+  line-height: 1;
+}
+
+.l5-return-story p {
+  margin: 0;
+  color: #d2d6d8;
+  font-family: Georgia,serif;
+  font-size: 20px;
+}
+
+/* =========================================================
+   GLASS GAME
+========================================================= */
+
+.l5-glass-game {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 25%,#273d45 0%,#0c1519 45%,#030506 100%);
+}
+
+.l5-game-top {
+  position: absolute;
+  z-index: 100;
+  left: 4%;
+  right: 4%;
+  top: 4%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  text-shadow: 0 3px 12px #000;
+}
+
+.l5-game-top span {
+  display: block;
+  color: #aeb9bc;
+  font-size: 11px;
+  letter-spacing: 5px;
+}
+
+.l5-game-top strong {
+  display: block;
+  margin-top: 8px;
+  font-family: Georgia,serif;
+  font-size: 27px;
+  letter-spacing: 2px;
+}
+
+.l5-step-counter {
+  padding: 12px 18px;
+  border: 1px solid rgba(220,230,230,.3);
+  background: rgba(0,0,0,.35);
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+.l5-game-stage {
+  position: absolute;
+  inset: 13% 0 8%;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.l5-game-stage::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 2%;
+  bottom: 0;
+  background: radial-gradient(ellipse at center,rgba(110,150,153,.08),transparent 65%);
+  pointer-events: none;
+}
+
+.l5-game-path {
+  position: absolute;
+  z-index: 100;
+  left: 27%;
+  top: 4%;
+  width: 42%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.l5-game-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  height: 7.4%;
+}
+
+.l5-game-panel {
+  position: relative;
+  z-index: 101;
+  border: 3px solid rgba(196,230,232,.7);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(226,248,250,.25),
+      rgba(78,130,137,.1),
+      rgba(226,248,250,.2)
+    );
+  color: rgba(235,245,245,.8);
+  font-size: 10px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  box-shadow:
+    inset 0 0 18px rgba(200,245,250,.1),
+    0 0 12px rgba(180,235,240,.1);
+  transition: .2s ease;
+}
+
+.l5-game-panel:enabled:hover {
+  transform: scale(1.035);
+  background: rgba(190,235,240,.3);
+}
+
+.l5-panel-passed {
+  opacity: .45;
+}
+
+.l5-panel-current {
+  box-shadow:
+    0 0 0 2px rgba(230,245,245,.12),
+    0 0 28px rgba(190,240,245,.2);
+}
+
+.l5-panel-broken {
+  animation: l5-glass-break .55s ease forwards;
+}
+
+@keyframes l5-glass-break {
+  50% {
+    transform: rotate(4deg) scale(1.08);
+    opacity: .7;
+  }
+  100% {
+    transform: translateY(35px) rotate(-10deg);
+    opacity: 0;
+  }
+}
+
+.l5-game-player {
+  position: absolute;
+  z-index: 50;
+  left: 20%;
+  bottom: 10%;
+  width: 48px;
+  height: 132px;
+}
+
+.l5-game-player .l5-player {
+  position: relative;
+}
+
+.l5-game-exit-door {
+  top: 25%;
+  right: 6%;
+}
+
+.l5-game-message {
+  position: absolute;
+  z-index: 100;
+  left: 50%;
+  bottom: 3%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  color: #dfe5e6;
+  background: rgba(0,0,0,.45);
+  border: 1px solid rgba(220,230,230,.2);
+  font-size: 12px;
+  letter-spacing: 3px;
+}
+
+.l5-game-finished {
+  position: absolute;
+  z-index: 150;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(4px);
+}
+
+.l5-game-finished span {
+  color: #cbd2d3;
+  font-size: 12px;
+  letter-spacing: 6px;
+}
+
+.l5-game-finished strong {
+  margin-top: 15px;
+  font-family: Georgia,serif;
+  font-size: 48px;
+  letter-spacing: 4px;
+}
+
+/* =========================================================
+   CINEMATIC VIGNETTE
+========================================================= */
+
+.l5-scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 48%,
+      rgba(0,0,0,.18) 72%,
+      rgba(0,0,0,.64) 100%
+    );
+}
+
+.l5-story-right,
+.l5-return-story,
+.l5-return-button {
+  z-index: 250;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+  .l5-green-train {
+    transform: translateX(-125vw) scale(.78);
+    transform-origin: left bottom;
+  }
+
+  .l5-player {
+    transform: scale(.85);
+    transform-origin: center bottom;
+  }
+
+  .l5-story-right {
+    right: 4%;
+    width: 44vw;
+  }
+
+  .l5-story-right h1 {
+    font-size: 38px;
+  }
+
+  .l5-side-path {
+    width: 22%;
+  }
+
+  .l5-glass-bridge {
+    left: 24%;
+    right: 24%;
+  }
+
+  .l5-glass-door,
+  .l5-game-exit-door {
+    right: 3%;
+    width: 120px;
+  }
+}
+
+@media (max-width: 700px) {
+  .l5-station-sign {
+    min-width: 190px;
+    font-size: 17px;
+    letter-spacing: 4px;
+  }
+
+  .l5-story-right {
+    top: 20%;
+    width: 52vw;
+  }
+
+  .l5-story-right h1 {
+    font-size: 30px;
+  }
+
+  .l5-story-right p {
+    font-size: 16px;
+  }
+
+  .l5-glass-title strong {
+    font-size: 25px;
+  }
+
+  .l5-glass-door,
+  .l5-game-exit-door {
+    width: 90px;
+    height: 250px;
+  }
+
+  .l5-game-path {
+    left: 20%;
+    width: 58%;
+  }
+
+  .l5-game-player {
+    left: 10%;
+  }
+}
+
+
+/* =========================================================
+   LEVEL 5 — ENTER GAME / GAME DETAILS
+   Added without changing the existing Level 5 visuals.
+========================================================= */
+
+.l5-enter-game-button {
+  position: absolute;
+  z-index: 250;
+  left: 50%;
+  bottom: 7%;
+  transform: translateX(-50%);
+  padding: 15px 30px;
+  color: #e9ecec;
+  background: rgba(12,17,18,.88);
+  border: 1px solid rgba(211,205,170,.7);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: .25s ease;
+}
+
+.l5-enter-game-button:hover {
+  background: rgba(61,75,70,.95);
+  transform: translateX(-50%) translateY(-2px);
+}
+
+.l5-game-details-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  background: rgba(0,0,0,.52);
+  backdrop-filter: blur(3px);
+}
+
+.l5-game-details-card {
+  width: min(620px, 86vw);
+  padding: 34px 40px 38px;
+  text-align: center;
+  background: rgba(10,15,16,.94);
+  border: 1px solid rgba(211,205,170,.5);
+  box-shadow: 0 25px 70px rgba(0,0,0,.65);
+}
+
+.l5-details-kicker {
+  color: #c7cdcf;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 6px;
+}
+
+.l5-game-details-card h1 {
+  margin: 12px 0 0;
+  font-family: Georgia,serif;
+  font-size: clamp(30px, 4vw, 48px);
+  letter-spacing: 3px;
+  line-height: 1;
+}
+
+.l5-details-line {
+  width: 100%;
+  height: 1px;
+  margin: 22px 0;
+  background: rgba(225,225,225,.35);
+}
+
+.l5-game-details-card > p {
+  margin: 0 auto 24px;
+  max-width: 500px;
+  color: #d2d6d8;
+  font-family: Georgia,serif;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.l5-details-rules {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  text-align: left;
+}
+
+.l5-details-rules div {
+  padding: 14px 15px;
+  background: rgba(255,255,255,.035);
+  border: 1px solid rgba(220,230,230,.14);
+}
+
+.l5-details-rules strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #c9ced0;
+  font-size: 10px;
+  letter-spacing: 3px;
+}
+
+.l5-details-rules span {
+  display: block;
+  color: #d9ddde;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.l5-start-level-button {
+  margin-top: 28px;
+}
+
+/* Previously broken panels remain visible on every retry. */
+.l5-panel-permanently-broken {
+  cursor: not-allowed !important;
+  opacity: .12 !important;
+  color: transparent !important;
+  background: rgba(0,0,0,.35) !important;
+  border-color: rgba(130,145,145,.18) !important;
+  box-shadow: inset 0 0 25px rgba(0,0,0,.75) !important;
+  transform: none !important;
+}
+
+.l5-panel-permanently-broken::after {
+  content: "BROKEN";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  color: rgba(220,225,225,.35);
+  font-size: 8px;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 700px) {
+  .l5-game-details-card {
+    padding: 26px 20px 28px;
+  }
+
+  .l5-details-rules {
+    grid-template-columns: 1fr;
+  }
+}

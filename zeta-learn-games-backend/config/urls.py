@@ -35,6 +35,7 @@ from ctf.views import (
     use_hint,
 )
 
+from django.urls import include, path
 
 from django.conf import settings
 
@@ -97,6 +98,9 @@ urlpatterns = [
 
     # Serve media files
     path("media/<path:path>", serve_media),
+
+    # Survival
+    path("api/survival/", include("survival.urls")),
 
 ]
 

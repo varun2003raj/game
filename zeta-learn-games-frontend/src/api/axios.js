@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://zeta-learn-games.onrender.com/api/",
-  //baseURL: "http://127.0.0.1:8000/api/",
+  //baseURL: "https://zeta-learn-games.onrender.com/api/",
+  baseURL: "http://127.0.0.1:8000/api/",
 });
 
 // ✅ Attach correct token automatically
@@ -22,6 +22,8 @@ instance.interceptors.request.use(
     const userToken = localStorage.getItem("token");
 
     const token = adminToken || userToken;
+
+
 
     if (token) {
       config.headers.Authorization = `Token ${token}`;

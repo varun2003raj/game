@@ -1,0 +1,380 @@
+.survival-leaderboard-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(255, 255, 255, 0.06),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(255, 255, 255, 0.04),
+      transparent 30%
+    ),
+    #08090c;
+  color: #f4f4f4;
+  padding: 50px 30px 80px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.survival-leaderboard-container {
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.survival-leaderboard-header {
+  margin-bottom: 35px;
+}
+
+.survival-leaderboard-label {
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: #888;
+}
+
+.survival-leaderboard-header h1 {
+  margin: 8px 0;
+  font-size: clamp(30px, 4vw, 52px);
+  letter-spacing: 2px;
+  font-weight: 800;
+}
+
+.survival-leaderboard-header p {
+  margin: 0;
+  color: #858585;
+  font-size: 14px;
+}
+
+/* =========================================================
+   TOP SUMMARY
+========================================================= */
+
+.survival-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 55px;
+}
+
+.survival-summary-card {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 24px;
+  min-height: 190px;
+}
+
+.your-survival-card {
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.summary-card-title {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #aaa;
+  margin-bottom: 22px;
+  font-weight: 700;
+}
+
+.summary-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.summary-stat:last-child {
+  border-bottom: none;
+}
+
+.summary-stat span {
+  color: #888;
+  font-size: 13px;
+}
+
+.summary-stat strong {
+  font-size: 17px;
+}
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.leaderboard-section,
+.player-survival-section,
+.survival-statistics-section {
+  margin-bottom: 55px;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.section-heading span,
+.statistics-header span {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: #666;
+}
+
+.section-heading h2,
+.statistics-header h2 {
+  margin: 5px 0 0;
+  font-size: 21px;
+  letter-spacing: 1px;
+}
+
+.section-heading p {
+  color: #666;
+  font-size: 12px;
+}
+
+/* =========================================================
+   LOADING / ERROR / EMPTY
+========================================================= */
+
+.leaderboard-message {
+  padding: 30px;
+  text-align: center;
+  color: #777;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 13px;
+}
+
+/* =========================================================
+   LEADERBOARD TABLE
+========================================================= */
+
+.leaderboard-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+.leaderboard-table th {
+  text-align: left;
+  padding: 16px 18px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #666;
+  background: rgba(255, 255, 255, 0.025);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.leaderboard-table td {
+  padding: 17px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 13px;
+}
+
+.leaderboard-table tbody tr {
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.leaderboard-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.leaderboard-table tbody tr.selected-player {
+  background: rgba(255, 255, 255, 0.075);
+}
+
+.rank-number {
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.rank-1 {
+  font-size: 17px;
+}
+
+.player-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+
+.score-cell {
+  font-weight: 700;
+}
+
+/* =========================================================
+   SELECTED PLAYER
+========================================================= */
+
+.selected-player-overview {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 14px;
+}
+
+.selected-player-overview > div {
+  padding: 20px;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.selected-player-overview > div:last-child {
+  border-right: none;
+}
+
+.selected-player-overview span {
+  display: block;
+  font-size: 10px;
+  color: #666;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.selected-player-overview strong {
+  font-size: 19px;
+}
+
+.player-note {
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #666;
+  font-size: 12px;
+  margin-top: 14px;
+}
+
+.close-player-btn {
+  background: transparent;
+  color: #777;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 10px;
+  letter-spacing: 1px;
+  transition: 0.2s ease;
+}
+
+.close-player-btn:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+.statistics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 25px;
+}
+
+.statistics-select {
+  background: #111216;
+  color: #ddd;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 10px 14px;
+  font-size: 11px;
+  cursor: pointer;
+  outline: none;
+}
+
+.statistics-select:focus {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.statistics-chart {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 22px 0;
+}
+
+.statistics-row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  align-items: center;
+  gap: 20px;
+  margin: 18px 0;
+}
+
+.statistics-level {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: #888;
+}
+
+.statistics-bar-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.statistics-bar {
+  height: 12px;
+  min-width: 4px;
+  background: #ddd;
+  transition: width 0.4s ease;
+}
+
+.statistics-value {
+  color: #777;
+  font-size: 11px;
+  min-width: 30px;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 800px) {
+  .survival-leaderboard-page {
+    padding: 30px 16px 60px;
+  }
+
+  .survival-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-heading,
+  .statistics-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .selected-player-overview {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .selected-player-overview > div:nth-child(2) {
+    border-right: none;
+  }
+
+  .selected-player-overview > div:nth-child(3) {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .selected-player-overview > div:nth-child(4) {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-right: none;
+  }
+
+  .statistics-row {
+    grid-template-columns: 75px 1fr;
+    gap: 10px;
+  }
+
+  .statistics-bar {
+    height: 10px;
+  }
+}

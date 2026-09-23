@@ -62,6 +62,16 @@ const loggedInCards = [
     to: "/memory-match",
     action: "Enter Memory Match",
   },
+
+  // Game 5
+  {
+  title: "The Survival Round",
+  badge: "05",
+  description:
+  "Survive five challenging rounds of coin flips, Red Light Green Light, marbles, monster escape, and glass stepping stones.",
+  to: "/survival-challenge",
+  action: "Enter The Survival Round",
+},
 ];
 
 export default function Home() {

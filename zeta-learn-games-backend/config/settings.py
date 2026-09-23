@@ -31,7 +31,7 @@ DEFAULT_AUTO_FIELD = "django_mongodb_backend.fields.ObjectIdAutoField"
 SECRET_KEY = 'django-insecure-s_du5&5hos!u%$p%ohid6p^pcom)ozh4)zc)d3wfho(3n#69)i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "ctf",
     "escape",
     "memory_match",
+    "survival",
 ]
 
 MIDDLEWARE = [

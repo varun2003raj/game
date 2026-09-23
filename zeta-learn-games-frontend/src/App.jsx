@@ -14,6 +14,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import CircuitBoardBackground from "./components/CircuitBoardBackground";
 import ProtectedRoute from "./components/ProtectedRoute";
+import SurvivalLeaderboard from "./pages/survival/SurvivalLeaderboard";
+import SurvivalStats from "./pages/survival/SurvivalStats";
 
 // Lazy-loaded pages
 const Profile = lazy(() => import("./pages/Profile"));
@@ -105,6 +107,33 @@ const Attempts = lazy(
   () => import("./pages/admin/attempts/Attempts")
 );
 
+const SurvivalHub = lazy(
+  () => import("./pages/survival/SurvivalHub")
+);
+
+const SurvivalLobby = lazy(
+  () => import("./pages/survival/SurvivalLobby")
+);
+
+const SurvivalLevel1 = lazy(
+  () => import("./pages/survival/levels/Level1")
+);
+
+const SurvivalLevel2 = lazy(
+  () => import("./pages/survival/levels/Level2")
+);
+
+const SurvivalLevel3 = lazy(
+  () => import("./pages/survival/levels/Level3")
+);
+
+const SurvivalLevel4 = lazy(
+  () => import("./pages/survival/levels/Level4")
+);
+
+const SurvivalLevel5 = lazy(
+  () => import("./pages/survival/levels/Level5")
+);
 
 function AppContent() {
   const { pathname } = useLocation();
@@ -197,6 +226,52 @@ function AppContent() {
               path="/treasure-hunt"
               element={<TreasureHunt />}
             />
+
+            {/* Survival Challenge */}
+            <Route
+              path="/survival-challenge"
+              element={<SurvivalHub />}
+            />
+
+            <Route
+              path="/survival-challenge/lobby"
+              element={<SurvivalLobby />}
+            />
+
+            <Route
+              path="/survival-challenge/level-1"
+              element={<SurvivalLevel1 />}
+            />
+
+            <Route
+              path="/survival-challenge/level-2"
+              element={<SurvivalLevel2 />}
+            />
+
+            <Route
+              path="/survival-challenge/level-3"
+              element={<SurvivalLevel3 />}
+            />
+
+<Route
+  path="/survival-challenge/level-4"
+  element={<SurvivalLevel4 />}
+/>
+
+<Route
+  path="/survival-challenge/level-5"
+  element={<SurvivalLevel5 />}
+/>
+
+<Route
+  path="/survival-challenge/leaderboard"
+  element={<SurvivalLeaderboard />}
+/>
+
+<Route
+  path="/survival-challenge/stats"
+  element={<SurvivalStats />}
+/>
 
             {/* CTF */}
             <Route
