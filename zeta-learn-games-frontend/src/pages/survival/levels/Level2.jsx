@@ -30,7 +30,7 @@ import "./Level2.css";
    CONSTANTS
 ========================================================= */
 
-const GAME_TIME = 300;
+const GAME_TIME = 5 * 60;
 
 const WORLD_WIDTH = 120;
 const WORLD_DEPTH = 100;
@@ -176,6 +176,7 @@ function Train({
 function Player({
   walking = false,
   entered = false,
+  storyStopped = false,
 }) {
   if (entered) {
     return null;
@@ -187,7 +188,7 @@ function Player({
         walking
           ? "player-walking"
           : ""
-      }`}
+      } ${storyStopped ? "player-story-stopped" : ""}`}
     >
       <div className="player-head" />
 
@@ -282,7 +283,6 @@ function Level2Cinematic({
               <span className="level2-detail-label">OBJECTIVE</span>
               <p>Find the physical station map.</p>
               <p>Return to the exact place where you started.</p>
-              <p>Reveal the map and find your way back to the train.</p>
             </section>
 
             <section className="level2-detail-section level2-controls-section">
@@ -314,7 +314,7 @@ function Level2Cinematic({
                 <b>GREEN</b><span>Movement allowed.</span>
               </div>
               <div className="level2-signal-row yellow">
-                <b>YELLOW</b><span>Stop. Movement is disabled.</span>
+                <b>YELLOW</b><span>ALERT — RED IS COMING.</span>
               </div>
               <div className="level2-signal-row red">
                 <b>RED</b><span>Do not move.</span>
@@ -326,10 +326,6 @@ function Level2Cinematic({
               <div className="level2-mini-stat">
                 <span>TIME LIMIT</span>
                 <strong>05:00</strong>
-              </div>
-              <div className="level2-mini-stat">
-                <span>SHADOWS</span>
-                <strong>RED ONLY</strong>
               </div>
               <p className="level2-important-rule">
                 Finding the map alone does not complete the level. You must return to your starting point and reveal it before you can return to the train.
@@ -366,6 +362,7 @@ function Level2Cinematic({
       <Player
         walking={walking}
         entered={!doorOpen}
+        storyStopped={showStory}
       />
 
       <div className="level2-arrival-vignette" />
@@ -398,7 +395,7 @@ function Level2Cinematic({
           <div className="level2-arrival-story-text">
             <p>I DON'T KNOW WHERE I AM.</p>
             <p>I NEED TO FIND A WAY TO GET OUT.</p>
-            <p>THERE ARE MANY PATHS FROM HERE.</p>
+            <p>WAIT... I CAN SEE A MAP THERE.</p>
           </div>
 
           <button
@@ -1917,9 +1914,9 @@ const CRATES = [
 ].map(([x, y, w, h], i) => ({ id: i + 1, x, y, w, h }));
 
 /* Same physical room/area used by Level 4's first key, now containing the map. */
-const GAME_MAP = { x: -1880, y: 620 };
-const GAME_EXIT = { x: 1750, y: 1180 };
 const GAME_START = { x: -1750, y: 1200 };
+const GAME_MAP = { x: 1400, y: -1350 };
+const GAME_EXIT = { ...GAME_START };
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
@@ -2039,11 +2036,10 @@ function Level2GameMap({ player, mapTaken, mapNear, exitNear, signal, walking })
   );
 }
 
+
 function Level2MiniMap({ player, mapTaken }) {
   const px = ((player.x + GAME_WORLD.width / 2) / GAME_WORLD.width) * 100;
   const py = ((GAME_WORLD.height / 2 - player.y) / GAME_WORLD.height) * 100;
-  const mapX = ((GAME_MAP.x + GAME_WORLD.width / 2) / GAME_WORLD.width) * 100;
-  const mapY = ((GAME_WORLD.height / 2 - GAME_MAP.y) / GAME_WORLD.height) * 100;
   const exitX = ((GAME_EXIT.x + GAME_WORLD.width / 2) / GAME_WORLD.width) * 100;
   const exitY = ((GAME_WORLD.height / 2 - GAME_EXIT.y) / GAME_WORLD.height) * 100;
 
@@ -2078,9 +2074,7 @@ function Level2MiniMap({ player, mapTaken }) {
             }}
           />
         ))}
-        {!mapTaken && (
-          <i className="mini-key l2-mini-map" style={{ left: `${mapX}%`, top: `${mapY}%` }}>M</i>
-        )}
+        {/* IMPORTANT: the physical map location is intentionally NOT shown. */}
         {mapTaken && (
           <i className="mini-exit" style={{ left: `${exitX}%`, top: `${exitY}%` }}>E</i>
         )}
@@ -2176,11 +2170,13 @@ function Level2Game({ onDeath, onComplete }) {
         await new Promise((resolve) => setTimeout(resolve, 7000));
         if (cancelled || deadRef.current || completedRef.current) break;
 
+        // Transition directly to yellow — no blank/normal-light pause.
         signalRef.current = "yellow";
         setSignal("yellow");
-        await new Promise((resolve) => setTimeout(resolve, 2200));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         if (cancelled || deadRef.current || completedRef.current) break;
 
+        // Transition directly to red — no extra normal-light pause.
         signalRef.current = "red";
         setSignal("red");
         await new Promise((resolve) => setTimeout(resolve, 4500));
@@ -2286,7 +2282,7 @@ function Level2Game({ onDeath, onComplete }) {
   const formattedTime = `${String(Math.floor(timeLeft / 60)).padStart(2, "0")}:${String(timeLeft % 60).padStart(2, "0")}`;
 
   return (
-    <div className="level4-2d-game hunter-style-game">
+    <div className={`level4-2d-game hunter-style-game l2-signal-${signal}`}>
       <header className="hunter-top-left">
         <span>STATION 02</span>
         <h1>RED LIGHT / GREEN LIGHT</h1>
@@ -2322,7 +2318,6 @@ function Level2Game({ onDeath, onComplete }) {
 
       <div className="hunter-legend">
         <span><i className="you-dot" />You</span>
-        <span><i className="key-dot" />Map</span>
         <span><i className="exit-dot" />Exit</span>
       </div>
 

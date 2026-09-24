@@ -1,0 +1,1215 @@
+/* =========================================================
+   LEVEL 6 - FINAL DOOR
+   ========================================================= */
+
+.level6-page {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 700px;
+  overflow: hidden;
+  background: #050607;
+  color: #f5f5f5;
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+
+/* =========================================================
+   BACKGROUND
+   ========================================================= */
+
+.level6-background {
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 42%,
+      rgba(65, 70, 73, 0.25),
+      transparent 48%
+    ),
+    linear-gradient(
+      180deg,
+      #090b0d 0%,
+      #111416 48%,
+      #050607 100%
+    );
+
+  z-index: 0;
+}
+
+.level6-vignette {
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 30%,
+      rgba(0, 0, 0, 0.48) 72%,
+      rgba(0, 0, 0, 0.92) 100%
+    );
+
+  pointer-events: none;
+  z-index: 90;
+}
+
+.level6-grain {
+  position: absolute;
+  inset: -50%;
+
+  opacity: 0.045;
+  pointer-events: none;
+  z-index: 95;
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.7'/%3E%3C/svg%3E");
+
+  animation: level6-grain-move 0.18s steps(2) infinite;
+}
+
+@keyframes level6-grain-move {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(2%, -1%);
+  }
+
+  50% {
+    transform: translate(-1%, 2%);
+  }
+
+  75% {
+    transform: translate(1%, 1%);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.level6-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 38px;
+
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.07);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.55),
+      transparent
+    );
+
+  z-index: 100;
+}
+
+.level6-header-left {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  color: #eeeeee;
+}
+
+.level6-header-right {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: #777d80;
+}
+
+
+/* =========================================================
+   MAIN SCENE
+   ========================================================= */
+
+.level6-scene {
+  position: absolute;
+  inset: 72px 0 0;
+
+  z-index: 10;
+}
+
+.level6-floor {
+  position: absolute;
+
+  left: -10%;
+  right: -10%;
+  bottom: 0;
+
+  height: 37%;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(19, 22, 24, 0.2),
+      #070809
+    );
+
+  border-top:
+    1px solid rgba(255, 255, 255, 0.045);
+
+  transform:
+    perspective(800px)
+    rotateX(58deg);
+
+  transform-origin: center top;
+}
+
+
+/* =========================================================
+   FINAL DOOR
+   ========================================================= */
+
+.level6-door-container {
+  position: absolute;
+
+  left: 50%;
+  top: 48%;
+
+  width: 440px;
+  height: 500px;
+
+  transform:
+    translate(-50%, -50%);
+
+  z-index: 35;
+}
+
+.level6-door-frame {
+  position: absolute;
+  inset: 0;
+
+  padding: 22px 20px 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #2a2e30,
+      #101214 50%,
+      #25292b
+    );
+
+  border:
+    2px solid rgba(190, 195, 197, 0.22);
+
+  box-shadow:
+    0 35px 80px rgba(0, 0, 0, 0.7),
+    inset 0 0 30px rgba(255, 255, 255, 0.025);
+}
+
+.level6-door-sign {
+  position: absolute;
+
+  top: 13px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.32em;
+
+  color: #aeb4b6;
+
+  white-space: nowrap;
+}
+
+.level6-door {
+  position: absolute;
+
+  left: 20px;
+  right: 20px;
+  top: 52px;
+  bottom: 20px;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(150, 155, 155, 0.10),
+      transparent 60%
+    ),
+    #090b0c;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.13);
+
+  box-shadow:
+    inset 0 0 50px rgba(0, 0, 0, 0.9);
+}
+
+
+/* Door panels */
+
+.door-panel {
+  position: absolute;
+
+  top: 0;
+  bottom: 0;
+
+  width: 50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #363b3d,
+      #171a1c 55%,
+      #303537
+    );
+
+  border:
+    1px solid rgba(255, 255, 255, 0.12);
+
+  z-index: 4;
+
+  transition:
+    transform 2.5s
+    cubic-bezier(.55, .05, .25, 1);
+}
+
+.door-panel-left {
+  left: 0;
+
+  transform-origin: left center;
+}
+
+.door-panel-right {
+  right: 0;
+
+  transform-origin: right center;
+}
+
+
+/* OPEN */
+
+.level6-door-container.door-open
+  .door-panel-left {
+  transform: translateX(-100%);
+}
+
+.level6-door-container.door-open
+  .door-panel-right {
+  transform: translateX(100%);
+}
+
+
+/* CLOSING */
+
+.level6-door-container.door-closing
+  .door-panel-left {
+  transform: translateX(0);
+}
+
+.level6-door-container.door-closing
+  .door-panel-right {
+  transform: translateX(0);
+}
+
+
+/* Door symbol */
+
+.door-symbol {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  transform:
+    translate(-50%, -50%);
+
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.18);
+
+  color: #9fa5a7;
+
+  font-size: 24px;
+
+  box-shadow:
+    0 0 25px rgba(255, 255, 255, 0.025);
+}
+
+
+/* Inside */
+
+.door-inside-glow {
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(215, 220, 220, 0.24),
+      rgba(120, 125, 125, 0.08) 30%,
+      transparent 68%
+    );
+
+  opacity: 0;
+
+  transition: opacity 2s ease;
+
+  z-index: 1;
+}
+
+.level6-door-container.door-open
+  .door-inside-glow {
+  opacity: 1;
+}
+
+
+/* =========================================================
+   PLAYER
+   ========================================================= */
+
+.level6-player {
+  position: absolute;
+
+  left: calc(50% - 360px);
+  bottom: 17%;
+
+  width: 52px;
+  height: 142px;
+
+  z-index: 45;
+
+  transform-origin: center bottom;
+
+  transition:
+    left 3s cubic-bezier(.45, .05, .25, 1);
+}
+
+.player-head {
+  position: absolute;
+
+  top: 0;
+  left: 50%;
+
+  width: 34px;
+  height: 34px;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #d8b39a,
+      #9c725e
+    );
+
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.player-body {
+  position: absolute;
+
+  top: 31px;
+  left: 50%;
+
+  width: 40px;
+  height: 64px;
+
+  transform: translateX(-50%);
+
+  border-radius:
+    8px 8px 5px 5px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #25292b,
+      #111315
+    );
+
+  border:
+    1px solid rgba(255, 255, 255, 0.08);
+}
+
+.player-arm {
+  position: absolute;
+
+  top: 37px;
+
+  width: 11px;
+  height: 56px;
+
+  border-radius: 8px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #303437,
+      #111315
+    );
+}
+
+.player-arm-left {
+  left: 1px;
+
+  transform:
+    rotate(7deg);
+}
+
+.player-arm-right {
+  right: 1px;
+
+  transform:
+    rotate(-7deg);
+}
+
+.player-leg {
+  position: absolute;
+
+  top: 91px;
+
+  width: 14px;
+  height: 50px;
+
+  border-radius: 6px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #222628,
+      #08090a
+    );
+}
+
+.player-leg-left {
+  left: 10px;
+}
+
+.player-leg-right {
+  right: 10px;
+}
+
+
+/* Player walks toward door */
+
+.level6-player-entering {
+  left: calc(50% - 25px);
+
+  transition:
+    left 3.2s cubic-bezier(.45, .05, .25, 1);
+}
+
+
+/* Once inside the door */
+
+.level6-player-inside {
+  opacity: 0;
+
+  left: calc(50% - 25px);
+
+  transition:
+    opacity 0.8s ease 1.5s;
+}
+
+
+/* =========================================================
+   BOTTOM ARRIVAL MESSAGE
+   ========================================================= */
+
+.level6-bottom-message {
+  position: absolute;
+
+  left: 50%;
+  bottom: 6%;
+
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 8px;
+
+  z-index: 70;
+
+  text-align: center;
+}
+
+.level6-bottom-message span {
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: #777d80;
+}
+
+.level6-bottom-message strong {
+  font-size: 18px;
+  letter-spacing: 0.16em;
+  color: #f0f0f0;
+}
+
+
+/* =========================================================
+   INTRO
+   ========================================================= */
+
+.level6-intro {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform:
+    translate(-50%, -50%);
+
+  width: min(650px, 90%);
+
+  text-align: center;
+
+  z-index: 80;
+
+  animation:
+    level6-intro-in 1.2s ease forwards;
+}
+
+@keyframes level6-intro-in {
+  from {
+    opacity: 0;
+    transform:
+      translate(-50%, -45%);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%);
+  }
+}
+
+.level6-small-title {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.4em;
+
+  color: #7e8588;
+
+  margin-bottom: 22px;
+}
+
+.level6-intro h1 {
+  margin: 0;
+
+  font-size:
+    clamp(42px, 6vw, 78px);
+
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+
+  color: #f2f2f2;
+
+  text-shadow:
+    0 10px 35px rgba(0, 0, 0, 0.8);
+}
+
+.level6-divider {
+  width: 100px;
+  height: 1px;
+
+  margin: 28px auto;
+
+  background:
+    rgba(255, 255, 255, 0.35);
+}
+
+.level6-intro p {
+  margin: 10px 0;
+
+  color: #92989b;
+
+  font-size: 15px;
+  line-height: 1.8;
+
+  letter-spacing: 0.05em;
+}
+
+.level6-intro .level6-warning-text {
+  margin-top: 28px;
+
+  color: #d1d3d4;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.25em;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.level6-primary-button,
+.level6-open-door-button {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  background:
+    linear-gradient(
+      180deg,
+      #25292b,
+      #111315
+    );
+
+  color: #f0f0f0;
+
+  cursor: pointer;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 0.18em;
+
+  padding: 16px 30px;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.level6-primary-button {
+  margin-top: 35px;
+}
+
+.level6-primary-button:hover,
+.level6-open-door-button:hover {
+  background:
+    linear-gradient(
+      180deg,
+      #363b3d,
+      #181b1d
+    );
+
+  border-color:
+    rgba(255, 255, 255, 0.55);
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+
+/* =========================================================
+   ITEM PANEL
+   ========================================================= */
+
+.level6-item-panel {
+  position: absolute;
+
+  left: 50%;
+  bottom: 4%;
+
+  transform: translateX(-50%);
+
+  width:
+    min(850px, calc(100% - 40px));
+
+  padding: 22px 24px;
+
+  background:
+    rgba(7, 9, 10, 0.94);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.13);
+
+  box-shadow:
+    0 20px 70px rgba(0, 0, 0, 0.7);
+
+  backdrop-filter: blur(12px);
+
+  z-index: 80;
+
+  animation:
+    level6-panel-in 0.6s ease forwards;
+}
+
+@keyframes level6-panel-in {
+  from {
+    opacity: 0;
+    transform:
+      translateX(-50%)
+      translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateX(-50%)
+      translateY(0);
+  }
+}
+
+.level6-panel-heading {
+  text-align: center;
+
+  font-size: 16px;
+  font-weight: 800;
+
+  letter-spacing: 0.2em;
+}
+
+.level6-panel-description {
+  text-align: center;
+
+  margin-top: 7px;
+
+  font-size: 9px;
+
+  letter-spacing: 0.25em;
+
+  color: #707679;
+}
+
+
+/* Items */
+
+.level6-items {
+  display: grid;
+
+  grid-template-columns:
+    repeat(5, 1fr);
+
+  gap: 10px;
+
+  margin-top: 20px;
+}
+
+.level6-item {
+  min-height: 105px;
+
+  padding: 12px 8px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(34, 38, 40, 0.9),
+      rgba(14, 16, 17, 0.95)
+    );
+
+  border:
+    1px solid rgba(255, 255, 255, 0.10);
+
+  color: #f0f0f0;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.level6-item:hover:not(:disabled) {
+  transform: translateY(-4px);
+
+  border-color:
+    rgba(255, 255, 255, 0.4);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(50, 54, 56, 0.95),
+      rgba(18, 20, 21, 0.98)
+    );
+}
+
+.level6-item:disabled {
+  cursor: default;
+}
+
+.level6-item-symbol {
+  font-size: 28px;
+}
+
+.level6-item-name {
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 0.14em;
+}
+
+.level6-item-status {
+  font-size: 8px;
+
+  letter-spacing: 0.15em;
+
+  color: #777d80;
+}
+
+
+/* Placed */
+
+.level6-item-placed {
+  border-color:
+    rgba(170, 190, 175, 0.45);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(45, 53, 48, 0.95),
+      rgba(14, 18, 16, 0.98)
+    );
+}
+
+.level6-item-placed .level6-item-symbol {
+  color: #c8d6cb;
+
+  animation:
+    level6-item-accepted 0.4s ease;
+}
+
+@keyframes level6-item-accepted {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+/* Progress */
+
+.level6-progress {
+  margin-top: 17px;
+}
+
+.level6-progress-text {
+  text-align: center;
+
+  font-size: 9px;
+
+  letter-spacing: 0.18em;
+
+  color: #777d80;
+}
+
+.level6-progress-track {
+  width: 100%;
+  height: 3px;
+
+  margin-top: 8px;
+
+  background:
+    rgba(255, 255, 255, 0.08);
+}
+
+.level6-progress-fill {
+  height: 100%;
+
+  background:
+    #c8ced0;
+
+  transition:
+    width 0.4s ease;
+}
+
+.level6-open-door-button {
+  display: block;
+
+  margin:
+    18px auto 0;
+}
+
+
+/* =========================================================
+   CINEMATIC MESSAGES
+   ========================================================= */
+
+.level6-cinematic-message {
+  position: absolute;
+
+  left: 50%;
+  bottom: 6%;
+
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 8px;
+
+  z-index: 80;
+
+  text-align: center;
+
+  animation:
+    level6-message-in 0.6s ease forwards;
+}
+
+@keyframes level6-message-in {
+  from {
+    opacity: 0;
+    transform:
+      translateX(-50%)
+      translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateX(-50%)
+      translateY(0);
+  }
+}
+
+.level6-cinematic-message span {
+  font-size: 10px;
+
+  color: #747a7d;
+
+  letter-spacing: 0.25em;
+}
+
+.level6-cinematic-message strong {
+  font-size: 18px;
+
+  letter-spacing: 0.18em;
+
+  color: #eeeeee;
+}
+
+
+/* =========================================================
+   ESCAPED
+   ========================================================= */
+
+.level6-escape-screen {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.level6-escape-glow {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 700px;
+  height: 500px;
+
+  transform:
+    translate(-50%, -50%);
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(180, 190, 190, 0.11),
+      transparent 70%
+    );
+
+  filter: blur(25px);
+}
+
+.level6-escape-content {
+  position: relative;
+
+  z-index: 80;
+
+  text-align: center;
+
+  animation:
+    level6-escape-in 1.4s ease forwards;
+}
+
+@keyframes level6-escape-in {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.level6-escape-content h1 {
+  margin: 0;
+
+  font-size:
+    clamp(42px, 7vw, 88px);
+
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+
+  color: #f5f5f5;
+
+  text-shadow:
+    0 0 40px rgba(255, 255, 255, 0.08);
+}
+
+.level6-escape-content p {
+  margin: 14px 0;
+
+  color: #858b8e;
+
+  font-size: 14px;
+
+  line-height: 1.8;
+
+  letter-spacing: 0.05em;
+}
+
+.level6-escape-line {
+  width: 110px;
+  height: 1px;
+
+  margin: 25px auto;
+
+  background:
+    rgba(255, 255, 255, 0.3);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .level6-door-container {
+    width: 360px;
+    height: 430px;
+  }
+
+  .level6-player {
+    left: calc(50% - 290px);
+  }
+
+  .level6-player-entering {
+    left: calc(50% - 25px);
+  }
+
+  .level6-items {
+    gap: 6px;
+  }
+
+  .level6-item {
+    min-height: 90px;
+  }
+
+  .level6-item-symbol {
+    font-size: 23px;
+  }
+
+  .level6-item-name {
+    font-size: 8px;
+  }
+}
+
+
+@media (max-width: 650px) {
+
+  .level6-header {
+    padding: 0 18px;
+  }
+
+  .level6-door-container {
+    width: 280px;
+    height: 350px;
+  }
+
+  .level6-player {
+    left: 18%;
+    transform: scale(0.85);
+    transform-origin: bottom center;
+  }
+
+  .level6-player-entering {
+    left: calc(50% - 25px);
+  }
+
+  .level6-item-panel {
+    width: calc(100% - 20px);
+
+    padding: 16px 12px;
+  }
+
+  .level6-items {
+    grid-template-columns:
+      repeat(5, minmax(0, 1fr));
+
+    gap: 4px;
+  }
+
+  .level6-item {
+    min-height: 78px;
+    padding: 5px 2px;
+  }
+
+  .level6-item-symbol {
+    font-size: 19px;
+  }
+
+  .level6-item-name {
+    font-size: 7px;
+    letter-spacing: 0.06em;
+  }
+
+  .level6-item-status {
+    font-size: 6px;
+  }
+
+  .level6-intro h1 {
+    font-size: 38px;
+  }
+
+  .level6-escape-content h1 {
+    font-size: 40px;
+  }
+}

@@ -259,18 +259,29 @@ function Player({ visible, walking, trainJourney }) {
 }
 
 function CompletionPlayer({ phase }) {
+  // Once the player has entered the green train, remove the player
+  // completely from the DOM. He must never appear anywhere during
+  // door closing or train departure.
+  if (
+    phase === "inside" ||
+    phase === "closed" ||
+    phase === "departing" ||
+    phase === "complete"
+  ) {
+    return null;
+  }
+
   const walking = phase === "walking";
   const entering = phase === "entering";
-  const hidden = phase === "inside" || phase === "departing";
-  const showKey = phase === "walking" || phase === "atTrain" || phase === "doorOpen";
+  const showKey =
+    phase === "walking" ||
+    phase === "atTrain";
 
   return (
     <div
       className={`level4-completion-player ${
         walking ? "completion-player-walking" : ""
-      } ${entering ? "completion-player-entering" : ""} ${
-        hidden ? "completion-player-inside" : ""
-      }`}
+      } ${entering ? "completion-player-entering" : ""}`}
     >
       <div className="completion-player-shadow" />
       <div className="completion-player-body">
@@ -290,37 +301,76 @@ function CompletionPlayer({ phase }) {
 }
 
 function Level4CompletionCinematic({ onReturn }) {
+  /*
+   * Final Level 4 sequence:
+   * 1. The old train remains parked in its original position.
+   * 2. The player walks to the NEW train's door while holding the key.
+   * 3. At the door: key disappears + door opens at the same moment.
+   * 4. Player enters one second later.
+   * 5. Door closes.
+   * 6. New train departs smoothly.
+   */
   const [phase, setPhase] = useState("walking");
 
   useEffect(() => {
     const timers = [
+      // Player walks from the centre to the GREEN train door.
       setTimeout(() => setPhase("atTrain"), 4800),
-      setTimeout(() => setPhase("doorOpen"), 5700),
-      setTimeout(() => setPhase("entering"), 6700),
-      setTimeout(() => setPhase("inside"), 7900),
+
+      // KEY DISAPPEARS + GREEN TRAIN DOOR OPENS.
+      setTimeout(() => setPhase("doorOpen"), 5600),
+
+      // Exactly 1 second after opening, player enters.
+      setTimeout(() => setPhase("entering"), 6600),
+
+      // Player is now fully inside and is removed from the scene.
+      setTimeout(() => setPhase("inside"), 7700),
+
+      // Door closes while the player remains completely invisible.
+      setTimeout(() => setPhase("closed"), 8500),
+
+      // Only the GREEN train starts moving to the RIGHT.
       setTimeout(() => setPhase("departing"), 9000),
-      setTimeout(() => setPhase("complete"), 13200),
+
+      // When the green train has completely left the screen,
+      // go directly back to the lobby. No completion card.
+      setTimeout(() => onReturn(), 15000),
     ];
 
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  const doorOpen =
+  const newTrainDoorOpen =
     phase === "doorOpen" ||
     phase === "entering" ||
     phase === "inside";
 
-  const departing = phase === "departing" || phase === "complete";
+  const newTrainDeparting =
+    phase === "departing" || phase === "complete";
 
   return (
     <div className="level4-completion-page">
       <div className="level4-completion-scene">
+
+        {/* SAME STATION BACKGROUND AS THE LEVEL 4/5 STATION SCENE */}
         <Station />
 
-        <LastStationTrain
-          doorOpen={doorOpen}
-          departing={departing}
-        />
+        {/* OLD TRAIN — LEFT SIDE — never moves during the ending. */}
+        <div className="level4-completion-old-train">
+          <Train doorOpen={false} />
+        </div>
+
+        {/* NEW GREEN TRAIN — RIGHT SIDE — the train opened with the key. */}
+        <div
+          className={`level4-completion-new-train ${
+            newTrainDeparting ? "level4-new-train-departing" : ""
+          }`}
+        >
+          <LastStationTrain
+            doorOpen={newTrainDoorOpen}
+            departing={false}
+          />
+        </div>
 
         <CompletionPlayer phase={phase} />
 
@@ -332,16 +382,16 @@ function Level4CompletionCinematic({ onReturn }) {
         )}
 
         {phase === "atTrain" && (
-          <div className="completion-story-text completion-story-right">
-            <span>THE LAST TRAIN</span>
-            <strong>THIS MUST BE THE WAY OUT.</strong>
+          <div className="completion-story-text completion-story-left">
+            <span>THE NEW TRAIN</span>
+            <strong>THE KEY SHOULD OPEN THIS DOOR.</strong>
           </div>
         )}
 
         {phase === "doorOpen" && (
-          <div className="completion-story-text completion-story-right">
+          <div className="completion-story-text completion-story-left">
             <span>ACCESS GRANTED</span>
-            <strong>THE DOOR OPENS.</strong>
+            <strong>THE KEY WORKED.</strong>
           </div>
         )}
 
@@ -352,23 +402,7 @@ function Level4CompletionCinematic({ onReturn }) {
           </div>
         )}
 
-        {phase === "complete" && (
-          <div className="level4-completion-card">
-            <div className="level4-completion-kicker">LEVEL 04 COMPLETE</div>
-            <h1>THE TRAIN DEPARTS</h1>
-            <p>
-              The three keys opened the final train. I made it inside.
-            </p>
-            <div className="completion-divider" />
-            <button
-              type="button"
-              className="level4-story-button completion-lobby-button"
-              onClick={onReturn}
-            >
-              RETURN TO LOBBY
-            </button>
-          </div>
-        )}
+
       </div>
     </div>
   );
@@ -452,9 +486,10 @@ const CRATES = [
 ].map(([x,y,w,h],i)=>({id:i+1,x,y,w,h}));
 
 const GAME_KEYS = [
-  { id: 1, x: -1880, y: 620 },
-  { id: 2, x: 1450, y: -750 },
-  { id: 3, x: 1750, y: -1250 },
+  // Three keys are intentionally placed far apart.
+  { id: 1, x: -1800, y: 500 },
+  { id: 2, x: 0, y: -500 },
+  { id: 3, x: 1800, y: -1100 },
 ];
 
 const GAME_HIDING = [
@@ -466,14 +501,18 @@ const GAME_HIDING = [
 ];
 
 const GAME_MONSTERS = [
-  [-1450, 860, 0.0, 'GUARD'], [-900, 760, Math.PI, 'PATROL'], [-450, 880, 0.0, 'HUNTER'], [300, 820, Math.PI, 'GUARD'],
-  [900, 900, 0.0, 'PATROL'], [1500, 720, Math.PI, 'HUNTER'], [1780, 380, Math.PI / 2, 'WANDERER'],
-  [-1760, 420, -Math.PI / 2, 'PATROL'], [-1050, 50, 0.0, 'GUARD'], [-350, 120, Math.PI, 'HUNTER'], [300, 180, 0.0, 'WANDERER'],
-  [850, 50, Math.PI, 'PATROL'], [1420, 40, Math.PI / 2, 'GUARD'], [1780, -250, Math.PI, 'HUNTER'],
-  [-1650, -480, 0.0, 'WANDERER'], [-900, -580, Math.PI, 'PATROL'], [-420, -430, 0.0, 'GUARD'], [50, -520, Math.PI, 'HUNTER'],
-  [720, -430, 0.0, 'PATROL'], [1280, -470, Math.PI, 'WANDERER'], [1750, -650, 0.0, 'HUNTER'],
-  [-1750, -1000, Math.PI / 2, 'GUARD'], [-1200, -1100, Math.PI, 'PATROL'], [-700, -1000, 0.0, 'HUNTER'], [-50, -980, Math.PI, 'WANDERER'],
-  [550, -1050, 0.0, 'GUARD'], [1100, -900, Math.PI, 'HUNTER'], [1600, -1050, Math.PI / 2, 'PATROL'],
+  // Exactly 10 monsters. All starting positions are checked against
+  // walls/crates and deliberately separated so they are not trapped.
+  [-650, 900, 0.0, 'GUARD'],
+  [350, 900, Math.PI, 'PATROL'],
+  [1100, 900, Math.PI, 'HUNTER'],
+  [1850, 450, Math.PI / 2, 'GUARD'],
+  [-1750, 500, 0.0, 'WANDERER'],
+  [-1000, -500, Math.PI, 'PATROL'],
+  [-350, -500, 0.0, 'HUNTER'],
+  [800, -300, Math.PI / 2, 'GUARD'],
+  [1450, -500, Math.PI, 'PATROL'],
+  [500, -1300, Math.PI / 2, 'HUNTER'],
 ].map(([x,y,angle,type],i)=>({
   id:i+1,
   x,
@@ -596,7 +635,7 @@ function GameMap({player,keysCollected,monsters,hidden,walking,detected,nearKey,
       {monsters.map(m=>{
         const angleDeg=m.angle*180/Math.PI;
         return <div key={m.id} className={`l4-game-monster ${m.alert?'alert':''}`} style={worldStyle(m.x,m.y)}>
-          <div className={`l4-vision-cone ${m.alert ? "chase-light" : ""}`} style={{ transform: `translateY(-50%) rotate(${angleDeg}deg)` }} />
+          <div className={`l4-vision-cone ${m.alert ? "chase-light" : ""}`} style={{ transform: `rotate(${-angleDeg}deg)` }} />
           <div className="l4-monster-character">
             <div className="monster-head"><i className="monster-hair"/><i className="monster-eye eye-left"/><i className="monster-eye eye-right"/></div>
             <div className="monster-body"/>
@@ -672,6 +711,10 @@ function L4Game({ onComplete }) {
 
   const [dead, setDead] = useState(false);
   const [escaped, setEscaped] = useState(false);
+
+  // Level 4 time limit: 5 minutes.
+  const [timeLeft, setTimeLeft] = useState(300);
+  const timerExpiredRef = useRef(false);
 
   const completeOnce = useRef(false);
   const input = useRef({});
@@ -770,6 +813,41 @@ function L4Game({ onComplete }) {
       document.removeEventListener("keyup", handleKeyUp);
     };
   }, [dead, escaped]);
+
+  // Five-minute countdown.
+  useEffect(() => {
+    if (dead || escaped || timerExpiredRef.current) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((previous) => {
+        if (previous <= 1) {
+          timerExpiredRef.current = true;
+          input.current = {};
+          detectedRef.current = false;
+          setDetected(false);
+          setDead(true);
+
+          api
+            .post("survival/level/complete/", {
+              level: 4,
+              result: "TIMEOUT",
+              keys_collected: keysRef.current.length,
+            })
+            .catch(() => {});
+
+          return 0;
+        }
+
+        return previous - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [dead, escaped]);
+
+  let minutes = Math.floor(timeLeft / 60);
+  let seconds = timeLeft % 60;
+  const timerText = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 
   useEffect(() => {
     let animationFrame = 0;
@@ -1099,6 +1177,8 @@ function L4Game({ onComplete }) {
 
     setDead(false);
     setEscaped(false);
+    setTimeLeft(300);
+    timerExpiredRef.current = false;
     completeOnce.current = false;
   };
 
@@ -1119,6 +1199,11 @@ function L4Game({ onComplete }) {
       </header>
 
       <div className="hunter-top-right">
+        <div className={`hunter-timer ${timeLeft <= 60 ? "warning" : ""}`}>
+          <small>TIME LEFT</small>
+          <strong>{timerText}</strong>
+        </div>
+
         <div>
           <small>KEYS</small>
           <strong>{keysCollected.length} / 3</strong>
@@ -1267,8 +1352,12 @@ function L4Game({ onComplete }) {
             <div className="l4-result-kicker">
               STATION 04
             </div>
-            <h1>YOU WERE CAUGHT</h1>
-            <p>The monsters found you.</p>
+            <h1>{timerExpiredRef.current ? "TIME IS UP" : "YOU WERE CAUGHT"}</h1>
+            <p>
+              {timerExpiredRef.current
+                ? "Five minutes are over. The station has gone dark."
+                : "The monsters found you."}
+            </p>
             <button
               type="button"
               className="level4-story-button"

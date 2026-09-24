@@ -13,8 +13,10 @@ const stations = [
     shortName: "COIN",
     description: "Choose your fate",
     path: "/survival-challenge/level-1",
-    objective: "Predict the result of the coin flip and survive the round.",
-    rules: "Choose Head or Tail before each flip. Win 2 out of 3 rounds to survive.",
+    objective:
+      "Predict the result of the coin flip and survive the round.",
+    rules:
+      "Choose Head or Tail before each flip. Win 2 out of 3 rounds to survive.",
     time: "15 SEC",
     reward: "FUEL SYMBOL",
   },
@@ -24,8 +26,10 @@ const stations = [
     shortName: "RED LIGHT",
     description: "Move when allowed",
     path: "/survival-challenge/level-2",
-    objective: "Reach the finish line without being caught moving during Red Light.",
-    rules: "Move during Green Light. Stop immediately when Red Light appears.",
+    objective:
+      "Reach the finish line without being caught moving during Red Light.",
+    rules:
+      "Move during Green Light. Stop immediately when Red Light appears.",
     time: "60 SEC",
     reward: "MAP",
   },
@@ -35,8 +39,10 @@ const stations = [
     shortName: "MARBLES",
     description: "Risk everything",
     path: "/survival-challenge/level-3",
-    objective: "Win the marble challenge and take your opponent's marbles.",
-    rules: "Use odd or even guesses to win marbles. Reach 20 to survive.",
+    objective:
+      "Win the marble challenge and take your opponent's marbles.",
+    rules:
+      "Use odd or even guesses to win marbles. Reach 20 to survive.",
     time: "90 SEC",
     reward: "20 MARBLES",
   },
@@ -46,8 +52,10 @@ const stations = [
     shortName: "ESCAPE",
     description: "Don't get caught",
     path: "/survival-challenge/level-4",
-    objective: "Find the keys and escape before the monster catches you.",
-    rules: "Collect all required keys and reach the exit while avoiding the monster.",
+    objective:
+      "Find the keys and escape before the monster catches you.",
+    rules:
+      "Collect all required keys and reach the exit while avoiding the monster.",
     time: "120 SEC",
     reward: "KEY",
   },
@@ -57,8 +65,10 @@ const stations = [
     shortName: "GLASS",
     description: "Choose carefully",
     path: "/survival-challenge/level-5",
-    objective: "Cross the glass bridge by choosing the safe panels.",
-    rules: "Choose left or right at every step. One panel is safe and the other breaks.",
+    objective:
+      "Cross the glass bridge by choosing the safe panels.",
+    rules:
+      "Choose left or right at every step. One panel is safe and the other breaks.",
     time: "90 SEC",
     reward: "FINAL SYMBOL",
   },
@@ -70,175 +80,422 @@ const itemInfo = {
     icon: "🎫",
     text: "The ticket earned after surviving the first trial.",
   },
+
   map: {
     label: "STATION MAP",
     icon: "🗺️",
     text: "The map recovered during Level 2. It reveals the hidden territory.",
   },
+
   fuel: {
     label: "FUEL CAN",
     icon: "⛽",
     text: "Fuel collected during the Survival Round.",
   },
+
   marbles: {
     label: "MARBLES",
     icon: "⚫",
     text: "Twenty black marbles taken during the marble challenge.",
   },
+
   key: {
     label: "ESCAPE KEY",
     icon: "🔑",
-    text: "A key recovered during the monster escape.",
+    text: "The keys recovered during the monster escape.",
   },
 };
 
-function getInventoryValue(inventory, key) {
-  if (!inventory) return false;
-  return Boolean(
-    inventory[key] ??
-      inventory[`${key}_collected`] ??
-      inventory[`${key}Collected`]
-  );
-}
 
-function getMarbleCount(inventory) {
-  return (
-    Number(
-      inventory?.marbles ??
-        inventory?.marble_count ??
-        inventory?.marbles_collected ??
-        0
-    ) || 0
-  );
-}
+/* =========================================================
+   PROGRESS MARKER
+========================================================= */
 
-function ProgressMarker({ currentLevel, allCompleted }) {
+function ProgressMarker({
+  currentLevel,
+  allCompleted,
+}) {
   return (
     <div className="progress-marker">
       <span className="progress-marker-line" />
+
       <span>
-        {allCompleted ? "ALL TRIALS CLEARED" : `CURRENT TRIAL 0${currentLevel}`}
+        {allCompleted
+          ? "ALL TRIALS CLEARED"
+          : `CURRENT TRIAL 0${currentLevel}`}
       </span>
     </div>
   );
 }
 
-function ItemViewer({ item, onClose }) {
+
+/* =========================================================
+   ITEM VIEWER
+========================================================= */
+
+function ItemViewer({
+  item,
+  onClose,
+}) {
   const [flipped, setFlipped] = useState(false);
+
   const info = itemInfo[item];
 
   if (!info) return null;
 
   return (
-    <div className="item-viewer-overlay" onClick={onClose}>
-      <div className="item-viewer" onClick={(e) => e.stopPropagation()}>
-        <button className="viewer-close" onClick={onClose}>×</button>
+    <div
+      className="item-viewer-overlay"
+      onClick={onClose}
+    >
+      <div
+        className="item-viewer"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          className="viewer-close"
+          onClick={onClose}
+          type="button"
+        >
+          ×
+        </button>
 
-        <div className="viewer-kicker">SURVIVAL INVENTORY</div>
+        <div className="viewer-kicker">
+          SURVIVAL INVENTORY
+        </div>
+
         <h2>{info.label}</h2>
+
+        {/* =================================================
+            TICKET
+        ================================================= */}
 
         {item === "ticket" ? (
           <button
-            className={`ticket-card ${flipped ? "flipped" : ""}`}
-            onClick={() => setFlipped((v) => !v)}
+            type="button"
+            className={`ticket-card ${
+              flipped ? "flipped" : ""
+            }`}
+            onClick={() =>
+              setFlipped((value) => !value)
+            }
           >
             <div className="ticket-face ticket-front">
-              <span className="ticket-symbol">🎫</span>
-              <strong>SURVIVAL EXPRESS</strong>
-              <small>ONE WAY · VALID</small>
-              <b>CLICK TO FLIP</b>
+              <span className="ticket-symbol">
+                🎫
+              </span>
+
+              <strong>
+                SURVIVAL EXPRESS
+              </strong>
+
+              <small>
+                ONE WAY · VALID
+              </small>
+
+              <b>
+                CLICK TO FLIP
+              </b>
             </div>
+
             <div className="ticket-face ticket-back">
-              <span>PASSENGER</span>
-              <strong>SURVIVAL ROUND</strong>
-              <small>THE JOURNEY CONTINUES</small>
-              <b>CLICK TO FLIP</b>
+              <span>
+                PASSENGER
+              </span>
+
+              <strong>
+                SURVIVAL ROUND
+              </strong>
+
+              <small>
+                THE JOURNEY CONTINUES
+              </small>
+
+              <b>
+                CLICK TO FLIP
+              </b>
             </div>
           </button>
         ) : item === "map" ? (
+
+          /* =================================================
+             MAP
+          ================================================= */
+
           <div className="large-map">
             <div className="map-grid" />
-            <div className="map-title">STATION MAP</div>
-            <div className="map-route route-one">01</div>
-            <div className="map-route route-two">02</div>
-            <div className="map-route route-three">03</div>
-            <div className="map-route route-four">04</div>
-            <div className="map-route route-five">05</div>
-            <div className="map-route route-final">06</div>
+
+            <div className="map-title">
+              STATION MAP
+            </div>
+
+            <div className="map-route route-one">
+              01
+            </div>
+
+            <div className="map-route route-two">
+              02
+            </div>
+
+            <div className="map-route route-three">
+              03
+            </div>
+
+            <div className="map-route route-four">
+              04
+            </div>
+
+            <div className="map-route route-five">
+              05
+            </div>
+
+            <div className="map-route route-final">
+              06
+            </div>
           </div>
+
         ) : item === "marbles" ? (
+
+          /* =================================================
+             MARBLES
+          ================================================= */
+
           <div className="marble-viewer">
-            {Array.from({ length: 20 }).map((_, i) => (
-              <span key={i} className="large-marble" />
+            {Array.from({
+              length: 20,
+            }).map((_, index) => (
+              <span
+                key={index}
+                className="large-marble"
+              />
             ))}
           </div>
+
         ) : (
-          <div className={`large-object object-${item}`}>
-            <span>{info.icon}</span>
+
+          /* =================================================
+             OTHER ITEMS
+          ================================================= */
+
+          <div
+            className={`large-object object-${item}`}
+          >
+            <span>
+              {info.icon}
+            </span>
           </div>
         )}
 
-        <p className="viewer-description">{info.text}</p>
+        <p className="viewer-description">
+          {info.text}
+        </p>
+
         {item === "ticket" && (
-          <p className="viewer-hint">Click the ticket to view front / back.</p>
+          <p className="viewer-hint">
+            Click the ticket to view front / back.
+          </p>
         )}
       </div>
     </div>
   );
 }
 
-function Inventory({ inventory, onOpen }) {
-  const ticket = getInventoryValue(inventory, "ticket");
-  const map = getInventoryValue(inventory, "map_collected") || getInventoryValue(inventory, "map");
+
+/* =========================================================
+   INVENTORY
+========================================================= */
+
+function Inventory({
+  inventory,
+  completedLevels,
+  onOpen,
+}) {
+
+  /*
+   * =======================================================
+   * TICKET
+   * =======================================================
+   */
+
+  const ticket =
+    Boolean(inventory?.ticket) ||
+    completedLevels.has(1);
+
+
+  /*
+   * =======================================================
+   * MAP
+   * =======================================================
+   */
+
+  const map =
+    Boolean(inventory?.map_collected) ||
+    completedLevels.has(2);
+
+
+  /*
+   * =======================================================
+   * FUEL
+   * =======================================================
+   *
+   * Backend field:
+   *
+   *     fuel_can
+   *
+   * Level 3 completion is also treated as proof
+   * that the player collected the reward.
+   */
+
   const fuel =
-    getInventoryValue(inventory, "fuel") ||
-    getInventoryValue(inventory, "fuel_collected") ||
-    getInventoryValue(inventory, "fuel_symbol");
-  const marbles = getMarbleCount(inventory);
+    Boolean(inventory?.fuel_can) ||
+    completedLevels.has(3);
+
+
+  /*
+   * =======================================================
+   * MARBLES
+   * =======================================================
+   *
+   * The current backend model does NOT have a marbles
+   * database field.
+   *
+   * Therefore Level 3 completion is used to represent
+   * the marble reward in the lobby.
+   */
+
+  const marbles =
+    completedLevels.has(3);
+
+
+  /*
+   * =======================================================
+   * KEY
+   * =======================================================
+   *
+   * Backend has:
+   *
+   *     key_1
+   *     key_2
+   *     key_3
+   *
+   * Completing Level 4 gives all three.
+   */
+
   const key =
-    getInventoryValue(inventory, "key") ||
-    getInventoryValue(inventory, "keys_collected") ||
-    getInventoryValue(inventory, "key_collected");
+    Boolean(inventory?.key_1) ||
+    Boolean(inventory?.key_2) ||
+    Boolean(inventory?.key_3) ||
+    completedLevels.has(4);
+
+
+  /*
+   * =======================================================
+   * INVENTORY ITEMS
+   * =======================================================
+   */
 
   const items = [
-    { id: "ticket", icon: "🎫", active: ticket },
-    { id: "map", icon: "🗺️", active: map },
-    { id: "fuel", icon: "⛽", active: fuel },
-    { id: "marbles", icon: "⚫", active: marbles > 0 },
-    { id: "key", icon: "🔑", active: key },
+    {
+      id: "ticket",
+      icon: "🎫",
+      active: ticket,
+    },
+
+    {
+      id: "map",
+      icon: "🗺️",
+      active: map,
+    },
+
+    {
+      id: "fuel",
+      icon: "⛽",
+      active: fuel,
+    },
+
+    {
+      id: "marbles",
+      icon: "⚫",
+      active: marbles,
+    },
+
+    {
+      id: "key",
+      icon: "🔑",
+      active: key,
+    },
   ];
+
 
   return (
     <aside className="inventory-panel">
-      <div className="side-kicker">SURVIVAL INVENTORY</div>
-      <h2>COLLECTED ITEMS</h2>
+
+      <div className="side-kicker">
+        SURVIVAL INVENTORY
+      </div>
+
+      <h2>
+        COLLECTED ITEMS
+      </h2>
 
       <div className="inventory-list">
+
         {items.map((item) => (
+
           <button
             key={item.id}
-            className={`inventory-item ${item.active ? "collected" : "empty"}`}
+            type="button"
+            className={`inventory-item ${
+              item.active
+                ? "collected"
+                : "empty"
+            }`}
             disabled={!item.active}
-            onClick={() => item.active && onOpen(item.id)}
+            onClick={() => {
+              if (item.active) {
+                onOpen(item.id);
+              }
+            }}
           >
-            <span className="inventory-icon">{item.icon}</span>
-            <span className="inventory-copy">
-              <strong>{itemInfo[item.id].label}</strong>
-              <small>
-                {item.id === "marbles"
-                  ? `${marbles}/20`
-                  : item.active
-                    ? "COLLECTED"
-                    : "NOT COLLECTED"}
-              </small>
+
+            <span className="inventory-icon">
+              {item.icon}
             </span>
-            {item.active && <span className="inventory-arrow">↗</span>}
+
+            <span className="inventory-copy">
+
+              <strong>
+                {itemInfo[item.id].label}
+              </strong>
+
+              <small>
+                {item.active
+                  ? "COLLECTED"
+                  : "NOT COLLECTED"}
+              </small>
+
+            </span>
+
+            {item.active && (
+              <span className="inventory-arrow">
+                ↗
+              </span>
+            )}
+
           </button>
+
         ))}
+
       </div>
+
     </aside>
   );
 }
+
+
+/* =========================================================
+   STATUS PANEL
+========================================================= */
 
 function StatusPanel({
   survivalDay,
@@ -249,29 +506,93 @@ function StatusPanel({
   resetting,
   onReset,
 }) {
+
   return (
     <aside className="status-panel">
-      <div className="side-kicker">PLAYER STATUS</div>
-      <h2>SURVIVAL RECORD</h2>
+
+      <div className="side-kicker">
+        PLAYER STATUS
+      </div>
+
+      <h2>
+        SURVIVAL RECORD
+      </h2>
 
       <div className="status-grid">
-        <div><small>DAY</small><strong>{survivalDay}</strong></div>
-        <div><small>LEVEL</small><strong>0{backendLevel}</strong></div>
-        <div><small>ATTEMPTS</small><strong>{totalAttempts}</strong></div>
-        <div><small>DEATHS</small><strong>{totalDeaths}</strong></div>
-        <div className="score-cell"><small>SCORE</small><strong>{totalScore}</strong></div>
+
+        <div>
+          <small>
+            DAY
+          </small>
+
+          <strong>
+            {survivalDay}
+          </strong>
+        </div>
+
+        <div>
+          <small>
+            LEVEL
+          </small>
+
+          <strong>
+            0{backendLevel}
+          </strong>
+        </div>
+
+        <div>
+          <small>
+            ATTEMPTS
+          </small>
+
+          <strong>
+            {totalAttempts}
+          </strong>
+        </div>
+
+        <div>
+          <small>
+            DEATHS
+          </small>
+
+          <strong>
+            {totalDeaths}
+          </strong>
+        </div>
+
+        <div className="score-cell">
+
+          <small>
+            SCORE
+          </small>
+
+          <strong>
+            {totalScore}
+          </strong>
+
+        </div>
+
       </div>
 
       <button
+        type="button"
         className="reset-button"
         disabled={resetting}
         onClick={onReset}
       >
-        {resetting ? "RESETTING..." : "↻ RESET RUN"}
+        {resetting
+          ? "RESETTING..."
+          : "↻ RESET RUN"}
       </button>
+
     </aside>
   );
 }
+
+
+/* =========================================================
+   WORLD STATION
+========================================================= */
 
 function WorldStation({
   station,
@@ -281,6 +602,7 @@ function WorldStation({
   current,
   onClick,
 }) {
+
   return (
     <button
       type="button"
@@ -293,48 +615,110 @@ function WorldStation({
         unlocked ? "unlocked" : "locked",
       ].join(" ")}
     >
+
       <div className="level-circle">
-        <span>{levelNumber}</span>
+
+        <span>
+          {levelNumber}
+        </span>
+
       </div>
 
       <div className="simple-level-label">
-        <small>LEVEL</small>
-        <strong>0{levelNumber}</strong>
+
+        <small>
+          LEVEL
+        </small>
+
+        <strong>
+          0{levelNumber}
+        </strong>
+
         <span>
-          {completed ? "CLEARED" : unlocked ? "ENTER" : "LOCKED"}
+          {completed
+            ? "CLEARED"
+            : unlocked
+              ? "ENTER"
+              : "LOCKED"}
         </span>
+
       </div>
+
     </button>
   );
 }
 
-function FinalDoor({ allCompleted, onEnter }) {
+
+/* =========================================================
+   FINAL DOOR
+========================================================= */
+
+function FinalDoor({
+  allCompleted,
+  onEnter,
+}) {
+
   return (
     <button
       type="button"
       disabled={!allCompleted}
-      className={`final-door-world ${allCompleted ? "unlocked" : "locked"}`}
+      className={`final-door-world ${
+        allCompleted
+          ? "unlocked"
+          : "locked"
+      }`}
       onClick={onEnter}
     >
+
       <div className="final-door-aura" />
 
       <div className="final-door-frame">
-        <div className="final-door-crown">06</div>
-        <img src={gate} alt="Final Door" />
-        <div className="final-door-center">
-          {allCompleted ? "ENTER" : "🔒"}
+
+        <div className="final-door-crown">
+          06
         </div>
+
+        <img
+          src={gate}
+          alt="Final Door"
+        />
+
+        <div className="final-door-center">
+          {allCompleted
+            ? "ENTER"
+            : "🔒"}
+        </div>
+
         <div className="final-door-light" />
+
       </div>
 
       <div className="final-door-label">
-        <small>ADDITIONAL DESTINATION</small>
-        <strong>THE FINAL DOOR</strong>
-        <span>{allCompleted ? "LEVEL 06 · ENTER" : "LOCKED · COMPLETE 01—05"}</span>
+
+        <small>
+          ADDITIONAL DESTINATION
+        </small>
+
+        <strong>
+          THE FINAL DOOR
+        </strong>
+
+        <span>
+          {allCompleted
+            ? "LEVEL 06 · ENTER"
+            : "LOCKED · COMPLETE 01—05"}
+        </span>
+
       </div>
+
     </button>
   );
 }
+
+
+/* =========================================================
+   CINEMATIC WORLD
+========================================================= */
 
 function CinematicWorld({
   backendLevel,
@@ -344,41 +728,81 @@ function CinematicWorld({
   onEnterLevel,
   onFinalDoor,
 }) {
+
   return (
     <main className="cinematic-world">
-      <div className={`simple-world ${mapCollected ? "map-revealed" : ""}`}>
+
+      <div
+        className={`simple-world ${
+          mapCollected
+            ? "map-revealed"
+            : ""
+        }`}
+      >
+
         <div className="world-background">
+
           <div className="world-image-layer" />
+
           <div className="world-sky-glow" />
+
         </div>
 
-        <div className="world-destinations simple-levels">
-          {stations.map((station, index) => {
-            const levelNumber = index + 1;
-            const completed = completedLevels.has(levelNumber);
-            const unlocked = levelNumber <= backendLevel || completed;
 
-            return (
-              <WorldStation
-                key={station.number}
-                station={station}
-                levelNumber={levelNumber}
-                unlocked={unlocked}
-                completed={completed}
-                current={levelNumber === backendLevel && !completed}
-                onClick={() => unlocked && onEnterLevel(station.path)}
-              />
-            );
-          })}
+        <div className="world-destinations simple-levels">
+
+          {stations.map(
+            (station, index) => {
+
+              const levelNumber =
+                index + 1;
+
+              const completed =
+                completedLevels.has(
+                  levelNumber
+                );
+
+              const unlocked =
+                levelNumber <=
+                  backendLevel ||
+                completed;
+
+              return (
+                <WorldStation
+                  key={station.number}
+                  station={station}
+                  levelNumber={levelNumber}
+                  unlocked={unlocked}
+                  completed={completed}
+                  current={
+                    levelNumber ===
+                      backendLevel &&
+                    !completed
+                  }
+                  onClick={() =>
+                    unlocked &&
+                    onEnterLevel(
+                      station.path
+                    )
+                  }
+                />
+              );
+            }
+          )}
+
 
           <FinalDoor
             allCompleted={allCompleted}
             onEnter={onFinalDoor}
           />
+
         </div>
 
+
         {!mapCollected && (
+
           <div className="cloud-wall">
+
             <div className="cloud cloud-1" />
             <div className="cloud cloud-2" />
             <div className="cloud cloud-3" />
@@ -386,213 +810,573 @@ function CinematicWorld({
             <div className="cloud cloud-5" />
 
             <div className="cloud-text">
-              <strong>UNKNOWN TERRITORY</strong>
-              <span>THE MAP WILL REVEAL THE WAY</span>
+
+              <strong>
+                UNKNOWN TERRITORY
+              </strong>
+
+              <span>
+                THE MAP WILL REVEAL THE WAY
+              </span>
+
             </div>
+
           </div>
+
         )}
 
+
         {mapCollected && (
+
           <div className="cloud-reveal">
+
             <div className="drifting-cloud reveal-cloud-1" />
+
             <div className="drifting-cloud reveal-cloud-2" />
+
             <div className="drifting-cloud reveal-cloud-3" />
+
           </div>
+
         )}
+
       </div>
+
 
       <ProgressMarker
         currentLevel={backendLevel}
         allCompleted={allCompleted}
       />
+
     </main>
   );
 }
 
+
+/* =========================================================
+   MAIN SURVIVAL LOBBY
+========================================================= */
+
 export default function SurvivalLobby() {
+
   const navigate = useNavigate();
 
-  const [survivalData, setSurvivalData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [apiError, setApiError] = useState("");
-  const [resetting, setResetting] = useState(false);
-  const [viewerItem, setViewerItem] = useState(null);
+
+  /* =======================================================
+     STATE
+  ======================================================= */
+
+  const [
+    survivalData,
+    setSurvivalData,
+  ] = useState(null);
+
+  const [
+    loading,
+    setLoading,
+  ] = useState(true);
+
+  const [
+    apiError,
+    setApiError,
+  ] = useState("");
+
+  const [
+    resetting,
+    setResetting,
+  ] = useState(false);
+
+  const [
+    viewerItem,
+    setViewerItem,
+  ] = useState(null);
+
+
+  /* =======================================================
+     FETCH SURVIVAL DATA
+  ======================================================= */
 
   useEffect(() => {
+
     let alive = true;
 
-    const fetchSurvivalData = async () => {
-      try {
-        setLoading(true);
-        setApiError("");
+    const fetchSurvivalData =
+      async () => {
 
-        const response = await api.get("survival/");
+        try {
 
-        if (alive) setSurvivalData(response.data);
-      } catch (error) {
-        console.error("SURVIVAL API ERROR:", error);
+          setLoading(true);
+          setApiError("");
 
-        if (!alive) return;
+          const response =
+            await api.get(
+              "survival/"
+            );
 
-        if (error.response?.status === 404) {
-          setApiError("No active Survival run.");
-        } else if (error.response?.status === 401) {
-          setApiError("Please login first.");
-        } else {
-          setApiError("Unable to load Survival data.");
+          if (alive) {
+            setSurvivalData(
+              response.data
+            );
+          }
+
+        } catch (error) {
+
+          console.error(
+            "SURVIVAL API ERROR:",
+            error
+          );
+
+          if (!alive) return;
+
+          if (
+            error.response?.status ===
+            404
+          ) {
+
+            setApiError(
+              "No active Survival run."
+            );
+
+          } else if (
+            error.response?.status ===
+            401
+          ) {
+
+            setApiError(
+              "Please login first."
+            );
+
+          } else {
+
+            setApiError(
+              "Unable to load Survival data."
+            );
+
+          }
+
+        } finally {
+
+          if (alive) {
+            setLoading(false);
+          }
+
         }
-      } finally {
-        if (alive) setLoading(false);
-      }
-    };
+
+      };
+
 
     fetchSurvivalData();
+
 
     return () => {
       alive = false;
     };
+
   }, []);
 
-  const handleReset = async () => {
-    const confirmed = window.confirm(
-      "Start a new Survival Round?\n\nYour previous run will be saved in history."
+
+  /* =======================================================
+     RESET RUN
+  ======================================================= */
+
+  const handleReset =
+    async () => {
+
+      const confirmed =
+        window.confirm(
+          "Start a new Survival Round?\n\nYour previous run will be saved in history."
+        );
+
+      if (!confirmed) return;
+
+
+      try {
+
+        setResetting(true);
+
+        await api.post(
+          "survival/reset/"
+        );
+
+        const response =
+          await api.get(
+            "survival/"
+          );
+
+        setSurvivalData(
+          response.data
+        );
+
+      } catch (error) {
+
+        console.error(
+          "SURVIVAL RESET ERROR:",
+          error
+        );
+
+        if (
+          error.response?.status ===
+          401
+        ) {
+
+          alert(
+            "Please login first."
+          );
+
+        } else {
+
+          alert(
+            error?.response?.data?.detail ||
+              "Unable to reset Survival Round."
+          );
+
+        }
+
+      } finally {
+
+        setResetting(false);
+
+      }
+
+    };
+
+
+  /* =======================================================
+     BACKEND DATA
+  ======================================================= */
+
+  const backendLevel =
+    Number(
+      survivalData?.current_level ||
+        1
     );
 
-    if (!confirmed) return;
+  const survivalDay =
+    Number(
+      survivalData?.survival_day ||
+        1
+    );
 
-    try {
-      setResetting(true);
+  const totalScore =
+    Number(
+      survivalData?.total_score ||
+        0
+    );
 
-      await api.post("survival/reset/");
+  const totalAttempts =
+    Number(
+      survivalData?.total_attempts ||
+        0
+    );
 
-      const response = await api.get("survival/");
-      setSurvivalData(response.data);
-    } catch (error) {
-      console.error("SURVIVAL RESET ERROR:", error);
+  const totalDeaths =
+    Number(
+      survivalData?.total_deaths ||
+        0
+    );
 
-      if (error.response?.status === 401) {
-        alert("Please login first.");
-      } else {
-        alert(
-          error?.response?.data?.detail ||
-          "Unable to reset Survival Round."
-        );
-      }
-    } finally {
-      setResetting(false);
-    }
-  };
 
-  const backendLevel = Number(survivalData?.current_level || 1);
-  const survivalDay = Number(survivalData?.survival_day || 1);
-  const totalScore = Number(survivalData?.total_score || 0);
-  const totalAttempts = Number(survivalData?.total_attempts || 0);
-  const totalDeaths = Number(survivalData?.total_deaths || 0);
+  const levelProgress =
+    survivalData?.level_progress ||
+    [];
 
-  const levelProgress = survivalData?.level_progress || [];
-  const inventory = survivalData?.inventory || {};
+  const inventory =
+    survivalData?.inventory ||
+    {};
 
-  const completedLevels = useMemo(() => {
-    const result = new Set();
 
-    levelProgress.forEach((level) => {
-      if (level?.status === "COMPLETED") {
-        result.add(Number(level.level_number));
-      }
-    });
+  /* =======================================================
+     COMPLETED LEVELS
+  ======================================================= */
 
-    return result;
-  }, [levelProgress]);
+  const completedLevels =
+    useMemo(() => {
+
+      const result =
+        new Set();
+
+      levelProgress.forEach(
+        (level) => {
+
+          if (
+            level?.status ===
+            "COMPLETED"
+          ) {
+
+            result.add(
+              Number(
+                level.level_number
+              )
+            );
+
+          }
+
+        }
+      );
+
+      return result;
+
+    }, [levelProgress]);
+
+
+  /* =======================================================
+     ALL LEVELS COMPLETED
+  ======================================================= */
 
   const allCompleted =
-    [1, 2, 3, 4, 5].every((level) => completedLevels.has(level)) ||
-    survivalData?.status === "COMPLETED";
+    [1, 2, 3, 4, 5].every(
+      (level) =>
+        completedLevels.has(level)
+    ) ||
+    survivalData?.status ===
+      "COMPLETED";
+
+
+  /* =======================================================
+     MAP
+  ======================================================= */
 
   const mapCollected =
-    getInventoryValue(inventory, "map_collected") ||
-    getInventoryValue(inventory, "map");
+    Boolean(
+      inventory?.map_collected
+    ) ||
+    completedLevels.has(2);
 
-  const getLevelProgress = (levelNumber) =>
-    levelProgress.find(
-      (level) => Number(level.level_number) === levelNumber
-    );
+
+  /* =======================================================
+     LOADING
+  ======================================================= */
 
   if (loading) {
+
     return (
       <div className="survival-loading">
+
         <div className="loading-ring" />
-        <p>LOADING SURVIVAL WORLD</p>
+
+        <p>
+          LOADING SURVIVAL WORLD
+        </p>
+
       </div>
     );
   }
 
-  return (
-    <div className="survival-lobby-page">
-      <CinematicWorld
-        backendLevel={backendLevel}
-        completedLevels={completedLevels}
-        mapCollected={mapCollected}
-        allCompleted={allCompleted}
-        onEnterLevel={(path) => navigate(path)}
-        onFinalDoor={() => {
-          if (!allCompleted) return;
 
-          // Change this route when Level 6 is created.
-          navigate("/survival-challenge/level-6");
+  /* =======================================================
+     MAIN UI
+  ======================================================= */
+
+  return (
+
+    <div className="survival-lobby-page">
+
+
+      {/* ===================================================
+          WORLD
+      =================================================== */}
+
+      <CinematicWorld
+
+        backendLevel={
+          backendLevel
+        }
+
+        completedLevels={
+          completedLevels
+        }
+
+        mapCollected={
+          mapCollected
+        }
+
+        allCompleted={
+          allCompleted
+        }
+
+        onEnterLevel={
+          (path) =>
+            navigate(path)
+        }
+
+        onFinalDoor={() => {
+
+          if (!allCompleted) {
+            return;
+          }
+
+          /*
+           * Level 6 route.
+           *
+           * We will build this next.
+           */
+
+          navigate(
+            "/survival-challenge/level-6"
+          );
+
         }}
+
       />
 
+
+      {/* ===================================================
+          HEADER
+      =================================================== */}
+
       <header className="world-header">
+
         <button
+          type="button"
           className="back-button"
-          onClick={() => navigate("/survival-challenge")}
+          onClick={() =>
+            navigate(
+              "/survival-challenge"
+            )
+          }
         >
           ← BACK
         </button>
 
+
         <div className="world-title">
-          <span>GAME 05 · SURVIVAL ROUND</span>
-          <strong>THE SURVIVAL WORLD</strong>
+
+          <span>
+            GAME 05 · SURVIVAL ROUND
+          </span>
+
+          <strong>
+            THE SURVIVAL WORLD
+          </strong>
+
         </div>
+
       </header>
 
+
+      {/* ===================================================
+          STATUS PANEL
+      =================================================== */}
+
       <div className="world-status-left">
+
         <StatusPanel
-          survivalDay={survivalDay}
-          backendLevel={backendLevel}
-          totalScore={totalScore}
-          totalAttempts={totalAttempts}
-          totalDeaths={totalDeaths}
-          resetting={resetting}
-          onReset={handleReset}
+
+          survivalDay={
+            survivalDay
+          }
+
+          backendLevel={
+            backendLevel
+          }
+
+          totalScore={
+            totalScore
+          }
+
+          totalAttempts={
+            totalAttempts
+          }
+
+          totalDeaths={
+            totalDeaths
+          }
+
+          resetting={
+            resetting
+          }
+
+          onReset={
+            handleReset
+          }
+
         />
+
       </div>
+
+
+      {/* ===================================================
+          INVENTORY PANEL
+      =================================================== */}
 
       <div className="world-inventory-right">
+
         <Inventory
-          inventory={inventory}
-          onOpen={setViewerItem}
+
+          inventory={
+            inventory
+          }
+
+          completedLevels={
+            completedLevels
+          }
+
+          onOpen={
+            setViewerItem
+          }
+
         />
+
       </div>
+
+
+      {/* ===================================================
+          INTRO
+      =================================================== */}
 
       <div className="world-intro">
-        <span>SURVIVAL ROUND · FIVE TRIALS · ONE FINAL DOOR</span>
-        <h1>THE SURVIVAL WORLD</h1>
-        <p>Move from left to right. Survive every destination.</p>
+
+        <span>
+          SURVIVAL ROUND · FIVE TRIALS · ONE FINAL DOOR
+        </span>
+
+        <h1>
+          THE SURVIVAL WORLD
+        </h1>
+
+        <p>
+          Move from left to right. Survive every destination.
+        </p>
+
       </div>
 
+
+      {/* ===================================================
+          API ERROR
+      =================================================== */}
+
       {apiError && (
+
         <div className="api-error">
+
           {apiError}
+
         </div>
+
       )}
 
+
+      {/* ===================================================
+          ITEM VIEWER
+      =================================================== */}
+
       {viewerItem && (
+
         <ItemViewer
-          item={viewerItem}
-          onClose={() => setViewerItem(null)}
+
+          item={
+            viewerItem
+          }
+
+          onClose={() =>
+            setViewerItem(null)
+          }
+
         />
+
       )}
+
     </div>
+
   );
 }

@@ -14660,3 +14660,520 @@
     max-width: 92vw;
   }
 }
+
+
+/* =========================================================
+   LEVEL 2 GAMEPLAY — REQUESTED POLISH
+   Only the playable game section is changed here.
+========================================================= */
+
+/* Bigger mission text at the top-left. */
+.level4-2d-game.hunter-style-game .hunter-top-left {
+  left: 28px !important;
+  top: 22px !important;
+}
+
+.level4-2d-game.hunter-style-game .hunter-top-left span {
+  font-size: 12px !important;
+  letter-spacing: 5px !important;
+}
+
+.level4-2d-game.hunter-style-game .hunter-top-left h1 {
+  margin-top: 7px !important;
+  font-size: clamp(30px, 2.25vw, 40px) !important;
+  letter-spacing: 4px !important;
+}
+
+.level4-2d-game.hunter-style-game .hunter-top-left p {
+  margin-top: 9px !important;
+  font-size: 14px !important;
+  letter-spacing: .15px !important;
+}
+
+/* Bigger objective text at the bottom-right. */
+.level4-2d-game.hunter-style-game .hunter-objective {
+  right: 30px !important;
+  bottom: 28px !important;
+  width: 280px !important;
+  gap: 8px !important;
+  font-size: 14px !important;
+  letter-spacing: 2.5px !important;
+}
+
+.level4-2d-game.hunter-style-game .hunter-objective b {
+  font-size: 19px !important;
+  letter-spacing: 3px !important;
+}
+
+.level4-2d-game.hunter-style-game .hunter-objective span {
+  font-size: 13px !important;
+}
+
+.level4-2d-game.hunter-style-game .hunter-objective span:last-child {
+  font-size: 13px !important;
+}
+
+/* The player starts at the same physical location as the exit. */
+.level4-2d-game.hunter-style-game .l2-game-world {
+  /* Kept as a named hook for this gameplay layout. */
+}
+
+/* =========================================================
+   NO MINI-MAP
+   The real task is to physically explore and find the map.
+========================================================= */
+.level4-2d-game.hunter-style-game .l2-level2-minimap,
+.level4-2d-game.hunter-style-game > .l4-hunter-minimap {
+  display: none !important;
+}
+
+/* =========================================================
+   YELLOW LIGHT — FULL-SCREEN YELLOW BLINK
+========================================================= */
+.level4-2d-game.hunter-style-game.l2-signal-yellow .l4-2d-game-viewport::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 155;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(255, 244, 125, .10) 0%,
+      rgba(255, 213, 30, .28) 48%,
+      rgba(255, 177, 0, .48) 100%
+    );
+  border: 3px solid rgba(255, 224, 65, .72);
+  box-shadow:
+    inset 0 0 100px rgba(255, 225, 40, .40),
+    inset 0 0 260px rgba(255, 170, 0, .25);
+  animation: l2RequestedYellowBlink .42s steps(2, end) infinite;
+}
+
+@keyframes l2RequestedYellowBlink {
+  0%, 100% {
+    opacity: .18;
+  }
+  50% {
+    opacity: .92;
+  }
+}
+
+/* =========================================================
+   RED LIGHT — RED SCREEN + SMALL SHAKE
+========================================================= */
+.level4-2d-game.hunter-style-game.l2-signal-red .l4-2d-game-viewport::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 155;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(255, 65, 45, .08) 0%,
+      rgba(205, 0, 0, .26) 52%,
+      rgba(105, 0, 0, .58) 100%
+    );
+  border: 3px solid rgba(255, 55, 45, .78);
+  box-shadow:
+    inset 0 0 90px rgba(255, 0, 0, .48),
+    inset 0 0 250px rgba(130, 0, 0, .38);
+  animation: l2RequestedRedPulse .55s ease-in-out infinite alternate;
+}
+
+.level4-2d-game.hunter-style-game.l2-signal-red .l4-2d-game-viewport {
+  animation: l2RequestedRedShake .16s ease-in-out infinite;
+}
+
+@keyframes l2RequestedRedPulse {
+  from {
+    opacity: .34;
+  }
+  to {
+    opacity: .82;
+  }
+}
+
+@keyframes l2RequestedRedShake {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  25% {
+    transform: translate3d(-2px, 1px, 0);
+  }
+  50% {
+    transform: translate3d(2px, -1px, 0);
+  }
+  75% {
+    transform: translate3d(-1px, -2px, 0);
+  }
+}
+
+/* Keep the player/world readable above the signal wash. */
+.level4-2d-game.hunter-style-game.l2-signal-yellow .l4-camera-player,
+.level4-2d-game.hunter-style-game.l2-signal-red .l4-camera-player {
+  z-index: 160 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .level4-2d-game.hunter-style-game.l2-signal-yellow .l4-2d-game-viewport::after,
+  .level4-2d-game.hunter-style-game.l2-signal-red .l4-2d-game-viewport::after,
+  .level4-2d-game.hunter-style-game.l2-signal-red .l4-2d-game-viewport {
+    animation: none !important;
+  }
+}
+
+
+/* =========================================================
+   LEVEL 2 — SMALL MAP PANEL, WITHOUT MAP LOCATION
+========================================================= */
+.level4-2d-game.hunter-style-game > .l2-level2-minimap {
+  display: block !important;
+}
+
+/* The map itself must never reveal the physical MAP location. */
+.level4-2d-game.hunter-style-game .l2-level2-minimap .l2-mini-map {
+  display: none !important;
+}
+
+/* Keep the minimap in the same compact right-side position. */
+.level4-2d-game.hunter-style-game .l2-level2-minimap {
+  width: 240px !important;
+  right: 20px !important;
+  top: 100px !important;
+}
+
+/* Keep only You + Exit in the small-map legend. */
+.level4-2d-game.hunter-style-game .hunter-legend .key-dot {
+  display: none !important;
+}
+
+/* =========================================================
+   LEVEL 2 — NO "NORMAL" GAP BETWEEN SIGNALS
+   The actual signal state changes are controlled by React;
+   these styles only ensure there is no visual neutral pause.
+========================================================= */
+.level4-2d-game.hunter-style-game.l2-signal-green .l4-2d-game-viewport,
+.level4-2d-game.hunter-style-game.l2-signal-yellow .l4-2d-game-viewport,
+.level4-2d-game.hunter-style-game.l2-signal-red .l4-2d-game-viewport {
+  transition: none !important;
+}
+
+/* =========================================================
+   LEVEL 2 — OVERALL POLISH REQUESTS
+========================================================= */
+
+/* ---------- ARRIVAL: player stops at the centre ---------- */
+.level2-arrival > .player.player-walking {
+  left: 50% !important;
+}
+
+.level2-arrival > .player.player-story-stopped {
+  left: 50% !important;
+  animation: none !important;
+}
+
+.level2-arrival > .player.player-story-stopped .player-arm,
+.level2-arrival > .player.player-story-stopped .player-leg {
+  animation: none !important;
+  transform: rotate(0deg) !important;
+}
+
+/* Story is transparent, positioned on the right like the Level 1 machine/story layout. */
+.level2-arrival-story {
+  background: transparent !important;
+  right: 6% !important;
+  left: auto !important;
+  width: min(430px, 31vw) !important;
+  max-width: 430px !important;
+  transform: translateY(-45%) !important;
+  text-align: left !important;
+  padding-left: 34px !important;
+}
+
+.level2-arrival-story::after {
+  background: radial-gradient(ellipse at center, rgba(0,0,0,.22), transparent 72%) !important;
+}
+
+/* ---------- DETAILS SCREEN ---------- */
+.level2-objective-section p::before {
+  content: "◆ " !important;
+  color: #e8c966 !important;
+}
+
+.level2-signal-row.yellow span {
+  color: #f1d25c !important;
+}
+
+/* The SHADOWS / RED ONLY stat has been removed; let the remaining time stat breathe. */
+.level2-survival-section {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+}
+
+.level2-survival-section .level2-important-rule {
+  margin-top: 18px !important;
+}
+
+/* ---------- GAME TIMER: clearly visible and continuously readable ---------- */
+.level4-2d-game.hunter-style-game .l2-level2-timer {
+  position: absolute !important;
+  z-index: 520 !important;
+  top: 108px !important;
+  right: 350px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 4px !important;
+  min-width: 94px !important;
+  padding: 8px 12px !important;
+  border: 1px solid rgba(220,201,139,.35) !important;
+  background: rgba(8,10,10,.82) !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,.28) !important;
+}
+
+.level4-2d-game.hunter-style-game .l2-level2-timer span {
+  color: #a99b6d !important;
+  font-size: 8px !important;
+  letter-spacing: 3px !important;
+}
+
+.level4-2d-game.hunter-style-game .l2-level2-timer strong {
+  color: #f1d25c !important;
+  font-size: 24px !important;
+  letter-spacing: 2px !important;
+  line-height: 1 !important;
+}
+
+/* ---------- CONTROLS: W above S, A/S/D below, then E after a gap ---------- */
+.level4-2d-game.hunter-style-game .hunter-controls {
+  grid-template-columns: 94px 1fr !important;
+  row-gap: 5px !important;
+}
+
+.level4-2d-game.hunter-style-game .keys-grid {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+}
+
+.level4-2d-game.hunter-style-game .hunter-controls > span:first-of-type {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+}
+
+.level4-2d-game.hunter-style-game .hunter-controls .e-key {
+  grid-column: 1 !important;
+  grid-row: 2 !important;
+  margin-top: 8px !important;
+}
+
+.level4-2d-game.hunter-style-game .hunter-controls .e-key + span {
+  grid-column: 2 !important;
+  grid-row: 2 !important;
+  margin-top: 8px !important;
+}
+
+/* ---------- SIGNAL: yellow must be clearly visible; red follows directly ---------- */
+.level4-2d-game.hunter-style-game.l2-signal-yellow .l4-2d-game-viewport::after {
+  animation-duration: .72s !important;
+}
+
+/* ---------- MAP REVEAL: one fixed screen, no scrolling ---------- */
+.level2-map-reveal-screen {
+  height: 100vh !important;
+  min-height: 100vh !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
+  padding: 18px 28px !important;
+}
+
+.level2-map-reveal-panel {
+  width: min(1100px, 94vw) !important;
+  height: 94vh !important;
+  max-height: 94vh !important;
+  overflow: hidden !important;
+  padding: 20px 30px 22px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.level2-map-reveal-panel h1 {
+  font-size: clamp(30px, 4vw, 54px) !important;
+}
+
+.level2-map-reveal-intro {
+  margin: 10px auto 14px !important;
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+}
+
+.level2-real-map {
+  width: min(820px, 88vw) !important;
+  margin: 8px auto 12px !important;
+  padding: 12px 14px 10px !important;
+  flex: 0 1 auto !important;
+}
+
+.level2-real-map-frame {
+  min-height: 0 !important;
+  height: min(40vh, 360px) !important;
+}
+
+.level2-real-map-image {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
+  object-fit: contain !important;
+}
+
+.level2-real-map-caption {
+  margin-top: 7px !important;
+  font-size: 9px !important;
+}
+
+.level2-map-reveal-note {
+  margin: 8px auto !important;
+}
+
+.level2-travel-button {
+  margin-top: 8px !important;
+  flex: 0 0 auto !important;
+}
+
+@media (max-width: 1000px) {
+  .level4-2d-game.hunter-style-game .l2-level2-timer {
+    right: 270px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .level4-2d-game.hunter-style-game .l2-level2-timer {
+    top: 88px !important;
+    right: 14px !important;
+    min-width: 78px !important;
+    padding: 6px 8px !important;
+  }
+
+  .level4-2d-game.hunter-style-game .l2-level2-timer strong {
+    font-size: 18px !important;
+  }
+
+  .level2-arrival-story {
+    right: 5% !important;
+    width: 48vw !important;
+    max-width: 48vw !important;
+  }
+
+  .level2-map-reveal-panel {
+    width: 96vw !important;
+    height: 94vh !important;
+    padding: 16px !important;
+  }
+
+  .level2-real-map-frame {
+    height: 34vh !important;
+  }
+}
+
+
+/* =========================================================
+   LEVEL 2 — STORY MATCHES THE LEVEL 3 PRESENTATION
+   Right-side cinematic text, transparent, no card.
+========================================================= */
+.level2-arrival .level2-arrival-story {
+  position: absolute !important;
+  top: 50% !important;
+  right: 6.5% !important;
+  left: auto !important;
+  bottom: auto !important;
+  width: min(390px, 29vw) !important;
+  height: auto !important;
+  min-height: 0 !important;
+  transform: translateY(-43%) !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  color: #f4f1e8 !important;
+  text-align: left !important;
+  pointer-events: auto !important;
+  z-index: 110 !important;
+}
+
+.level2-arrival .level2-arrival-story-kicker {
+  display: block !important;
+  margin: 0 !important;
+  color: #e9bf55 !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  letter-spacing: .42em !important;
+}
+
+.level2-arrival .level2-arrival-story-line {
+  display: block !important;
+  width: 82px !important;
+  height: 1px !important;
+  margin: 13px 0 24px !important;
+  background: linear-gradient(90deg, rgba(233,191,85,.9), transparent) !important;
+}
+
+.level2-arrival .level2-arrival-story-text {
+  display: block !important;
+  margin: 0 !important;
+}
+
+.level2-arrival .level2-arrival-story-text p {
+  color: #f1eee5 !important;
+  font-size: clamp(18px, 1.45vw, 25px) !important;
+  line-height: 1.48 !important;
+  font-weight: 500 !important;
+  letter-spacing: .02em !important;
+  text-align: left !important;
+  text-shadow: 0 3px 18px rgba(0,0,0,.95), 0 1px 4px rgba(0,0,0,.9) !important;
+}
+
+.level2-arrival .level2-arrival-continue {
+  display: inline-block !important;
+  margin-top: 12px !important;
+  padding: 13px 29px !important;
+  border: 1px solid #d5ad4d !important;
+  border-radius: 0 !important;
+  background: rgba(8,10,12,.20) !important;
+  color: #f0c85b !important;
+  text-align: center !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  letter-spacing: .28em !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.level2-arrival .level2-arrival-continue:hover {
+  background: rgba(213,173,77,.10) !important;
+  border-color: #f0c85b !important;
+}
+
+@media (max-width: 900px) {
+  .level2-arrival .level2-arrival-story {
+    right: 5% !important;
+    width: min(380px, 42vw) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .level2-arrival .level2-arrival-story {
+    top: auto !important;
+    right: 7% !important;
+    bottom: 12% !important;
+    width: 86vw !important;
+    transform: none !important;
+  }
+}

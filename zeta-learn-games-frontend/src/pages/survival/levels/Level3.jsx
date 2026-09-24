@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../../api/axios";
-import "./Level3.css";
 import "./Level1.css";
+import "./Level3.css";
 
 const GAME_TIME = 180;
 const ROUND_TIME = 10;
@@ -125,12 +125,14 @@ function Station3Arrival({ onContinue }) {
   const [showStory, setShowStory] = useState(false);
 
   useEffect(() => {
+    // Same rhythm as Level 2: train arrives first, door opens,
+    // player exits, then the story appears after the walk finishes.
     const doorTimer = setTimeout(() => setDoorOpen(true), 6500);
     const walkTimer = setTimeout(() => setWalking(true), 7350);
     const storyTimer = setTimeout(() => {
       setWalking(false);
       setShowStory(true);
-    }, 10150);
+    }, 10350);
 
     return () => {
       clearTimeout(doorTimer);
@@ -140,40 +142,47 @@ function Station3Arrival({ onContinue }) {
   }, []);
 
   return (
-    <div className="level3-page level3-arrival-page">
-      <div className="level3-arrival-scene">
-        <Station />
+    <main className="level1-screen level3-arrival-page level3-arrival-scene">
+      <Station />
 
-        <div className="level3-arrival-train">
-          <Train doorOpen={doorOpen} departing={false} />
-        </div>
-
-        <div className={`level3-arrival-player ${walking || showStory ? "walking" : ""}`}>
-          <Player walking={walking} />
-        </div>
-
-        {!showStory && (
-          <div className="level3-arrival-status">
-            {!doorOpen && "THE TRAIN IS ARRIVING..."}
-            {doorOpen && !walking && "DOOR OPEN"}
-            {walking && "ENTERING STATION 03"}
-          </div>
-        )}
-
-        {showStory && (
-          <div className="level3-no-fuel-story">
-            <div className="story-kicker">STATION 03</div>
-            <div className="story-line" />
-            <h1>NO FUEL.</h1>
-            <p>The train cannot move any further.</p>
-            <p>I need fuel to continue to the next station.</p>
-            <button className="cinematic-button" onClick={onContinue}>
-              CONTINUE <span>→</span>
-            </button>
-          </div>
-        )}
+      {/* EXACT Level-2 arrival structure */}
+      <div className="level3-arrival-train">
+        <Train
+          doorOpen={doorOpen}
+          departing={false}
+        />
       </div>
-    </div>
+
+      {/* Player stays hidden inside the train until the door opens, then exits and walks to center. */}
+      <div className={`level3-arrival-player ${walking ? "walking" : ""}`}>
+        <Player
+          walking={walking}
+          entered={!doorOpen}
+          className={showStory ? "arrival-finished" : ""}
+        />
+      </div>
+
+      {!showStory && (
+        <div className="level3-arrival-status">
+          {!doorOpen && <span>THE TRAIN IS ARRIVING...</span>}
+          {doorOpen && !walking && <span>DOOR OPEN</span>}
+          {walking && <span>EXITING TRAIN</span>}
+        </div>
+      )}
+
+      {showStory && (
+        <div className="level3-no-fuel-story">
+          <div className="story-kicker">STATION 03</div>
+          <div className="story-line" />
+          <h1>NO FUEL.</h1>
+          <p>The train cannot move any further.</p>
+          <p>I need fuel to continue to the next station.</p>
+          <button className="cinematic-button" onClick={onContinue}>
+            CONTINUE <span>→</span>
+          </button>
+        </div>
+      )}
+    </main>
   );
 }
 
@@ -184,12 +193,18 @@ function VictoryCinematic({ onFinish }) {
     const timers = [
       setTimeout(() => setStage("door"), 2600),
       setTimeout(() => setStage("walk"), 3900),
-      setTimeout(() => setStage("depart"), 7000),
-      setTimeout(() => onFinish(), 11600),
+      setTimeout(() => setStage("inside"), 7000),
+      setTimeout(() => setStage("closed"), 8100),
+      setTimeout(() => setStage("depart"), 9000),
+      setTimeout(() => onFinish(), 14000),
     ];
 
     return () => timers.forEach(clearTimeout);
   }, [onFinish]);
+
+  const doorOpen = stage === "door" || stage === "walk" || stage === "inside";
+  const playerWalking = stage === "walk";
+  const playerEntered = stage === "inside" || stage === "closed" || stage === "depart";
 
   return (
     <div className={`level3-page level3-victory-cinematic stage-${stage}`}>
@@ -197,18 +212,23 @@ function VictoryCinematic({ onFinish }) {
         <Station />
 
         <div className="level3-victory-train">
-          <Train
-            doorOpen={stage === "door" || stage === "walk"}
-            departing={stage === "depart"}
-          />
+          <Train doorOpen={doorOpen} departing={stage === "depart"} />
         </div>
 
+        {/* The stranger stays at the station for the entire ending. */}
         <div className="level3-victory-stranger">
           <Player walking={false} className="victory-stranger-blue" />
         </div>
 
-        <div className={`level3-victory-player ${stage === "walk" || stage === "depart" ? "walking" : ""}`}>
-          <Player walking={stage === "walk"} />
+        {/* Player boards the train carrying the fuel can. */}
+        <div className={`level3-victory-player ${playerWalking ? "walking" : ""}`}>
+          <Player walking={playerWalking} entered={playerEntered} />
+          {(stage === "fuel" || stage === "door" || stage === "walk") && (
+            <div className={`victory-fuel-can ${stage === "walk" ? "fuel-in-hand" : ""}`} aria-label="Fuel can">
+              <div className="victory-fuel-can-cap" />
+              <div className="victory-fuel-can-body">FUEL</div>
+            </div>
+          )}
         </div>
 
         {stage === "fuel" && (
@@ -216,12 +236,6 @@ function VictoryCinematic({ onFinish }) {
             <div className="victory-story-kicker">MARBLE TRIAL CLEARED</div>
             <h1>THE STRANGER KEEPS HIS WORD.</h1>
             <p>He hands you the fuel needed to move the train.</p>
-            <div className="fuel-can-visual" aria-label="Petrol can">
-              <div className="fuel-can-cap" />
-              <div className="fuel-can-body">
-                <span>FUEL</span>
-              </div>
-            </div>
           </div>
         )}
 
@@ -235,14 +249,28 @@ function VictoryCinematic({ onFinish }) {
         {stage === "walk" && (
           <div className="victory-action-text">
             <span>BOARDING</span>
-            <strong>RETURNING TO THE TRAIN.</strong>
+            <strong>ENTERING THE TRAIN.</strong>
+          </div>
+        )}
+
+        {stage === "inside" && (
+          <div className="victory-action-text">
+            <span>INSIDE</span>
+            <strong>DOORS CLOSING.</strong>
+          </div>
+        )}
+
+        {stage === "closed" && (
+          <div className="victory-action-text">
+            <span>TRAIN READY</span>
+            <strong>DEPARTING.</strong>
           </div>
         )}
 
         {stage === "depart" && (
           <div className="victory-action-text departing-text">
-            <span>STATION 03</span>
-            <strong>DEPARTING...</strong>
+            <span>LEVEL 03</span>
+            <strong>LEAVING STATION.</strong>
           </div>
         )}
       </div>
@@ -267,10 +295,25 @@ function Level3() {
   const [history, setHistory] = useState([]);
   const [revealStep, setRevealStep] = useState("idle");
   const [roundNumber, setRoundNumber] = useState(1);
+  const [strangerArrived, setStrangerArrived] = useState(false);
 
   const timerRef = useRef(null);
   const resultSubmittedRef = useRef(false);
   const roundTimeoutHandledRef = useRef(false);
+
+  useEffect(() => {
+    if (phase !== "stranger") {
+      setStrangerArrived(false);
+      return;
+    }
+
+    setStrangerArrived(false);
+    const arrivalTimer = setTimeout(() => {
+      setStrangerArrived(true);
+    }, 3300);
+
+    return () => clearTimeout(arrivalTimer);
+  }, [phase]);
 
   useEffect(() => {
     if (phase !== "game" && phase !== "thinking" && phase !== "reveal") return;
@@ -598,18 +641,22 @@ function Level3() {
             />
           </div>
 
-          <div className="level3-fuel-question">
-            <div className="fuel-question-bubble">
-              <span>NEED FUEL?</span>
-            </div>
+          {strangerArrived && (
+            <>
+              <div className="level3-fuel-question" aria-live="polite">
+                <div className="fuel-question-bubble">
+                  <span>NEED FUEL?</span>
+                </div>
+              </div>
 
-            <button
-              className="fuel-yes-button"
-              onClick={() => setPhase("details")}
-            >
-              YES
-            </button>
-          </div>
+              <button
+                className="fuel-yes-button"
+                onClick={() => setPhase("details")}
+              >
+                YES
+              </button>
+            </>
+          )}
         </div>
       </div>
     );
@@ -790,11 +837,11 @@ function Level3() {
             <div className="table-front-edge" />
           </div>
 
-          <div className="player-silhouette">
-            <div className="player-head" />
-            <div className="player-torso" />
-            <div className="player-arm left" />
-            <div className="player-arm right" />
+          <div className="player-silhouette player-black-character">
+            <div className="opponent-head" />
+            <div className="opponent-torso" />
+            <div className="opponent-arm left" />
+            <div className="opponent-arm right" />
           </div>
         </div>
 
@@ -888,17 +935,20 @@ function Level3() {
     return (
       <div className="level3-page result-page">
         <div className="result-room" />
-        <div className="result-card">
+        <div className="result-card level3-loss-card">
           <div className="result-kicker">MARBLE TRIAL</div>
           <div className="result-icon failure">✕</div>
-          <h1>YOU LOST</h1>
+          <h1>TRY TOMORROW.</h1>
           <p>The stranger now holds every marble. The trial is over.</p>
           <div className="final-marble-score">
             <div><span>YOU</span><strong>{playerMarbles}</strong></div>
             <div className="final-divider">—</div>
             <div><span>STRANGER</span><strong>{opponentMarbles}</strong></div>
           </div>
-          <button className="result-button" onClick={retryGame}>TRY TOMORROW <span>→</span></button>
+          <div className="level3-loss-actions">
+            <button className="result-button" onClick={retryGame}>TRY AGAIN <span>↻</span></button>
+            <button className="secondary-result-button" onClick={goLobby}>RETURN TO LOBBY <span>→</span></button>
+          </div>
         </div>
       </div>
     );

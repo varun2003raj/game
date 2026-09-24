@@ -1939,105 +1939,574 @@
 
 /* =========================================================
    GAME DETAILS
+   ATTRACTIVE CINEMATIC DETAILS SCREEN
+   Gameplay below this section is unchanged.
 ========================================================= */
 
 .level4-details-overlay {
   position: absolute;
   inset: 0;
   z-index: 220;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 25px;
-  background: rgba(3, 5, 7, 0.72);
-  animation: level4StoryFadeIn 0.7s ease forwards;
+
+  padding: 30px;
+
+  background:
+    linear-gradient(
+      rgba(3, 6, 8, 0.58),
+      rgba(3, 6, 8, 0.74)
+    );
+
+  backdrop-filter: blur(2px);
+
+  animation:
+    level4StoryFadeIn
+    0.7s ease forwards;
 }
 
+
+/* =========================================================
+   MAIN DETAILS PANEL
+========================================================= */
+
 .level4-details-panel {
-  width: min(900px, 92vw);
-  max-height: 92vh;
+  position: relative;
+
+  width: min(1200px, 92vw);
+  max-height: 88vh;
+
+  padding: 34px 38px 28px;
+
   overflow-y: auto;
-  padding: 38px 42px;
+
   text-align: center;
+
   background:
     linear-gradient(
       145deg,
-      rgba(18, 25, 29, 0.98),
-      rgba(5, 9, 11, 0.98)
+      rgba(17, 23, 27, 0.98),
+      rgba(7, 11, 14, 0.98)
     );
-  border: 1px solid rgba(212, 199, 129, 0.42);
+
+  border:
+    1px solid rgba(218, 198, 112, 0.42);
+
   box-shadow:
-    0 25px 90px rgba(0,0,0,0.8),
-    inset 0 0 50px rgba(255,255,255,0.025);
+    0 30px 100px rgba(0, 0, 0, 0.82),
+    inset 0 1px 0 rgba(255,255,255,0.035),
+    inset 0 0 80px rgba(210,190,90,0.025);
+
+  animation:
+    level4DetailsPanelIn
+    0.8s cubic-bezier(.2,.8,.2,1)
+    forwards;
 }
+
+
+/* cinematic top gold line */
+
+.level4-details-panel::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 50%;
+
+  width: 180px;
+  height: 2px;
+
+  transform: translateX(-50%);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #d8bf62,
+      #f1df91,
+      #d8bf62,
+      transparent
+    );
+
+  box-shadow:
+    0 0 18px rgba(222, 198, 90, 0.3);
+
+  pointer-events: none;
+}
+
+
+/* subtle inner frame */
+
+.level4-details-panel::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 10px;
+
+  border:
+    1px solid rgba(255,255,255,0.035);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   KICKER
+========================================================= */
+
+.level4-details-kicker {
+  position: relative;
+  z-index: 2;
+
+  margin-bottom: 10px;
+
+  color: #d8c77c;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 5px;
+
+  text-transform: uppercase;
+
+  text-shadow:
+    0 0 14px rgba(216,199,124,0.2);
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
 
 .level4-details-panel h1 {
-  margin-bottom: 15px;
+  position: relative;
+  z-index: 2;
+
+  margin: 0;
+
+  color: #f1eee2;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(36px, 4vw, 54px);
+
+  font-weight: 700;
+
+  letter-spacing: 7px;
+
+  line-height: 1.05;
+
+  text-shadow:
+    0 4px 25px rgba(0,0,0,0.7);
 }
+
+
+/* gold divider below title */
+
+.level4-details-panel h1::after {
+  content: "";
+
+  display: block;
+
+  width: 95px;
+  height: 2px;
+
+  margin: 18px auto 20px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #d9c46d,
+      transparent
+    );
+
+  box-shadow:
+    0 0 12px rgba(218,198,112,0.2);
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
 
 .level4-details-intro {
-  max-width: 650px;
-  margin: 0 auto 28px;
-  color: rgba(236,239,236,0.78);
-  font-size: 16px;
-  line-height: 1.7;
+  position: relative;
+  z-index: 2;
+
+  max-width: 760px;
+
+  margin: 0 auto 25px;
+
+  color:
+    rgba(236, 239, 236, 0.78);
+
+  font-size: 15px;
+
+  line-height: 1.65;
+
+  letter-spacing: 0.25px;
 }
+
+
+/* =========================================================
+   FOUR INFORMATION CARDS
+========================================================= */
 
 .level4-details-grid {
+  position: relative;
+  z-index: 2;
+
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
   gap: 12px;
-  margin: 24px 0;
+
+  margin: 20px 0 18px;
 }
+
 
 .level4-detail-card {
-  min-height: 150px;
-  padding: 20px 14px;
-  background: rgba(255,255,255,0.025);
-  border: 1px solid rgba(255,255,255,0.09);
+  position: relative;
+
+  min-height: 158px;
+
+  padding: 20px 16px 17px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(26, 32, 35, 0.95),
+      rgba(11, 15, 17, 0.98)
+    );
+
+  border:
+    1px solid rgba(255,255,255,0.095);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.025),
+    0 10px 25px rgba(0,0,0,0.22);
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.detail-icon {
-  display: block;
-  font-size: 25px;
-  margin-bottom: 10px;
+
+/* card top accent */
+
+.level4-detail-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 15%;
+  right: 15%;
+
+  height: 2px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(218,198,112,0.55),
+      transparent
+    );
 }
+
+
+.level4-detail-card:hover {
+  transform: translateY(-4px);
+
+  border-color:
+    rgba(218,198,112,0.34);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(34, 41, 44, 0.98),
+      rgba(12, 17, 19, 0.99)
+    );
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,0.35),
+    0 0 22px rgba(218,198,112,0.045);
+}
+
+
+/* =========================================================
+   CARD ICON
+========================================================= */
+
+.detail-icon {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 48px;
+  height: 48px;
+
+  margin-bottom: 12px;
+
+  font-size: 25px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(218,198,112,0.12),
+      rgba(218,198,112,0.025) 65%,
+      transparent 70%
+    );
+
+  border:
+    1px solid rgba(218,198,112,0.16);
+
+  box-shadow:
+    0 0 18px rgba(218,198,112,0.04);
+}
+
+
+/* =========================================================
+   CARD TITLES
+========================================================= */
 
 .level4-detail-card strong {
   display: block;
-  color: #d9cc91;
-  font-size: 11px;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
+
+  margin-bottom: 9px;
+
+  color: #dfd19a;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 2.5px;
 }
+
+
+/* =========================================================
+   CARD TEXT
+========================================================= */
 
 .level4-detail-card p {
   margin: 0;
-  color: rgba(235,237,234,0.7);
-  font-size: 12px;
-  line-height: 1.6;
+
+  max-width: 220px;
+
+  color:
+    rgba(235,237,234,0.67);
+
+  font-size: 11px;
+
+  line-height: 1.55;
 }
 
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
 .level4-controls {
+  position: relative;
+  z-index: 2;
+
   display: flex;
+
+  align-items: center;
   justify-content: center;
+
   flex-wrap: wrap;
-  gap: 25px;
-  padding: 15px 0;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  color: rgba(235,237,234,0.55);
+
+  gap: 28px;
+
+  margin-top: 8px;
+
+  padding: 13px 0;
+
+  border-top:
+    1px solid rgba(255,255,255,0.075);
+
+  border-bottom:
+    1px solid rgba(255,255,255,0.075);
+
+  color:
+    rgba(235,237,234,0.52);
+
   font-size: 10px;
+
   letter-spacing: 2px;
 }
 
-.level4-controls b {
-  color: #eee8cf;
-  margin-right: 5px;
+
+.level4-controls span {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
 }
 
+
+.level4-controls b {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 30px;
+  height: 28px;
+
+  padding: 0 8px;
+
+  color: #f1eee0;
+
+  font-size: 10px;
+
+  letter-spacing: 1px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #17242d,
+      #0c1217
+    );
+
+  border:
+    1px solid rgba(100, 190, 245, 0.55);
+
+  border-radius: 4px;
+
+  box-shadow:
+    inset 0 0 10px rgba(70,170,230,0.08),
+    0 0 9px rgba(60,160,220,0.08);
+}
+
+
+/* =========================================================
+   START BUTTON
+========================================================= */
+
 .level4-start-button {
-  min-width: 240px;
+  position: relative;
+  z-index: 3;
+
+  min-width: 245px;
+
+  margin-top: 20px;
+
+  padding: 15px 32px;
+
+  border:
+    1px solid rgba(224,207,130,0.72);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(67,61,38,0.98),
+      rgba(29,30,24,0.99)
+    );
+
+  color: #f4eed6;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: 3px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+.level4-start-button::after {
+  content: "→";
+
+  margin-left: 12px;
+
+  font-size: 14px;
+
+  transition:
+    transform 0.25s ease;
+}
+
+
+.level4-start-button:hover {
+  transform: translateY(-2px);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(105,94,55,1),
+      rgba(42,41,28,1)
+    );
+
+  border-color:
+    rgba(246,226,137,0.95);
+
+  box-shadow:
+    0 12px 35px rgba(0,0,0,0.5),
+    0 0 25px rgba(218,198,112,0.10);
+}
+
+
+.level4-start-button:hover::after {
+  transform: translateX(4px);
+}
+
+
+.level4-start-button:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   DETAILS ANIMATION
+========================================================= */
+
+@keyframes level4DetailsPanelIn {
+  from {
+    opacity: 0;
+    transform:
+      translateY(25px)
+      scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
 }
 
 
@@ -5134,4 +5603,1191 @@
   }
   .completion-story-text { left: 5%; top: 10%; }
   .completion-story-right { left: auto; right: 5%; }
+}
+
+
+/* =========================================================
+   LEVEL 4 GAME POLISH — 5 MINUTE TIMER + CLEAR OBJECTIVE
+========================================================= */
+
+.level4-2d-game.hunter-style-game .hunter-objective{
+  width: 310px !important;
+  right: 34px !important;
+  bottom: 28px !important;
+  gap: 9px !important;
+  font-size: 15px !important;
+  line-height: 1.25 !important;
+  letter-spacing: 2.5px !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,.8) !important;
+}
+
+.level4-2d-game.hunter-style-game .hunter-objective b{
+  font-size: 25px !important;
+  letter-spacing: 4px !important;
+  color: #f1f1eb !important;
+}
+
+.level4-2d-game.hunter-style-game .hunter-objective span{
+  font-size: 14px !important;
+  color: #d2d4cf !important;
+}
+
+.level4-2d-game.hunter-style-game .hunter-objective span:last-child{
+  font-size: 16px !important;
+  color: #e5d89b !important;
+  font-weight: 800 !important;
+}
+
+.level4-2d-game.hunter-style-game .hunter-objective-time{
+  display:flex !important;
+  align-items:flex-end !important;
+  justify-content:flex-end !important;
+  gap:12px !important;
+  margin-bottom:4px !important;
+  padding:10px 14px !important;
+  border:1px solid rgba(225,207,125,.32) !important;
+  background:rgba(5,7,7,.72) !important;
+}
+
+.level4-2d-game.hunter-style-game .hunter-objective-time small{
+  font-size:12px !important;
+  letter-spacing:3px !important;
+  color:#a9aaa3 !important;
+}
+
+.level4-2d-game.hunter-style-game .hunter-objective-time strong{
+  font-size:30px !important;
+  line-height:1 !important;
+  letter-spacing:3px !important;
+  color:#f1df8b !important;
+  font-variant-numeric:tabular-nums !important;
+}
+
+/* Detection is visually ONLY the red vision light.
+   Do not add any separate invisible/global detection region. */
+.level4-2d-game.hunter-style-game .l4-vision-cone{
+  z-index:0 !important;
+  pointer-events:none !important;
+  background:linear-gradient(
+    90deg,
+    rgba(255,35,25,.46),
+    rgba(255,45,35,.24) 58%,
+    rgba(255,45,35,.05)
+  ) !important;
+  filter:drop-shadow(0 0 7px rgba(255,35,25,.32)) !important;
+}
+
+.level4-2d-game.hunter-style-game .l4-vision-cone.chase-light{
+  background:linear-gradient(
+    90deg,
+    rgba(255,25,18,.72),
+    rgba(255,40,28,.40) 58%,
+    rgba(255,45,35,.08)
+  ) !important;
+  filter:drop-shadow(0 0 13px rgba(255,25,18,.58)) !important;
+}
+
+/* Make monster placement readable above crates without changing their
+   actual collision/vision rules. */
+.level4-2d-game.hunter-style-game .l4-game-monster{
+  overflow:visible !important;
+}
+
+/* Large right-side objective remains readable on desktop. */
+@media(max-width:1000px){
+  .level4-2d-game.hunter-style-game .hunter-objective{
+    width:250px !important;
+    right:15px !important;
+    font-size:12px !important;
+  }
+  .level4-2d-game.hunter-style-game .hunter-objective b{
+    font-size:20px !important;
+  }
+  .level4-2d-game.hunter-style-game .hunter-objective-time strong{
+    font-size:24px !important;
+  }
+}
+
+
+/* =========================================================
+   LEVEL 4 — FINAL HUD TIMER
+========================================================= */
+.level4-2d-game.hunter-style-game .hunter-timer{
+  min-width:120px !important;
+  padding:10px 18px !important;
+  margin-right:18px !important;
+  border:1px solid rgba(255,255,255,.18) !important;
+  background:rgba(5,8,10,.82) !important;
+  box-shadow:0 8px 24px rgba(0,0,0,.35) !important;
+  text-align:center !important;
+}
+.level4-2d-game.hunter-style-game .hunter-timer small{
+  display:block !important;
+  margin-bottom:3px !important;
+  color:#aeb8bd !important;
+  font-size:9px !important;
+  letter-spacing:2px !important;
+}
+.level4-2d-game.hunter-style-game .hunter-timer strong{
+  display:block !important;
+  color:#f2f5f5 !important;
+  font-size:24px !important;
+  line-height:1 !important;
+  letter-spacing:2px !important;
+  font-variant-numeric:tabular-nums !important;
+}
+.level4-2d-game.hunter-style-game .hunter-timer.warning{
+  border-color:rgba(255,70,55,.7) !important;
+}
+.level4-2d-game.hunter-style-game .hunter-timer.warning strong{
+  color:#ff665a !important;
+}
+
+
+
+/* =========================================================
+   LEVEL 4 — EXACT MONSTER LOOKING LIGHT
+
+   IMPORTANT:
+   - The monster's game coordinates use +Y = UP.
+   - CSS screen coordinates use +Y = DOWN.
+   - Therefore JSX uses rotate(-angleDeg).
+
+   The red light starts EXACTLY at the monster centre and
+   points in the same direction used by detection.
+
+   Detection geometry:
+     length = 310px
+     half-width at tip = 51px
+     total tip width = 102px
+========================================================= */
+
+.level4-2d-game.hunter-style-game .l4-game-monster{
+  overflow:visible !important;
+}
+
+.level4-2d-game.hunter-style-game .l4-vision-cone{
+  position:absolute !important;
+
+  /* Apex of the triangle is exactly at monster centre. */
+  left:50% !important;
+  top:calc(50% - 51px) !important;
+
+  width:310px !important;
+  height:102px !important;
+  margin:0 !important;
+
+  /*
+    The left edge of this element is the monster centre.
+    Rotating around (0, 51px) keeps the apex fixed on the
+    monster while the whole detection light turns with it.
+  */
+  transform-origin:0 51px !important;
+
+  /* 0,50% = monster centre; 100% edges = 51px each side. */
+  clip-path:polygon(
+    0 50%,
+    100% 0%,
+    100% 100%
+  ) !important;
+
+  background:rgba(255,35,25,.30) !important;
+  border:none !important;
+  filter:drop-shadow(0 0 7px rgba(255,35,25,.20)) !important;
+
+  opacity:1 !important;
+  z-index:0 !important;
+  pointer-events:none !important;
+}
+
+/* Stronger light while that same monster is chasing. */
+.level4-2d-game.hunter-style-game .l4-vision-cone.chase-light{
+  background:rgba(255,25,20,.48) !important;
+  filter:drop-shadow(0 0 11px rgba(255,25,20,.35)) !important;
+}
+
+
+/* =========================================================
+   LEVEL 4 — FINAL ESCAPE TRAIN
+   OLD TRAIN stays parked.
+   NEW TRAIN is the train the player unlocks with the key.
+========================================================= */
+
+.level4-completion-new-train {
+  position: absolute;
+  left: 3%;
+  bottom: 24%;
+  width: 720px;
+  height: 250px;
+  z-index: 45;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/*
+   The base .train CSS is also used for the arrival sequence and
+   normally has its own arrival animation. Disable that animation
+   here because this train is already standing at the platform.
+*/
+.level4-completion-new-train .train {
+  position: absolute !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 720px !important;
+  height: 250px !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+/* Smooth, continuous departure — no pause or stuck feeling. */
+.level4-completion-new-train.level4-new-train-departing {
+  animation: level4FinalNewTrainDeparture 5.5s
+    cubic-bezier(.22,.05,.16,1) forwards !important;
+}
+
+@keyframes level4FinalNewTrainDeparture {
+  0% {
+    transform: translate3d(0,0,0);
+  }
+
+  6% {
+    transform: translate3d(10px,0,0);
+  }
+
+  14% {
+    transform: translate3d(55px,0,0);
+  }
+
+  35% {
+    transform: translate3d(35vw,0,0);
+  }
+
+  68% {
+    transform: translate3d(85vw,0,0);
+  }
+
+  100% {
+    transform: translate3d(145vw,0,0);
+  }
+}
+
+/* Small vibration only while the NEW train is departing. */
+.level4-completion-new-train.level4-new-train-departing .train {
+  animation: level4FinalTrainVibration .12s linear infinite !important;
+}
+
+@keyframes level4FinalTrainVibration {
+  0%, 100% {
+    margin-top: 0;
+  }
+
+  50% {
+    margin-top: 2px;
+  }
+}
+
+/* New train's door reacts immediately when the key is used. */
+.level4-completion-new-train .train-door {
+  transition:
+    transform .55s ease,
+    background .55s ease,
+    box-shadow .55s ease;
+  transform-origin: center center;
+}
+
+.level4-completion-new-train .train-door.door-open {
+  transform: scaleX(.58);
+  background: #030505;
+  box-shadow:
+    inset 0 0 28px rgba(0,0,0,.98),
+    0 0 18px rgba(120,220,200,.10);
+}
+
+.level4-completion-new-train .train-door.door-open .door-left,
+.level4-completion-new-train .train-door.door-open .door-right {
+  opacity: 0;
+}
+
+/* Keep the OLD train completely stationary during the sequence. */
+.level4-completion-scene > .last-station-train {
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Player approaches the NEW train door, not the old train. */
+.level4-completion-player {
+  left: 13%;
+}
+
+@keyframes l4CompletionWalkToNewTrainDoor {
+  0% {
+    left: 13%;
+  }
+
+  100% {
+    left: 27%;
+  }
+}
+
+.level4-completion-player.completion-player-walking {
+  animation:
+    l4CompletionWalkToNewTrainDoor 4.8s
+    cubic-bezier(.24,.04,.16,1) forwards;
+}
+
+/*
+   The door is around the middle of the new train.
+   These positions line the player up with that door.
+*/
+.level4-completion-player.completion-player-entering {
+  left: 28%;
+  transition:
+    left 1s cubic-bezier(.22,.08,.15,1),
+    opacity .25s ease;
+}
+
+.level4-completion-player.completion-player-inside {
+  left: 29%;
+  opacity: 0;
+  transition:
+    left .65s ease,
+    opacity .45s ease;
+}
+
+.completion-story-left {
+  left: 7%;
+  right: auto;
+  text-align: left;
+  align-items: flex-start;
+}
+
+/* Hide the key immediately when phase changes to doorOpen. */
+.level4-completion-player:not(.completion-player-walking)
+  .completion-key-in-hand {
+  transition: opacity .12s ease;
+}
+
+
+/* =========================================================
+   LEVEL 04 — FINAL STATION DEPARTURE
+   EXACT FINAL SCENE REQUEST
+   ---------------------------------------------------------
+   1. Full station background remains visible.
+   2. OLD TRAIN stays parked.
+   3. NEW TRAIN is parked on the opposite side.
+   4. Player walks to NEW TRAIN.
+   5. Player carries the recovered key.
+   6. At the door: key disappears + door opens.
+   7. Green interior is visible.
+   8. Player enters and disappears.
+   9. Door closes.
+   10. NEW TRAIN leaves smoothly.
+========================================================= */
+
+/* Full station must exist behind both trains and the player. */
+.level4-completion-scene {
+  background: #05080a !important;
+}
+
+.level4-completion-scene > .sky {
+  z-index: 1 !important;
+}
+
+.level4-completion-scene > .station-building {
+  z-index: 10 !important;
+}
+
+.level4-completion-scene > .platform {
+  z-index: 12 !important;
+}
+
+.level4-completion-scene > .railway {
+  z-index: 8 !important;
+}
+
+.level4-completion-scene > .lamp,
+.level4-completion-scene > .fog {
+  z-index: 20 !important;
+}
+
+/* OLD TRAIN — completely stationary throughout the whole ending. */
+.level4-completion-scene > .last-station-train {
+  z-index: 45 !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+/* NEW TRAIN — same train used by the earlier station sequences. */
+.level4-completion-new-train {
+  z-index: 50 !important;
+}
+
+/* Make the inside of the NEW train visibly green when its door opens. */
+.level4-completion-new-train .door-inside {
+  background:
+    radial-gradient(
+      circle at 50% 42%,
+      rgba(139,255,190,.98) 0%,
+      rgba(43,170,101,.92) 34%,
+      rgba(8,72,42,.98) 68%,
+      #03130a 100%
+    ) !important;
+
+  box-shadow:
+    inset 0 0 28px rgba(94,255,166,.55),
+    0 0 22px rgba(55,220,120,.30) !important;
+}
+
+/* Green glow should only be visible through the opened doorway. */
+.level4-completion-new-train .train-door.door-open {
+  background: #03130a !important;
+  border-color: #557b68 !important;
+  box-shadow:
+    inset 0 0 35px rgba(61,235,132,.55),
+    0 0 25px rgba(61,235,132,.22) !important;
+}
+
+/* Keep the player above the train while approaching/entering. */
+.level4-completion-player {
+  z-index: 70 !important;
+}
+
+/* Player reaches the NEW train door. */
+@keyframes l4CompletionWalkToNewTrainDoorFixed {
+  0% {
+    left: 13%;
+  }
+  100% {
+    left: 27%;
+  }
+}
+
+.level4-completion-player.completion-player-walking {
+  animation:
+    l4CompletionWalkToNewTrainDoorFixed
+    4.8s
+    cubic-bezier(.24,.04,.16,1)
+    forwards !important;
+}
+
+/* One-second entry movement after the door opens. */
+.level4-completion-player.completion-player-entering {
+  left: 28.2% !important;
+  opacity: 1 !important;
+  transition:
+    left 1s cubic-bezier(.22,.08,.15,1),
+    opacity .18s ease !important;
+}
+
+/* Once inside, the player is no longer visible. */
+.level4-completion-player.completion-player-inside {
+  left: 29.2% !important;
+  opacity: 0 !important;
+  transition:
+    left .35s ease,
+    opacity .25s ease !important;
+}
+
+.level4-completion-player.completion-player-inside
+  .completion-key-in-hand {
+  display: none !important;
+}
+
+/* Key is visible while walking and disappears exactly when
+   phase changes from atTrain -> doorOpen. */
+.level4-completion-player:not(.completion-player-walking)
+  .completion-key-in-hand {
+  display: none !important;
+}
+
+/* NEW TRAIN: smooth continuous departure. */
+.level4-completion-new-train.level4-new-train-departing {
+  animation:
+    level4FinalNewTrainDepartureFixed
+    5.5s
+    cubic-bezier(.22,.05,.16,1)
+    forwards !important;
+}
+
+@keyframes level4FinalNewTrainDepartureFixed {
+  0% {
+    transform: translate3d(0,0,0);
+  }
+
+  5% {
+    transform: translate3d(8px,0,0);
+  }
+
+  14% {
+    transform: translate3d(45px,0,0);
+  }
+
+  30% {
+    transform: translate3d(28vw,0,0);
+  }
+
+  55% {
+    transform: translate3d(62vw,0,0);
+  }
+
+  78% {
+    transform: translate3d(105vw,0,0);
+  }
+
+  100% {
+    transform: translate3d(145vw,0,0);
+  }
+}
+
+/* Tiny train vibration while moving; it does NOT affect the
+   main horizontal movement. */
+.level4-completion-new-train.level4-new-train-departing .train {
+  animation:
+    level4FinalTrainVibrationFixed
+    .12s
+    linear
+    infinite !important;
+}
+
+@keyframes level4FinalTrainVibrationFixed {
+  0%,100% {
+    margin-top: 0;
+  }
+  50% {
+    margin-top: 2px;
+  }
+}
+
+/* Completion text stays above the station but below the player/trains. */
+.level4-completion-scene .completion-story-text {
+  z-index: 80 !important;
+}
+
+.level4-completion-scene .level4-completion-card {
+  z-index: 100 !important;
+}
+
+
+/* =========================================================
+   LEVEL 04 — CORRECT TWO-TRAIN FINAL SCENE
+   ---------------------------------------------------------
+   LEFT  = OLD TRAIN, parked forever
+   CENTER = PLAYER + KEY at the start
+   RIGHT = NEW GREEN TRAIN
+========================================================= */
+
+.level4-completion-scene {
+  overflow: hidden !important;
+}
+
+/* ---------------------------------------------------------
+   OLD TRAIN — LEFT SIDE
+   This is the original/base train and NEVER moves.
+--------------------------------------------------------- */
+.level4-completion-old-train {
+  position: absolute !important;
+  left: 3% !important;
+  bottom: 24% !important;
+  width: 720px !important;
+  height: 250px !important;
+  z-index: 45 !important;
+  pointer-events: none !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+.level4-completion-old-train > .train {
+  position: absolute !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 720px !important;
+  height: 250px !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+/* ---------------------------------------------------------
+   NEW GREEN TRAIN — RIGHT SIDE
+--------------------------------------------------------- */
+.level4-completion-new-train {
+  position: absolute !important;
+  right: 1.5% !important;
+  left: auto !important;
+  bottom: 24% !important;
+  width: 620px !important;
+  height: 230px !important;
+  z-index: 50 !important;
+  pointer-events: none !important;
+  opacity: .98 !important;
+  filter: drop-shadow(0 18px 18px rgba(0,0,0,.65)) !important;
+  transform: none !important;
+}
+
+/* The green train component itself stays parked until departure. */
+.level4-completion-new-train > .last-station-train {
+  position: absolute !important;
+  inset: 0 !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: 100% !important;
+  height: 100% !important;
+  transform: none !important;
+  animation: none !important;
+  opacity: 1 !important;
+}
+
+/* Make the green train visibly the NEW train. */
+.level4-completion-new-train .last-train {
+  transform: scaleX(-1) !important;
+}
+
+/* Green interior / unlocked doorway. */
+.level4-completion-new-train .last-train-door.completion-door-open {
+  background:
+    radial-gradient(
+      circle at 50% 42%,
+      rgba(143,255,191,.98) 0%,
+      rgba(42,172,103,.94) 34%,
+      rgba(7,70,40,.98) 68%,
+      #021109 100%
+    ) !important;
+  box-shadow:
+    inset 0 0 35px rgba(83,255,157,.60),
+    0 0 28px rgba(61,230,126,.30) !important;
+}
+
+/* Door opens when the key is consumed. */
+.level4-completion-new-train
+  .last-train-door.completion-door-open
+  .last-door-panel {
+  opacity: 0 !important;
+}
+
+.level4-completion-new-train
+  .last-train-door.completion-door-open
+  .last-door-window {
+  opacity: .16 !important;
+  background: #78ffac !important;
+}
+
+/* ---------------------------------------------------------
+   PLAYER — STARTS IN CENTER
+--------------------------------------------------------- */
+.level4-completion-player {
+  left: 50% !important;
+  bottom: 23.5% !important;
+  z-index: 70 !important;
+}
+
+/* Center -> right-side green train door. */
+@keyframes l4FinalPlayerWalkCenterToGreenTrain {
+  0% {
+    left: 50%;
+  }
+
+  100% {
+    left: 78%;
+  }
+}
+
+.level4-completion-player.completion-player-walking {
+  animation:
+    l4FinalPlayerWalkCenterToGreenTrain
+    4.8s
+    cubic-bezier(.24,.04,.16,1)
+    forwards !important;
+}
+
+/* One second after the key opens the door, player enters. */
+.level4-completion-player.completion-player-entering {
+  left: 80% !important;
+  opacity: 1 !important;
+  transition:
+    left 1s cubic-bezier(.22,.08,.15,1),
+    opacity .20s ease !important;
+}
+
+/* Player is completely invisible once inside. */
+.level4-completion-player.completion-player-inside {
+  left: 81.2% !important;
+  opacity: 0 !important;
+  transition:
+    left .40s ease,
+    opacity .20s ease !important;
+}
+
+/* Key disappears at the exact door-open phase. */
+.level4-completion-player:not(.completion-player-walking)
+  .completion-key-in-hand {
+  display: none !important;
+}
+
+/* ---------------------------------------------------------
+   NEW GREEN TRAIN DEPARTURE
+   Only the RIGHT train moves.
+--------------------------------------------------------- */
+.level4-completion-new-train.level4-new-train-departing {
+  animation:
+    l4FinalGreenTrainDeparture
+    5.5s
+    cubic-bezier(.22,.05,.16,1)
+    forwards !important;
+}
+
+@keyframes l4FinalGreenTrainDeparture {
+  0% {
+    transform: translate3d(0,0,0);
+  }
+
+  6% {
+    transform: translate3d(8px,0,0);
+  }
+
+  14% {
+    transform: translate3d(45px,0,0);
+  }
+
+  30% {
+    transform: translate3d(28vw,0,0);
+  }
+
+  55% {
+    transform: translate3d(62vw,0,0);
+  }
+
+  78% {
+    transform: translate3d(105vw,0,0);
+  }
+
+  100% {
+    transform: translate3d(145vw,0,0);
+  }
+}
+
+/* Keep the old LEFT train completely frozen. */
+.level4-completion-old-train,
+.level4-completion-old-train > .train {
+  animation: none !important;
+  transform: none !important;
+}
+
+/* ---------------------------------------------------------
+   TIMING / LAYERING
+--------------------------------------------------------- */
+.level4-completion-new-train {
+  will-change: transform;
+}
+
+.level4-completion-player {
+  will-change: left, opacity;
+}
+
+.level4-completion-scene .completion-story-text,
+.level4-completion-scene .level4-completion-card {
+  z-index: 100 !important;
+}
+
+/* Responsive: keep the same left/center/right relationship. */
+@media (max-width: 1200px) {
+  .level4-completion-old-train {
+    left: -8% !important;
+    transform: scale(.85) !important;
+    transform-origin: left bottom !important;
+  }
+
+  .level4-completion-new-train {
+    right: -8% !important;
+    transform-origin: right bottom !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .level4-completion-old-train {
+    left: -18% !important;
+    transform: scale(.70) !important;
+  }
+
+  .level4-completion-new-train {
+    right: -18% !important;
+    transform: scale(.70) !important;
+  }
+}
+
+
+/* =========================================================
+   FINAL FIX — PLAYER ENTERS, DISAPPEARS, GREEN TRAIN LEAVES,
+   THEN AUTOMATICALLY RETURNS TO LOBBY
+========================================================= */
+
+/* Player must never render visually after entering. */
+.level4-completion-player.completion-player-entering {
+  z-index: 75 !important;
+}
+
+.level4-completion-player.completion-player-entering
+  .completion-key-in-hand {
+  display: none !important;
+}
+
+/* Absolutely no player can remain visible during/after departure. */
+.level4-completion-scene .completion-player-hidden,
+.level4-completion-scene .completion-player-inside {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Keep OLD train parked forever. */
+.level4-completion-old-train,
+.level4-completion-old-train > .train {
+  animation: none !important;
+  transform: none !important;
+}
+
+/* GREEN train: move continuously toward the RIGHT until completely
+   outside the screen. */
+.level4-completion-new-train.level4-new-train-departing {
+  animation: l4GreenTrainFinalExitRight 6s
+    cubic-bezier(.18,.06,.10,1) forwards !important;
+}
+
+@keyframes l4GreenTrainFinalExitRight {
+  0% {
+    transform: translate3d(0,0,0);
+  }
+
+  8% {
+    transform: translate3d(18px,0,0);
+  }
+
+  20% {
+    transform: translate3d(7vw,0,0);
+  }
+
+  38% {
+    transform: translate3d(28vw,0,0);
+  }
+
+  58% {
+    transform: translate3d(55vw,0,0);
+  }
+
+  78% {
+    transform: translate3d(88vw,0,0);
+  }
+
+  100% {
+    transform: translate3d(145vw,0,0);
+  }
+}
+
+/* No horizontal stop/stutter while the green train is leaving. */
+.level4-completion-new-train.level4-new-train-departing,
+.level4-completion-new-train.level4-new-train-departing > .last-station-train {
+  animation-fill-mode: forwards !important;
+  will-change: transform !important;
+}
+
+/* No final completion overlay: after the departure timer the component
+   calls onReturn() and the lobby is the next screen. */
+.level4-completion-scene .level4-completion-card {
+  display: none !important;
+}
+/* =========================================================
+   LEVEL 4 — RESTORE SMALL MINIMAP
+   DO NOT CHANGE GAMEPLAY / JSX
+========================================================= */
+
+/* Main minimap box */
+.level4-2d-game.hunter-style-game > .l4-hunter-minimap {
+  position: absolute !important;
+
+  top: 100px !important;
+  right: 28px !important;
+
+  width: 300px !important;
+  height: auto !important;
+
+  padding: 9px !important;
+
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+
+  z-index: 600 !important;
+
+  box-sizing: border-box !important;
+
+  background:
+    rgba(11, 14, 14, 0.94) !important;
+
+  border:
+    1px solid rgba(220, 201, 139, 0.45) !important;
+
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.55),
+    inset 0 0 20px rgba(255, 255, 255, 0.025) !important;
+
+  pointer-events: none !important;
+}
+
+
+/* MAP heading */
+.level4-2d-game.hunter-style-game
+.l4-hunter-minimap
+.l4-minimap-head {
+  width: 100% !important;
+  height: 26px !important;
+
+  display: flex !important;
+
+  align-items: center !important;
+  justify-content: space-between !important;
+
+  box-sizing: border-box !important;
+
+  color: #9e966f !important;
+
+  font-size: 8px !important;
+
+  letter-spacing: 3px !important;
+}
+
+.level4-2d-game.hunter-style-game
+.l4-hunter-minimap
+.l4-minimap-head b {
+  color: #eeeeee !important;
+}
+
+
+/* Actual minimap area */
+.level4-2d-game.hunter-style-game
+.l4-hunter-minimap
+.l4-minimap-world {
+  position: relative !important;
+
+  display: block !important;
+
+  width: 100% !important;
+  height: 205px !important;
+
+  overflow: hidden !important;
+
+  box-sizing: border-box !important;
+
+  background:
+    #202522 !important;
+
+  border:
+    1px solid #656557 !important;
+
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+
+/* Walls inside minimap */
+.level4-2d-game.hunter-style-game
+.l4-hunter-minimap
+.mini-wall {
+  position: absolute !important;
+
+  display: block !important;
+
+  background:
+    #62655e !important;
+
+  border:
+    1px solid #181b1a !important;
+
+  box-sizing: border-box !important;
+}
+
+
+/* Crates inside minimap */
+.level4-2d-game.hunter-style-game
+.l4-hunter-minimap
+.mini-crate {
+  position: absolute !important;
+
+  display: block !important;
+
+  background:
+    #815326 !important;
+
+  border:
+    1px solid #b07839 !important;
+
+  box-sizing: border-box !important;
+}
+
+
+/* Keys */
+.level4-2d-game.hunter-style-game
+.l4-hunter-minimap
+.mini-key {
+  position: absolute !important;
+
+  display: block !important;
+
+  width: 8px !important;
+  height: 8px !important;
+
+  transform:
+    translate(-50%, -50%) !important;
+
+  color: #ffd64c !important;
+
+  font-size: 7px !important;
+
+  font-style: normal !important;
+
+  text-align: center !important;
+
+  z-index: 20 !important;
+}
+
+
+/* Monsters */
+.level4-2d-game.hunter-style-game
+.l4-hunter-minimap
+.mini-monster {
+  position: absolute !important;
+
+  display: block !important;
+
+  width: 7px !important;
+  height: 7px !important;
+
+  transform:
+    translate(-50%, -50%) !important;
+
+  border-radius: 50% !important;
+
+  background:
+    #f0473e !important;
+
+  box-shadow:
+    0 0 5px #f0473e !important;
+
+  z-index: 30 !important;
+}
+
+
+/* Player */
+.level4-2d-game.hunter-style-game
+.l4-hunter-minimap
+.mini-player {
+  position: absolute !important;
+
+  display: block !important;
+
+  width: 10px !important;
+  height: 10px !important;
+
+  transform:
+    translate(-50%, -50%) !important;
+
+  border-radius: 50% !important;
+
+  background:
+    #42c9ff !important;
+
+  box-shadow:
+    0 0 8px #42c9ff !important;
+
+  z-index: 40 !important;
+}
+
+
+/* Exit */
+.level4-2d-game.hunter-style-game
+.l4-hunter-minimap
+.mini-exit {
+  position: absolute !important;
+
+  display: block !important;
+
+  width: 9px !important;
+  height: 9px !important;
+
+  transform:
+    translate(-50%, -50%) !important;
+
+  background:
+    #55df9c !important;
+
+  color:
+    #082015 !important;
+
+  font-size: 7px !important;
+
+  line-height: 9px !important;
+
+  text-align: center !important;
+
+  z-index: 35 !important;
+}
+
+
+/* =========================================================
+   KEEP THE LEGEND BELOW THE MAP
+========================================================= */
+
+.level4-2d-game.hunter-style-game
+.hunter-legend {
+  z-index: 590 !important;
+
+  right: 28px !important;
+  top: 335px !important;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .level4-2d-game.hunter-style-game
+  > .l4-hunter-minimap {
+    width: 240px !important;
+    right: 18px !important;
+    top: 105px !important;
+  }
+
+  .level4-2d-game.hunter-style-game
+  .l4-hunter-minimap
+  .l4-minimap-world {
+    height: 165px !important;
+  }
+
+  .level4-2d-game.hunter-style-game
+  .hunter-legend {
+    right: 18px !important;
+    top: 290px !important;
+  }
+}
+
+
+@media (max-width: 650px) {
+
+  .level4-2d-game.hunter-style-game
+  > .l4-hunter-minimap {
+    width: 190px !important;
+    right: 10px !important;
+    top: 95px !important;
+  }
+
+  .level4-2d-game.hunter-style-game
+  .l4-hunter-minimap
+  .l4-minimap-world {
+    height: 135px !important;
+  }
+
+  .level4-2d-game.hunter-style-game
+  .hunter-legend {
+    right: 10px !important;
+    top: 245px !important;
+  }
 }

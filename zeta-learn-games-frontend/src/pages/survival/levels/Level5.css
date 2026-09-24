@@ -1583,3 +1583,689 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* =========================================================
+   LEVEL 5 — STRAIGHT BOTTOM -> TOP BRANCHING PATH
+   ========================================================= */
+
+.l5-glass-game{position:relative!important;width:100%!important;height:100vh!important;min-height:680px!important;overflow:hidden!important;isolation:isolate!important;background:#090b10!important}
+.l5-game-station-background{position:absolute!important;inset:0!important;z-index:0!important;background-position:center!important;background-repeat:no-repeat!important;background-size:cover!important;filter:saturate(.9) brightness(.82)!important}
+.l5-game-station-vignette{position:absolute!important;inset:0!important;z-index:1!important;pointer-events:none!important;background:linear-gradient(to bottom,rgba(0,0,0,.32),rgba(0,0,0,.04) 45%,rgba(0,0,0,.40))!important}
+
+.l5-crossing-header{position:absolute!important;top:24px!important;left:28px!important;right:28px!important;z-index:100!important;display:flex!important;justify-content:space-between!important;align-items:flex-start!important;pointer-events:none!important}
+.l5-crossing-title{display:flex!important;flex-direction:column!important;gap:4px!important;color:#fff!important;text-shadow:0 3px 12px rgba(0,0,0,.8)!important}
+.l5-crossing-title span{font-size:12px!important;letter-spacing:.28em!important;font-weight:800!important}
+.l5-crossing-title strong{font-size:22px!important;letter-spacing:.08em!important}
+.l5-crossing-progress{width:210px!important;color:#fff!important;text-align:right!important;font-size:11px!important;letter-spacing:.12em!important;font-weight:800!important;text-shadow:0 2px 8px #000!important}
+.l5-crossing-progress-track{height:5px!important;margin-top:8px!important;border-radius:99px!important;background:rgba(255,255,255,.18)!important;overflow:hidden!important}
+.l5-crossing-progress-fill{height:100%!important;background:#fff!important;transition:width .45s ease!important}
+
+.l5-crossing-viewport{position:absolute!important;inset:0!important;z-index:10!important;overflow:hidden!important}
+.l5-crossing-world{position:absolute!important;inset:0!important;width:100%!important;height:2200px!important;transform-origin:top center!important;transition:transform 1.05s cubic-bezier(.22,.75,.2,1)!important;will-change:transform!important}
+.l5-branch-connector{position:absolute!important;width:4px!important;border-radius:99px!important;background:rgba(220,230,240,.35)!important;box-shadow:0 0 8px rgba(255,255,255,.12)!important;pointer-events:none!important}
+
+.l5-glass-panel{position:absolute!important;width:150px!important;height:78px!important;margin-left:-75px!important;margin-top:-39px!important;border:2px solid rgba(230,240,250,.72)!important;border-radius:7px!important;background:linear-gradient(135deg,rgba(225,240,255,.28),rgba(120,155,180,.10) 52%,rgba(245,250,255,.24))!important;box-shadow:inset 0 0 24px rgba(255,255,255,.09),0 5px 18px rgba(0,0,0,.35)!important;backdrop-filter:blur(2px)!important}
+button.l5-choice-panel{appearance:none!important;cursor:pointer!important;color:#fff!important;font:inherit!important;z-index:25!important;transition:transform .18s ease,filter .18s ease,border-color .18s ease!important}
+button.l5-choice-panel:hover:not(:disabled){transform:translate(-75px,-39px) scale(1.045)!important;border-color:rgba(255,255,255,.98)!important;filter:brightness(1.22)!important}
+button.l5-choice-panel:disabled{cursor:not-allowed!important}
+.l5-choice-label{position:absolute!important;inset:0!important;display:flex!important;align-items:center!important;justify-content:center!important;font-size:12px!important;letter-spacing:.18em!important;font-weight:900!important;text-shadow:0 2px 8px #000!important}
+.l5-glass-shine{position:absolute!important;left:12px!important;top:10px!important;width:42%!important;height:3px!important;border-radius:99px!important;background:rgba(255,255,255,.42)!important;transform:rotate(-18deg)!important}
+.l5-glass-passed{z-index:15!important;pointer-events:none!important;opacity:.48!important}
+
+.l5-glass-broken{border-color:rgba(255,65,45,.78)!important;background:linear-gradient(135deg,rgba(255,50,35,.20),rgba(40,10,10,.08),rgba(255,40,25,.13))!important;box-shadow:0 0 22px rgba(255,35,20,.34),inset 0 0 18px rgba(255,35,20,.16)!important}
+.l5-broken-crack{position:absolute!important;height:2px!important;background:rgba(255,235,235,.88)!important;transform-origin:left center!important;pointer-events:none!important}
+.l5-broken-crack.crack-a{left:45%!important;top:50%!important;width:65px!important;transform:rotate(24deg)!important}
+.l5-broken-crack.crack-b{left:45%!important;top:50%!important;width:54px!important;transform:rotate(-42deg)!important}
+.l5-broken-crack.crack-c{left:45%!important;top:50%!important;width:38px!important;transform:rotate(78deg)!important}
+
+/* Player stays in the camera and visibly moves LEFT/RIGHT with each choice. */
+.l5-crossing-player{position:absolute!important;width:52px!important;height:126px!important;margin-left:-26px!important;margin-top:-104px!important;z-index:80!important;pointer-events:none!important;transition:left .82s cubic-bezier(.22,.8,.2,1),top .82s cubic-bezier(.22,.8,.2,1)!important;filter:drop-shadow(0 7px 8px rgba(0,0,0,.65))!important}
+.l5-player-shadow{position:absolute!important;left:50%!important;bottom:0!important;width:45px!important;height:10px!important;margin-left:-22px!important;border-radius:50%!important;background:rgba(0,0,0,.55)!important;filter:blur(3px)!important}
+.l5-player-body{position:absolute!important;inset:0!important}
+.l5-player-head{position:absolute!important;left:50%!important;top:4px!important;width:31px!important;height:31px!important;margin-left:-15.5px!important;border-radius:50%!important;background:#c88963!important;border:2px solid rgba(30,20,15,.8)!important}
+.l5-player-torso{position:absolute!important;left:50%!important;top:35px!important;width:31px!important;height:47px!important;margin-left:-15.5px!important;border-radius:8px 8px 5px 5px!important;background:#26313d!important;border:2px solid rgba(10,15,20,.8)!important}
+.l5-player-arm{position:absolute!important;top:39px!important;width:9px!important;height:43px!important;border-radius:8px!important;background:#c88963!important}
+.l5-player-arm.arm-left{left:6px!important;transform:rotate(12deg)!important}
+.l5-player-arm.arm-right{right:6px!important;transform:rotate(-12deg)!important}
+.l5-player-leg{position:absolute!important;top:78px!important;width:11px!important;height:42px!important;border-radius:7px!important;background:#111820!important}
+.l5-player-leg.leg-left{left:15px!important;transform:rotate(4deg)!important}
+.l5-player-leg.leg-right{right:15px!important;transform:rotate(-4deg)!important}
+.l5-crossing-player-falling{animation:l5-player-fall-through-glass .95s ease-in forwards!important}
+@keyframes l5-player-fall-through-glass{0%{opacity:1;transform:translateY(0) rotate(0deg)}35%{opacity:1;transform:translateY(30px) rotate(4deg)}100%{opacity:.05;transform:translateY(145px) rotate(12deg)}}
+
+.l5-red-light-on-panel{position:absolute!important;width:90px!important;height:90px!important;margin-left:-45px!important;margin-top:-45px!important;z-index:70!important;pointer-events:none!important;border-radius:50%!important;background:radial-gradient(circle,rgba(255,30,20,.65) 0,rgba(255,30,20,.22) 35%,transparent 72%)!important;animation:l5-red-pulse .42s ease-in-out infinite alternate!important}
+.l5-red-light-on-panel span{position:absolute!important;left:50%!important;top:50%!important;width:16px!important;height:16px!important;margin:-8px!important;border-radius:50%!important;background:#ff3025!important;box-shadow:0 0 22px 8px rgba(255,40,25,.72)!important}
+@keyframes l5-red-pulse{from{opacity:.55}to{opacity:1}}
+.l5-red-light-flash{position:absolute!important;inset:0!important;z-index:75!important;pointer-events:none!important;background:rgba(255,20,10,.10)!important;animation:l5-red-screen-flash .35s ease-in-out 2!important}
+@keyframes l5-red-screen-flash{0%,100%{opacity:0}50%{opacity:1}}
+
+.l5-glass-failure-overlay,.l5-glass-complete-overlay{position:absolute!important;inset:0!important;z-index:150!important;display:flex!important;align-items:center!important;justify-content:center!important;background:rgba(0,0,0,.48)!important;backdrop-filter:blur(4px)!important}
+.l5-glass-failure-card,.l5-glass-complete-card{width:min(520px,calc(100% - 36px))!important;padding:38px!important;text-align:center!important;color:#fff!important;background:rgba(12,15,20,.94)!important;border:1px solid rgba(255,255,255,.16)!important;box-shadow:0 22px 70px rgba(0,0,0,.55)!important}
+.l5-failure-red-line{width:70px!important;height:3px!important;margin:0 auto 18px!important;background:#ff3025!important;box-shadow:0 0 18px rgba(255,40,25,.6)!important}
+.l5-failure-eyebrow,.l5-complete-eyebrow{font-size:11px!important;letter-spacing:.25em!important;font-weight:900!important;opacity:.72!important}
+.l5-glass-failure-card h2,.l5-glass-complete-card h2{margin:10px 0!important;font-size:31px!important;letter-spacing:.05em!important}
+.l5-glass-failure-card p,.l5-glass-complete-card p{margin:0 0 26px!important;color:rgba(255,255,255,.68)!important;line-height:1.65!important}
+.l5-come-again-button{min-width:190px!important;padding:13px 24px!important;border:1px solid rgba(255,255,255,.5)!important;background:#fff!important;color:#101216!important;font-weight:900!important;letter-spacing:.1em!important;cursor:pointer!important}
+
+.l5-final-exit{position:absolute!important;width:110px!important;height:150px!important;margin-left:-55px!important;z-index:45!important}
+.l5-final-exit-door{position:absolute!important;left:50%!important;bottom:0!important;width:74px!important;height:120px!important;margin-left:-37px!important;display:flex!important;align-items:center!important;justify-content:center!important;border:3px solid rgba(255,255,255,.8)!important;background:rgba(15,30,25,.82)!important;color:#fff!important;font-size:12px!important;font-weight:900!important;letter-spacing:.14em!important;box-shadow:0 0 28px rgba(170,255,205,.28)!important}
+.l5-final-exit-light{position:absolute!important;top:0!important;left:50%!important;width:70px!important;height:16px!important;margin-left:-35px!important;border-radius:50%!important;background:rgba(200,255,220,.8)!important;box-shadow:0 0 30px 10px rgba(160,255,190,.25)!important}
+
+/* =========================================================
+   LEVEL 5 — FINAL STRAIGHT GLASS BRIDGE
+   Bottom -> Top, two fixed columns, no branching.
+========================================================= */
+
+.l5-glass-game{
+  background:
+    radial-gradient(circle at 50% 35%, rgba(45,58,70,.28), transparent 42%),
+    linear-gradient(180deg,#070a0f 0%,#0b1017 48%,#05070b 100%) !important;
+}
+
+.l5-crossing-viewport{
+  inset:0 !important;
+  overflow:hidden !important;
+}
+
+.l5-straight-crossing-world{
+  height:1800px !important;
+  width:100% !important;
+  left:0 !important;
+  top:0 !important;
+  transform-origin:top left !important;
+  transition:transform 1.05s cubic-bezier(.22,.75,.2,1) !important;
+}
+
+/* One perfectly straight center line. */
+.l5-straight-center-line{
+  position:absolute !important;
+  left:50% !important;
+  top:250px !important;
+  bottom:80px !important;
+  width:2px !important;
+  transform:translateX(-50%) !important;
+  background:linear-gradient(to bottom,transparent,rgba(220,235,245,.22) 12%,rgba(220,235,245,.22) 88%,transparent) !important;
+  box-shadow:0 0 16px rgba(150,190,215,.08) !important;
+  pointer-events:none !important;
+  z-index:3 !important;
+}
+
+.l5-straight-row{
+  position:absolute !important;
+  left:0 !important;
+  width:100% !important;
+  height:78px !important;
+  z-index:20 !important;
+}
+
+.l5-straight-panel{
+  top:0 !important;
+  width:150px !important;
+  height:78px !important;
+  margin-left:-75px !important;
+  margin-top:-39px !important;
+  transform:none !important;
+}
+
+.l5-straight-row .l5-straight-panel:first-child{
+  left:var(--left-x) !important;
+}
+
+.l5-straight-row .l5-straight-panel:nth-child(2){
+  left:var(--right-x) !important;
+}
+
+/* Do not let the old hover transform move the panels. */
+button.l5-straight-panel:hover:not(:disabled){
+  transform:scale(1.045) !important;
+  border-color:rgba(255,255,255,.98) !important;
+  filter:brightness(1.22) !important;
+}
+
+button.l5-straight-panel:disabled{
+  opacity:1 !important;
+}
+
+.l5-straight-panel.l5-passed-row{
+  opacity:.48 !important;
+  filter:saturate(.7) brightness(.78) !important;
+}
+
+.l5-straight-panel.l5-current-row:not(:disabled){
+  border-color:rgba(255,255,255,.88) !important;
+  box-shadow:inset 0 0 24px rgba(255,255,255,.10),0 0 24px rgba(190,225,245,.16) !important;
+}
+
+.l5-row-number{
+  position:absolute !important;
+  left:50% !important;
+  top:39px !important;
+  transform:translate(-50%,0) !important;
+  color:rgba(255,255,255,.35) !important;
+  font-size:9px !important;
+  letter-spacing:.18em !important;
+  pointer-events:none !important;
+  z-index:4 !important;
+}
+
+.l5-straight-player{
+  position:absolute !important;
+  width:48px !important;
+  height:132px !important;
+  margin-left:-24px !important;
+  margin-top:-108px !important;
+  z-index:90 !important;
+  pointer-events:none !important;
+  transition:left .55s cubic-bezier(.22,.8,.2,1), top .7s cubic-bezier(.22,.8,.2,1), transform .7s ease, opacity .7s ease !important;
+  filter:drop-shadow(0 8px 10px rgba(0,0,0,.65)) !important;
+}
+
+.l5-straight-player .l5-player-glass{
+  width:48px !important;
+  height:132px !important;
+}
+
+.l5-straight-player-falling{
+  animation:l5-straight-fall .95s ease-in forwards !important;
+}
+
+@keyframes l5-straight-fall{
+  0%{transform:translateY(0) rotate(0deg);opacity:1}
+  35%{transform:translateY(35px) rotate(4deg);opacity:1}
+  100%{transform:translateY(170px) rotate(12deg);opacity:.05}
+}
+
+.l5-broken-word{
+  position:absolute !important;
+  inset:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  color:rgba(255,100,90,.9) !important;
+  font-size:10px !important;
+  font-weight:900 !important;
+  letter-spacing:.18em !important;
+  text-shadow:0 0 10px rgba(255,30,20,.5) !important;
+}
+
+.l5-red-light-on-panel{
+  position:absolute !important;
+  width:120px !important;
+  height:120px !important;
+  margin-left:-60px !important;
+  margin-top:-60px !important;
+  z-index:100 !important;
+  pointer-events:none !important;
+  border-radius:50% !important;
+  background:radial-gradient(circle,rgba(255,25,20,.55) 0%,rgba(255,25,20,.20) 28%,transparent 72%) !important;
+  animation:l5-straight-red-pulse .32s ease-in-out infinite alternate !important;
+}
+
+.l5-red-light-on-panel span{
+  position:absolute !important;
+  left:50% !important;
+  top:50% !important;
+  width:18px !important;
+  height:18px !important;
+  margin:-9px !important;
+  border-radius:50% !important;
+  background:#ff3025 !important;
+  box-shadow:0 0 28px 10px rgba(255,35,25,.78) !important;
+}
+
+@keyframes l5-straight-red-pulse{
+  from{opacity:.55}
+  to{opacity:1}
+}
+
+.l5-red-light-flash{
+  background:rgba(255,0,0,.14) !important;
+  animation:l5-straight-screen-red .25s ease-in-out 3 !important;
+}
+
+@keyframes l5-straight-screen-red{
+  0%,100%{opacity:0}
+  50%{opacity:1}
+}
+
+.l5-straight-final-exit{
+  transform:translateX(-50%) !important;
+  z-index:40 !important;
+}
+
+.l5-red-failure-card{
+  border-color:rgba(255,45,35,.48) !important;
+  box-shadow:0 0 55px rgba(255,25,20,.12),0 22px 70px rgba(0,0,0,.7) !important;
+}
+
+.l5-red-failure-card h2{
+  text-shadow:0 0 22px rgba(255,40,30,.22) !important;
+}
+
+@media (max-width:700px){
+  .l5-straight-panel{width:120px !important;margin-left:-60px !important}
+}
+
+
+/* PLAYER ALIGNMENT FIX — feet sit on the currently completed glass. */
+.l5-straight-player{
+  margin-top:-108px !important;
+  transform-origin:center bottom !important;
+}
+.l5-straight-player .l5-player-glass{
+  position:relative !important;
+}
+
+/* ===== FINAL EXIT BUTTON ===== */
+.l5-exit-ready-card{
+  position:relative!important;
+  overflow:hidden!important;
+}
+.l5-exit-ready-card::before{
+  content:""!important;
+  position:absolute!important;
+  left:50%!important;
+  top:-90px!important;
+  width:260px!important;
+  height:260px!important;
+  transform:translateX(-50%)!important;
+  background:radial-gradient(circle,rgba(170,245,220,.16),transparent 68%)!important;
+  pointer-events:none!important;
+}
+.l5-enter-exit-button{
+  position:relative!important;
+  min-width:250px!important;
+  padding:15px 28px!important;
+  border:1px solid rgba(220,245,235,.72)!important;
+  border-radius:3px!important;
+  background:linear-gradient(135deg,rgba(226,244,237,.98),rgba(188,221,211,.96))!important;
+  color:#0c1514!important;
+  font-size:12px!important;
+  font-weight:900!important;
+  letter-spacing:.14em!important;
+  cursor:pointer!important;
+  box-shadow:0 0 0 rgba(150,245,215,0),0 10px 30px rgba(0,0,0,.35)!important;
+  animation:l5-exit-button-pulse 1.8s ease-in-out infinite!important;
+  transition:transform .18s ease,filter .18s ease!important;
+}
+.l5-enter-exit-button:hover{
+  transform:translateY(-2px) scale(1.025)!important;
+  filter:brightness(1.08)!important;
+}
+@keyframes l5-exit-button-pulse{
+  0%,100%{box-shadow:0 0 0 rgba(150,245,215,0),0 10px 30px rgba(0,0,0,.35)}
+  50%{box-shadow:0 0 28px rgba(150,245,215,.22),0 14px 34px rgba(0,0,0,.42)}
+}
+
+/* Keep the full player visible on the glass he has actually completed. */
+.l5-straight-player{
+  z-index:90!important;
+}
+
+
+/* =========================================================
+   LEVEL 5 STORY FIXES — LEVEL 4 PLAYER + BIRD CINEMATIC
+========================================================= */
+
+/* Exact Level-4-style player proportions. */
+.l4-style-player .l5-player-head{
+  top:0!important; left:10px!important; width:28px!important; height:30px!important;
+  border-radius:50%!important;
+  background:linear-gradient(135deg,#d49a73,#a9674a)!important;
+  border:2px solid #633e30!important;
+}
+.l4-style-player .l5-player-hair{
+  left:1px!important; top:-2px!important; width:26px!important; height:13px!important;
+  border-radius:15px 15px 7px 7px!important;
+  background:linear-gradient(to bottom,#17191a,#2d2d2d)!important;
+}
+.l4-style-player .l5-player-body{
+  left:7px!important; top:27px!important; width:34px!important; height:50px!important;
+  border-radius:10px 10px 7px 7px!important;
+  background:linear-gradient(to right,#293d4b,#172531,#2d4351)!important;
+  border:2px solid #0d151b!important;
+  box-shadow:0 5px 10px rgba(0,0,0,.4)!important;
+}
+.l4-style-player .l5-player-arm{
+  top:31px!important; width:10px!important; height:48px!important; border-radius:7px!important;
+  background:linear-gradient(to bottom,#304554,#182832)!important;
+  transform-origin:top center!important;
+}
+.l4-style-player .l5-arm-left{left:2px!important}
+.l4-style-player .l5-arm-right{right:2px!important}
+.l4-style-player .l5-player-hand{
+  left:1px!important; bottom:-5px!important; width:8px!important; height:9px!important;
+  border-radius:50%!important; background:#b97857!important;
+}
+.l4-style-player .l5-player-leg{
+  top:72px!important; width:12px!important; height:43px!important; border-radius:5px!important;
+  background:linear-gradient(to right,#253642,#111b22)!important;
+}
+.l4-style-player .l5-leg-left{left:9px!important}
+.l4-style-player .l5-leg-right{right:9px!important}
+.l4-style-player .l5-player-shoe{
+  left:-1px!important; bottom:-4px!important; width:20px!important; height:9px!important;
+  border-radius:7px 7px 3px 3px!important; background:#0b1013!important;
+}
+
+/* Bird reaches the player's actual head — no visible gap. */
+.l5-bird-approach .l5-bird{
+  animation:l5-bird-to-head 1.7s cubic-bezier(.12,.72,.18,1) forwards!important;
+}
+@keyframes l5-bird-to-head{
+  0%{left:-140px;top:36%;transform:scale(.55) rotate(-4deg)}
+  72%{left:30%;top:48%;transform:scale(.88) rotate(2deg)}
+  /* Bird head center meets player head center — zero visible gap. */
+  100%{left:calc(50% - 85.5px);top:calc(77% - 142.5px);transform:scale(1) rotate(0deg)}
+}
+
+/* Hold the bird exactly against the player's head during the hit. */
+.l5-bird-hit .l5-bird{
+  left:calc(50% - 85.5px)!important;
+  top:calc(77% - 142.5px)!important;
+  transform:scale(1)!important;
+  animation:l5-bird-head-impact .55s ease forwards!important;
+}
+@keyframes l5-bird-head-impact{
+  0%{left:calc(50% - 85.5px);top:calc(77% - 142.5px);transform:scale(1) rotate(0)}
+  35%{left:calc(50% - 82px);top:calc(77% - 142.5px);transform:scale(1.08) rotate(-6deg)}
+  60%{left:calc(50% - 89px);top:calc(77% - 142.5px);transform:scale(.98) rotate(7deg)}
+  100%{left:calc(50% - 85.5px);top:calc(77% - 142.5px);transform:scale(1) rotate(0)}
+}
+
+/* Bird-only cinematic: player and train are not rendered here. */
+.l5-phase-birdFlight{
+  background:#08111d!important;
+}
+.l5-phase-birdFlight .l5-station-building,
+.l5-phase-birdFlight .l5-platform,
+.l5-phase-birdFlight .l5-railway,
+.l5-phase-birdFlight .l5-lamp,
+.l5-phase-birdFlight .l5-fog,
+.l5-phase-birdFlight .l5-train-layer{
+  display:none!important;
+}
+.l5-phase-birdFlight .l5-sky{
+  position:absolute!important; inset:0!important;
+  background:
+    radial-gradient(circle at 82% 15%,rgba(255,255,255,.18) 0 1px,transparent 2px),
+    radial-gradient(circle at 22% 24%,rgba(255,255,255,.55) 0 1px,transparent 2px),
+    radial-gradient(circle at 62% 34%,rgba(255,255,255,.42) 0 1px,transparent 2px),
+    linear-gradient(180deg,#07101c 0%,#0d1722 55%,#111820 100%)!important;
+}
+.l5-phase-birdFlight .l5-moon{display:block!important}
+.l5-bird-flight .l5-bird{
+  animation:l5-bird-full-flight 3s cubic-bezier(.18,.48,.12,1) forwards!important;
+}
+@keyframes l5-bird-full-flight{
+  0%{left:-150px;top:55%;transform:scale(.9) rotate(-3deg)}
+  25%{left:20%;top:48%;transform:scale(1) rotate(3deg)}
+  55%{left:53%;top:38%;transform:scale(.98) rotate(-2deg)}
+  78%{left:78%;top:28%;transform:scale(.88) rotate(5deg)}
+  100%{left:115%;top:17%;transform:scale(.65) rotate(12deg)}
+}
+
+/* Player remains visible when we automatically return to the station. */
+.l5-phase-returnStation .l5-player-center{
+  opacity:1!important;
+}
+
+/* Keep the bridge perfectly straight — only the SAFE pattern changes. */
+.l5-straight-row .l5-straight-panel:first-child{left:42%!important}
+.l5-straight-row .l5-straight-panel:nth-child(2){left:58%!important}
+
+
+/* =========================================================
+   LEVEL 5 — EXACT BIRD IMPACT + BIRD-ONLY GLASS SCENE
+   ========================================================= */
+
+/* During the approach/hit, the player's head is the exact target. */
+.l5-bird-approach .l5-bird{
+  animation:l5-bird-approach-exact 1.7s cubic-bezier(.15,.75,.25,1) forwards!important;
+}
+
+@keyframes l5-bird-approach-exact{
+  0%{
+    left:-140px;
+    top:36%;
+    transform:scale(.55) rotate(-4deg);
+  }
+  72%{
+    left:35%;
+    top:34%;
+    transform:scale(.82) rotate(3deg);
+  }
+  92%{
+    left:calc(50% - 85.5px);
+    top:calc(77% - 157.5px);
+    transform:scale(1) rotate(0deg);
+  }
+  100%{
+    left:calc(50% - 85.5px);
+    top:calc(77% - 157.5px);
+    transform:scale(1) rotate(0deg);
+  }
+}
+
+/* At the hit moment the bird's head center is exactly on the player's head center. */
+.l5-bird-hit .l5-bird{
+  left:calc(50% - 85.5px)!important;
+  top:calc(77% - 157.5px)!important;
+  transform:scale(1)!important;
+  animation:l5-bird-exact-hit 550ms ease-out forwards!important;
+}
+
+@keyframes l5-bird-exact-hit{
+  0%{
+    left:calc(50% - 85.5px);
+    top:calc(77% - 157.5px);
+    transform:scale(1);
+  }
+  22%{
+    left:calc(50% - 85.5px);
+    top:calc(77% - 159px);
+    transform:scale(1.08) rotate(-4deg);
+  }
+  48%{
+    left:calc(50% - 85.5px);
+    top:calc(77% - 156px);
+    transform:scale(.97) rotate(4deg);
+  }
+  100%{
+    left:calc(50% - 85.5px);
+    top:calc(77% - 157.5px);
+    transform:scale(1);
+  }
+}
+
+/* The bird-flight scene contains ONLY the cinematic environment and bird. */
+.l5-bird-flight-only-scene{
+  position:relative;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  background:#071018;
+}
+
+.l5-bird-flight-scene{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  background:
+    linear-gradient(to bottom,#08131e 0%,#172632 48%,#303637 49%,#111719 100%);
+}
+
+.l5-bird-flight-sky{
+  position:absolute;
+  inset:0 0 51% 0;
+  background:
+    radial-gradient(circle at 78% 18%,rgba(205,220,226,.12),transparent 16%),
+    radial-gradient(circle at 22% 30%,rgba(100,133,146,.08),transparent 24%),
+    linear-gradient(to bottom,#07121d,#101c27);
+}
+
+.l5-bird-flight-floor{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:51%;
+  background:
+    linear-gradient(to bottom,#4a4f50 0%,#333839 26%,#191e20 27%,#080b0c 100%);
+  border-top:3px solid rgba(218,202,112,.85);
+  box-shadow:inset 0 24px 35px rgba(0,0,0,.28);
+}
+
+/* Two straight glass platforms in the middle. */
+.l5-bird-flight-platform{
+  position:absolute;
+  left:50%;
+  top:48%;
+  width:310px;
+  height:92px;
+  transform:translate(-50%,-50%);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  z-index:20;
+}
+
+.l5-bird-flight-glass{
+  position:relative;
+  border:3px solid rgba(205,229,232,.68);
+  border-radius:4px;
+  background:
+    linear-gradient(135deg,
+      rgba(220,245,248,.25),
+      rgba(73,118,125,.12) 48%,
+      rgba(220,245,248,.2));
+  box-shadow:
+    inset 0 0 22px rgba(205,245,248,.12),
+    0 0 16px rgba(170,225,230,.12);
+}
+
+.l5-bird-flight-glass::after{
+  content:"";
+  position:absolute;
+  left:10%;
+  top:25%;
+  width:70%;
+  height:2px;
+  background:rgba(255,255,255,.34);
+  transform:rotate(-14deg);
+}
+
+/* Door is isolated on the right side, as requested. */
+.l5-bird-flight-door{
+  position:absolute;
+  right:8%;
+  top:35%;
+  width:122px;
+  height:250px;
+  z-index:30;
+  border:8px solid #1a2527;
+  outline:2px solid rgba(156,177,174,.55);
+  background:linear-gradient(to bottom,#1d2928,#080e0f);
+  box-shadow:0 0 28px rgba(0,0,0,.6),inset 0 0 25px rgba(150,180,175,.08);
+}
+
+.l5-bird-flight-door-inner{
+  position:absolute;
+  inset:15px 15px 20px;
+  border:2px solid rgba(155,177,173,.6);
+  background:linear-gradient(135deg,#34423f,#111817 55%,#273330);
+}
+
+.l5-bird-flight-door-handle{
+  position:absolute;
+  right:10px;
+  top:50%;
+  width:8px;
+  height:32px;
+  transform:translateY(-50%);
+  border-radius:6px;
+  background:#d0b75d;
+  box-shadow:0 0 12px rgba(225,205,105,.35);
+}
+
+.l5-bird-flight-door span{
+  position:absolute;
+  bottom:8px;
+  left:50%;
+  transform:translateX(-50%);
+  color:#e3d98b;
+  font-size:9px;
+  letter-spacing:4px;
+}
+
+/* Bird starts on the far left and exits completely on the far right. */
+.l5-bird-flight-only-scene .l5-bird-layer{
+  z-index:100;
+}
+
+.l5-bird-flight-only-scene .l5-bird-flight .l5-bird{
+  animation:l5-bird-clean-flight 3s cubic-bezier(.2,.45,.12,1) forwards!important;
+}
+
+@keyframes l5-bird-clean-flight{
+  0%{
+    left:-150px;
+    top:34%;
+    transform:scale(.72) rotate(-2deg);
+  }
+  28%{
+    left:20%;
+    top:30%;
+    transform:scale(.95) rotate(3deg);
+  }
+  55%{
+    left:52%;
+    top:27%;
+    transform:scale(1) rotate(-2deg);
+  }
+  78%{
+    left:78%;
+    top:23%;
+    transform:scale(.9) rotate(5deg);
+  }
+  100%{
+    left:115%;
+    top:19%;
+    transform:scale(.65) rotate(10deg);
+  }
+}
+
+
+/* =========================================================
+   LEVEL 5 — GAME DETAILS ON STATION SCENE
+   The old large GlassPreview screen is intentionally skipped.
+========================================================= */
+.l5-station-details-overlay{
+  background:rgba(0,0,0,.38);
+  backdrop-filter:blur(2px);
+}
+
+.l5-station-details-card{
+  position:relative;
+  margin-left:28%;
+  margin-top:0;
+  width:min(650px,48vw);
+  max-height:78vh;
+  overflow:auto;
+}
+
+.l5-station-details-card h1{
+  font-size:clamp(28px,3.4vw,46px);
+}
+
+.l5-station-details-card .l5-start-level-button{
+  min-width:190px;
+}
+
+@media (max-width:900px){
+  .l5-station-details-card{
+    margin-left:0;
+    width:min(650px,88vw);
+  }
+}

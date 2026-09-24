@@ -14,13 +14,13 @@ import "./Level5.css";
   5. White bird flies toward the player's head and hits him.
   6. Bird flies RIGHT and leaves the screen.
   7. Glass-area background is revealed.
-  8. Return to the old station background.
-  9. Button sends the player to the glass area.
-  10. Player stands on LEFT/MIDDLE, glass bridge in center, door on RIGHT.
+  8. Return automatically to the old station background.
+  9. GO TO THE GLASS opens the Level 05 game-details screen on the same station scene.
+  10. GLASS GAME starts the actual glass game directly.
   11. Choose the safe glass panels.
 */
 
-const SAFE_PATH = [0, 1, 0, 1, 1, 0, 1, 0, 1, 0];
+const SAFE_PATH = [0, 0, 0, 1, 0, 1, 1, 0, 1, 1];
 
 function StationBackground() {
   return (
@@ -112,7 +112,7 @@ function Player({ state = "hidden" }) {
   if (state === "hidden") return null;
 
   return (
-    <div className={`l5-player l5-player-${state}`}>
+    <div className={`l5-player l4-style-player l5-player-${state}`}>
       <div className="l5-player-shadow" />
 
       <div className="l5-player-head">
@@ -170,6 +170,26 @@ function Story({ onContinue }) {
   );
 }
 
+function BirdFlightScene() {
+  return (
+    <div className="l5-bird-flight-scene" aria-hidden="true">
+      <div className="l5-bird-flight-sky" />
+      <div className="l5-bird-flight-floor" />
+
+      <div className="l5-bird-flight-platform">
+        <div className="l5-bird-flight-glass l5-bird-flight-glass-left" />
+        <div className="l5-bird-flight-glass l5-bird-flight-glass-right" />
+      </div>
+
+      <div className="l5-bird-flight-door">
+        <div className="l5-bird-flight-door-inner" />
+        <div className="l5-bird-flight-door-handle" />
+        <span>EXIT</span>
+      </div>
+    </div>
+  );
+}
+
 function GlassPreview({ finalScene = false }) {
   return (
     <div className={`l5-glass-world ${finalScene ? "l5-glass-final" : ""}`}>
@@ -223,190 +243,287 @@ function GlassPreview({ finalScene = false }) {
 }
 
 function GlassGame({ onWin }) {
+  const TOTAL_STEPS = 10;
+  const ROW_GAP = 130;
+  const START_Y = 1600;
+  // Keep every row in the same straight two-column layout.
+  const LEFT_X = 42;
+  const RIGHT_X = 58;
+
+  // Player starts below Glass 1.
+  const PLAYER_FEET_OFFSET = 15;
+  const START_PLAYER_Y = START_Y + 145;
+  const CAMERA_PLAYER_Y = 480;
+  const SAFE = [0, 0, 0, 1, 0, 1, 1, 0, 1, 1];
+
+  const panelFor = (row, side) => ({
+    id: `row-${row}-${side === 0 ? "L" : "R"}`,
+    row,
+    side,
+    x: side === 0 ? LEFT_X : RIGHT_X,
+    y: START_Y - row * ROW_GAP,
+  });
+
   const [row, setRow] = useState(0);
-  const [message, setMessage] = useState("Choose one panel.");
-  const [broken, setBroken] = useState(null);
+  const [playerX, setPlayerX] = useState(50);
+  const [playerWorldY, setPlayerWorldY] = useState(START_PLAYER_Y);
+  const [scrollY, setScrollY] = useState(START_PLAYER_Y - CAMERA_PLAYER_Y);
   const [brokenPanels, setBrokenPanels] = useState([]);
+  const [failedRow, setFailedRow] = useState(null);
+  const [moving, setMoving] = useState(false);
+  const [falling, setFalling] = useState(false);
+  const [redPanel, setRedPanel] = useState(null);
+  const [failed, setFailed] = useState(false);
   const [finished, setFinished] = useState(false);
 
+  const isBroken = (panelId) => brokenPanels.includes(panelId);
+
   const choose = (side) => {
-    if (finished || broken !== null || row >= SAFE_PATH.length) return;
+    if (moving || failed || finished || row >= TOTAL_STEPS) return;
 
-    const alreadyBroken = brokenPanels.some(
-      (panel) => panel.row === row && panel.side === side
-    );
+    const panel = panelFor(row, side);
+    if (isBroken(panel.id)) return;
 
-    if (alreadyBroken) return;
+    setMoving(true);
+    setRedPanel(null);
+    setPlayerX(panel.x);
+    setPlayerWorldY(panel.y + PLAYER_FEET_OFFSET);
 
-    if (side === SAFE_PATH[row]) {
-      if (row === SAFE_PATH.length - 1) {
-        setRow(SAFE_PATH.length);
-        setFinished(true);
-        setMessage("THE DOOR IS OPEN.");
+    window.setTimeout(() => {
+      const safe = SAFE[row] === side;
+
+      if (!safe) {
+        setBrokenPanels((prev) =>
+          prev.includes(panel.id) ? prev : [...prev, panel.id]
+        );
+        setRedPanel(panel);
+        setFalling(true);
+
+        setFailedRow(row);
+        window.setTimeout(() => {
+          setFailed(true);
+          setMoving(false);
+        }, 900);
         return;
       }
 
-      setRow((value) => value + 1);
-      setMessage(`STEP ${row + 2} — CHOOSE CAREFULLY.`);
-      return;
-    }
+      const completedRow = row;
+      const nextRow = row + 1;
+      const completedPanel = panelFor(completedRow, side);
 
-    setBroken(side);
-    setBrokenPanels((prev) => {
-      const alreadyBroken = prev.some(
-        (panel) => panel.row === row && panel.side === side
-      );
+      // IMPORTANT:
+      // The player must stay on the glass he just completed.
+      // The NEXT row becomes selectable, but the player does NOT jump
+      // onto that next row before making the next choice.
+      setRow(nextRow);
+      setFalling(false);
+      setRedPanel(null);
+      setPlayerX(completedPanel.x);
+      setPlayerWorldY(completedPanel.y + PLAYER_FEET_OFFSET);
 
-      if (alreadyBroken) return prev;
-      return [...prev, { row, side }];
-    });
+      if (nextRow === TOTAL_STEPS) {
+        setScrollY(Math.max(0, completedPanel.y + PLAYER_FEET_OFFSET - CAMERA_PLAYER_Y));
+        setFinished(true);
 
-    setTimeout(() => {
-      setBroken(null);
-      setRow(0);
-      setMessage("THE GLASS BROKE. TRY AGAIN.");
-    }, 1100);
+        // Completion is now confirmed by the live EXIT button below.
+        // The result is saved once here, but navigation happens only
+        // when the player clicks ENTER THE EXIT DOOR.
+        (async () => {
+          try {
+            await api.post("survival/level/complete/", {
+              level: 5,
+              result: "WIN",
+            });
+          } catch (error) {
+            console.error("Level 5 completion error:", error);
+          }
+        })();
+      } else {
+        // Scroll just enough to bring the NEXT glass row into the
+        // player's view while keeping the player visibly standing
+        // on the glass row that was just completed.
+        const nextPanel = panelFor(nextRow, 0);
+        setScrollY(Math.max(0, completedPanel.y + PLAYER_FEET_OFFSET - CAMERA_PLAYER_Y));
+      }
+
+      window.setTimeout(() => setMoving(false), 900);
+    }, 700);
   };
 
-  useEffect(() => {
-    if (!finished) return;
+  const retry = () => {
+    // Every failed attempt starts again from the beginning.
+    // Broken panels are intentionally NOT cleared.
+    setRow(0);
+    setPlayerX(50);
+    setPlayerWorldY(START_PLAYER_Y);
+    setScrollY(START_PLAYER_Y - CAMERA_PLAYER_Y);
+    setMoving(false);
+    setFalling(false);
+    setRedPanel(null);
+    setFailed(false);
+    setFinished(false);
+  };
 
-    let cancelled = false;
-
-    const saveResult = async () => {
-      try {
-        await api.post("survival/level/complete/", {
-          level: 5,
-          result: "WIN",
-        });
-
-        if (!cancelled) onWin();
-      } catch (error) {
-        console.error(
-          "Level 5 completion error:",
-          error.response?.data || error
-        );
-
-        if (!cancelled) {
-          setMessage("Completed, but the result could not be saved.");
-        }
-      }
-    };
-
-    saveResult();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [finished, onWin]);
+  const visibleRows = Array.from({ length: TOTAL_STEPS }, (_, index) => index);
 
   return (
-    <div className="l5-glass-game">
-      <div className="l5-game-top">
-        <div>
+    <main className="l5-glass-game">
+      <div className="l5-crossing-header">
+        <div className="l5-crossing-title">
           <span>LEVEL 05</span>
           <strong>GLASS STEPPING STONES</strong>
         </div>
-
-        <div className="l5-step-counter">
-          {Math.min(row, SAFE_PATH.length)} / {SAFE_PATH.length}
+        <div className="l5-crossing-progress">
+          CROSSING {row} / {TOTAL_STEPS}
+          <div className="l5-crossing-progress-track">
+            <div
+              className="l5-crossing-progress-fill"
+              style={{ width: `${(row / TOTAL_STEPS) * 100}%` }}
+            />
+          </div>
         </div>
       </div>
 
-      <div className="l5-game-stage">
-        <div className="l5-game-path">
-          {SAFE_PATH.map((_, index) => {
-            const passed = index < row;
+      <div className="l5-crossing-viewport">
+        <div
+          className="l5-crossing-world l5-straight-crossing-world"
+          style={{ transform: `translate3d(0, ${-scrollY}px, 0)` }}
+        >
+          <div className="l5-straight-center-line" />
+
+          {visibleRows.map((index) => {
+            const left = panelFor(index, 0);
+            const right = panelFor(index, 1);
+            const leftBroken = isBroken(left.id);
+            const rightBroken = isBroken(right.id);
             const current = index === row;
+            const passed = index < row;
 
             return (
-              <div className="l5-game-row" key={index}>
+              <div
+                key={index}
+                className="l5-straight-row"
+                style={{ top: `${left.y}px` }}
+              >
                 <button
                   type="button"
-                  className={`l5-game-panel ${
-                    passed ? "l5-panel-passed" : ""
-                  } ${current ? "l5-panel-current" : ""} ${
-                    broken === 0 && current ? "l5-panel-broken" : ""
-                  } ${
-                    brokenPanels.some(
-                      (panel) => panel.row === index && panel.side === 0
-                    )
-                      ? "l5-panel-permanently-broken"
-                      : ""
-                  }`}
-                  disabled={
-                    !current ||
-                    finished ||
-                    brokenPanels.some(
-                      (panel) => panel.row === index && panel.side === 0
-                    )
-                  }
-                  onPointerDown={(event) => {
-                    event.preventDefault();
-                    choose(0);
-                  }}
-                  onClick={(event) => event.preventDefault()}
+                  className={`l5-glass-panel l5-choice-panel l5-straight-panel ${
+                    leftBroken ? "l5-glass-broken" : ""
+                  } ${current ? "l5-current-row" : ""} ${passed ? "l5-passed-row" : ""}`}
+                  disabled={!current || moving || failed || finished || leftBroken}
+                  onClick={() => choose(0)}
                 >
-                  LEFT
+                  {leftBroken ? (
+                    <>
+                      <span className="l5-broken-crack crack-a" />
+                      <span className="l5-broken-crack crack-b" />
+                      <span className="l5-broken-crack crack-c" />
+                      <span className="l5-broken-word">BROKEN</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="l5-glass-shine" />
+                      <span className="l5-choice-label">LEFT</span>
+                    </>
+                  )}
                 </button>
 
                 <button
                   type="button"
-                  className={`l5-game-panel ${
-                    passed ? "l5-panel-passed" : ""
-                  } ${current ? "l5-panel-current" : ""} ${
-                    broken === 1 && current ? "l5-panel-broken" : ""
-                  } ${
-                    brokenPanels.some(
-                      (panel) => panel.row === index && panel.side === 1
-                    )
-                      ? "l5-panel-permanently-broken"
-                      : ""
-                  }`}
-                  disabled={
-                    !current ||
-                    finished ||
-                    brokenPanels.some(
-                      (panel) => panel.row === index && panel.side === 1
-                    )
-                  }
-                  onPointerDown={(event) => {
-                    event.preventDefault();
-                    choose(1);
-                  }}
-                  onClick={(event) => event.preventDefault()}
+                  className={`l5-glass-panel l5-choice-panel l5-straight-panel ${
+                    rightBroken ? "l5-glass-broken" : ""
+                  } ${current ? "l5-current-row" : ""} ${passed ? "l5-passed-row" : ""}`}
+                  disabled={!current || moving || failed || finished || rightBroken}
+                  onClick={() => choose(1)}
                 >
-                  RIGHT
+                  {rightBroken ? (
+                    <>
+                      <span className="l5-broken-crack crack-a" />
+                      <span className="l5-broken-crack crack-b" />
+                      <span className="l5-broken-crack crack-c" />
+                      <span className="l5-broken-word">BROKEN</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="l5-glass-shine" />
+                      <span className="l5-choice-label">RIGHT</span>
+                    </>
+                  )}
                 </button>
+
+                <span className="l5-row-number">{index + 1}</span>
               </div>
             );
           })}
-        </div>
 
-        <div className="l5-game-player">
-          <Player state="glass" />
-        </div>
+          {finished && (
+            <div
+              className="l5-final-exit l5-straight-final-exit"
+              style={{
+                left: `${playerX}%`,
+                top: `${START_Y - (TOTAL_STEPS - 1) * ROW_GAP - 145}px`,
+              }}
+            >
+              <div className="l5-final-exit-light" />
+              <div className="l5-final-exit-door">EXIT</div>
+            </div>
+          )}
 
-        <div className="l5-game-exit-door">
-          <div className="l5-door-frame" />
-          <div className="l5-door-light" />
-          <span>EXIT</span>
+          {!finished && (
+            <div
+              className={`l5-straight-player ${falling ? "l5-straight-player-falling" : ""}`}
+              style={{
+                left: `${playerX}%`,
+                top: `${playerWorldY}px`,
+              }}
+            >
+              <Player state="glass" />
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="l5-game-message">{message}</div>
+      {redPanel && <div className="l5-red-light-flash" />}
 
-      {finished && (
-        <div className="l5-game-finished">
-          <span>LEVEL 05 COMPLETE</span>
-          <strong>THE DOOR IS OPEN</strong>
+      {failed && (
+        <div className="l5-glass-failure-overlay">
+          <div className="l5-glass-failure-card l5-red-failure-card">
+            <div className="l5-failure-red-line" />
+            <div className="l5-failure-eyebrow">RED LIGHT</div>
+            <h2>TRY AGAIN TOMORROW</h2>
+            <p>
+              The broken glass remains broken.
+              <br />
+              Choose the other glass on your next attempt.
+            </p>
+            <button type="button" className="l5-come-again-button" onClick={retry}>
+              COME AGAIN
+            </button>
+          </div>
         </div>
       )}
-    </div>
+
+      {finished && (
+        <div className="l5-glass-complete-overlay">
+          <div className="l5-glass-complete-card l5-exit-ready-card">
+            <div className="l5-complete-eyebrow">CROSSING COMPLETE</div>
+            <h2>THE EXIT IS OPEN</h2>
+            <p>You survived all 10 glass stages.</p>
+            <button
+              type="button"
+              className="l5-enter-exit-button"
+              onClick={onWin}
+            >
+              ENTER THE EXIT DOOR
+            </button>
+          </div>
+        </div>
+      )}
+    </main>
   );
 }
 
-export default function Level5() {
+function Level5() {
   const navigate = useNavigate();
   const [phase, setPhase] = useState("arrival");
   const [doorOpen, setDoorOpen] = useState(false);
@@ -450,30 +567,24 @@ export default function Level5() {
   useEffect(() => {
     if (phase !== "birdHit") return;
 
-    const leaveTimer = setTimeout(() => setPhase("birdLeaving"), 550);
+    const leaveTimer = setTimeout(() => setPhase("birdFlight"), 550);
     return () => clearTimeout(leaveTimer);
   }, [phase]);
 
   useEffect(() => {
-    if (phase !== "birdLeaving") return;
+    if (phase !== "birdFlight") return;
 
-    const revealTimer = setTimeout(() => setPhase("glassReveal"), 2600);
-    return () => clearTimeout(revealTimer);
+    const returnTimer = setTimeout(() => setPhase("returnStation"), 3000);
+    return () => clearTimeout(returnTimer);
   }, [phase]);
 
   const startBird = () => {
     setPhase("birdApproach");
   };
 
-  const returnToStation = () => {
-    setPhase("returnStation");
-  };
-
   const goToGlass = () => {
-    setPhase("glassArea");
-  };
-
-  const enterGlassGame = () => {
+    // Go directly from the station scene to the game-details screen.
+    // The old GlassPreview / ENTER THE GAME screen is intentionally removed.
     setPhase("gameDetails");
   };
 
@@ -489,13 +600,18 @@ export default function Level5() {
     <main className="l5-page">
       {phase === "glassFinal" ? (
         <GlassGame onWin={completeAndLobby} />
+      ) : phase === "birdFlight" ? (
+        <div className="l5-bird-flight-only-scene">
+          <BirdFlightScene />
+          <div className="l5-bird-layer l5-bird-flight" aria-hidden="true">
+            <Bird />
+          </div>
+        </div>
       ) : (
         <div className={`l5-scene l5-phase-${phase}`}>
           <StationBackground />
 
-          {phase !== "glassReveal" && (
-            <GreenTrain doorOpen={doorOpen} />
-          )}
+          <GreenTrain doorOpen={doorOpen} />
 
           {phase === "arrival" && (
             <div className="l5-status-text">
@@ -515,39 +631,22 @@ export default function Level5() {
             </>
           )}
 
-          {(phase === "birdApproach" ||
-            phase === "birdHit" ||
-            phase === "birdLeaving") && (
+          {(phase === "birdApproach" || phase === "birdHit") && (
             <>
               <Player state="center" />
+
               <div
                 className={`l5-bird-layer ${
                   phase === "birdApproach"
                     ? "l5-bird-approach"
-                    : phase === "birdHit"
-                    ? "l5-bird-hit"
-                    : "l5-bird-leaving"
+                    : "l5-bird-hit"
                 }`}
                 aria-hidden="true"
               >
                 <Bird />
               </div>
 
-              {phase === "birdHit" && (
-                <div className="l5-hit-flash" />
-              )}
-            </>
-          )}
-
-          {phase === "glassReveal" && (
-            <>
-              <GlassPreview />
-              <button
-                className="l5-return-button"
-                onClick={returnToStation}
-              >
-                RETURN TO THE STATION
-              </button>
+              {phase === "birdHit" && <div className="l5-hit-flash" />}
             </>
           )}
 
@@ -570,24 +669,16 @@ export default function Level5() {
             </>
           )}
 
-          {phase === "glassArea" && (
-            <>
-              <GlassPreview finalScene />
-              <button
-                className="l5-enter-game-button"
-                onClick={enterGlassGame}
-              >
-                ENTER THE GAME
-              </button>
-            </>
-          )}
-
           {phase === "gameDetails" && (
             <>
-              <GlassPreview finalScene />
+              {/* Keep the player/train station scene. The old large glass-preview
+                  screen is intentionally not shown here. */}
+              <StationBackground />
+              <GreenTrain doorOpen={doorOpen} />
+              <Player state="center" />
 
-              <div className="l5-game-details-overlay">
-                <div className="l5-game-details-card">
+              <div className="l5-game-details-overlay l5-station-details-overlay">
+                <div className="l5-game-details-card l5-station-details-card">
                   <span className="l5-details-kicker">LEVEL 05</span>
                   <h1>GLASS STEPPING STONES</h1>
                   <div className="l5-details-line" />
@@ -603,7 +694,7 @@ export default function Level5() {
                     </div>
                     <div>
                       <strong>RULES</strong>
-                      <span>Choose one panel on every row.</span>
+                      <span>Choose LEFT or RIGHT on every row.</span>
                     </div>
                     <div>
                       <strong>WARNING</strong>
@@ -619,7 +710,7 @@ export default function Level5() {
                     className="l5-cinematic-button l5-start-level-button"
                     onClick={startGlassLevel}
                   >
-                    START LEVEL
+                    GLASS GAME
                   </button>
                 </div>
               </div>
@@ -630,3 +721,5 @@ export default function Level5() {
     </main>
   );
 }
+
+export default Level5;

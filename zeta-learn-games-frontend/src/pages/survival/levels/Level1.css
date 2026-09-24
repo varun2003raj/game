@@ -2859,3 +2859,276 @@
       rgba(0,0,0,.16)
     ) !important;
 }
+
+/* =========================================================
+   FINAL POLISH — LEVEL 1 ONLY
+   Requested visual/flow fixes
+========================================================= */
+
+/* ---------------------------------------------------------
+   INTRO / ENTER THE STATION
+   Keep the story centered while the train is visible below.
+--------------------------------------------------------- */
+.intro-story {
+  left: 50% !important;
+  top: 7% !important;
+  width: min(700px, 90vw) !important;
+  transform: translateX(-50%) !important;
+  text-align: center !important;
+}
+
+.intro-story .story-line {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.intro-story p {
+  margin: 8px 0 !important;
+}
+
+.intro-story button {
+  margin-top: 18px !important;
+}
+
+/* ---------------------------------------------------------
+   STATION / I WANT TO GO HOME
+   Center the story. Train remains visible at the bottom,
+   with player and ticket machine kept separate.
+--------------------------------------------------------- */
+.station-story {
+  left: 50% !important;
+  top: 7% !important;
+  width: min(700px, 90vw) !important;
+  transform: translateX(-50%) !important;
+  text-align: center !important;
+}
+
+.station-story p {
+  margin: 12px 0 !important;
+}
+
+/* ---------------------------------------------------------
+   COIN GAME — STATION IMAGE BACKGROUND
+--------------------------------------------------------- */
+.coin-screen {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(3,7,8,.34) 0%,
+      rgba(5,7,8,.28) 45%,
+      rgba(2,3,3,.72) 100%
+    ),
+    url("../../../assets/survival/station.jpg") center center / cover no-repeat !important;
+}
+
+/* Make the result area sit clearly underneath the coin. */
+.coin-stage {
+  height: 440px !important;
+}
+
+.result-box {
+  bottom: 18px !important;
+  z-index: 5 !important;
+  min-width: 300px;
+}
+
+.result-box span {
+  margin-bottom: 4px !important;
+}
+
+.result-box strong {
+  margin: 5px 0 !important;
+}
+
+/* Keep the choice area away from the result text. */
+.choice-area {
+  position: relative;
+  z-index: 6;
+  margin-top: 4px !important;
+}
+
+/* ---------------------------------------------------------
+   TICKET COLLECTION
+   The button now starts boarding immediately from JSX.
+--------------------------------------------------------- */
+.collect-ticket-button {
+  margin-bottom: 0 !important;
+}
+
+/* ---------------------------------------------------------
+   POST-TRAIN TICKET REVEAL
+   Front ticket is shown first. The back appears only after
+   TURN BACK OF THE TICKET is clicked.
+--------------------------------------------------------- */
+.reveal-ticket-perspective {
+  position: relative;
+  width: 560px;
+  height: 280px;
+  perspective: 1400px;
+  flex: 0 0 auto;
+}
+
+.reveal-ticket-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform .9s cubic-bezier(.22,.61,.36,1);
+}
+
+.reveal-ticket-perspective.is-turned .reveal-ticket-card {
+  transform: rotateY(180deg);
+}
+
+.reveal-ticket-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.reveal-ticket-front {
+  transform: rotateY(0deg);
+}
+
+.reveal-ticket-back {
+  transform: rotateY(180deg);
+}
+
+/* Reuse the exact existing normal ticket at the same size. */
+.reveal-ticket-front .ticket-perspective {
+  width: 560px !important;
+  height: 280px !important;
+  perspective: none !important;
+}
+
+.reveal-ticket-front .ticket-3d {
+  transform: none !important;
+}
+
+/* Red backside matches the normal ticket footprint. */
+.reveal-ticket-back .danger-ticket {
+  width: 560px !important;
+  height: 280px !important;
+  min-height: 280px !important;
+  padding: 25px 30px !important;
+  transform: none !important;
+  animation: none !important;
+  box-shadow:
+    0 0 30px rgba(153,44,30,.35),
+    0 25px 65px rgba(0,0,0,.9),
+    inset 0 0 35px rgba(0,0,0,.65) !important;
+}
+
+.reveal-ticket-back .danger-ticket-title {
+  margin-top: 15px !important;
+  font-size: 31px !important;
+}
+
+.reveal-ticket-back .danger-ticket-line {
+  margin: 12px 0 !important;
+}
+
+.reveal-ticket-back .danger-ticket-warning {
+  padding: 10px !important;
+}
+
+.reveal-ticket-back .danger-ticket-message {
+  margin-top: 12px !important;
+}
+
+.reveal-ticket-back .danger-ticket-destination {
+  margin-top: 12px !important;
+  padding-top: 9px !important;
+}
+
+.reveal-ticket-back .danger-ticket-code {
+  margin-top: 10px !important;
+}
+
+.turn-ticket-button {
+  margin-top: 24px;
+  padding: 16px 30px;
+  background: rgba(20,12,10,.92);
+  border: 1px solid #a5483b;
+  color: #e0b6a7;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: all .25s ease;
+}
+
+.turn-ticket-button:hover {
+  background: #54221d;
+  border-color: #d06454;
+  color: #fff0e8;
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(180,60,45,.25);
+}
+
+/* Keep the ending text visually separated from the ticket. */
+.danger-final-text {
+  margin-top: 25px !important;
+}
+
+/* ---------------------------------------------------------
+   MOBILE SAFETY
+--------------------------------------------------------- */
+@media (max-width: 900px) {
+  .intro-story,
+  .station-story {
+    width: 88vw !important;
+    top: 6% !important;
+  }
+
+  .intro-story h1 {
+    font-size: 42px !important;
+  }
+
+  .station-story h1 {
+    font-size: 38px !important;
+  }
+
+  .coin-stage {
+    height: 410px !important;
+  }
+
+  .reveal-ticket-perspective {
+    width: 90vw;
+    height: 230px;
+  }
+
+  .reveal-ticket-front .ticket-perspective {
+    width: 90vw !important;
+    height: 230px !important;
+  }
+
+  .reveal-ticket-back .danger-ticket {
+    width: 90vw !important;
+    height: 230px !important;
+    min-height: 230px !important;
+    padding: 18px 22px !important;
+  }
+
+  .reveal-ticket-back .danger-ticket-title {
+    font-size: 24px !important;
+  }
+
+  .reveal-ticket-back .danger-ticket-warning {
+    font-size: 12px !important;
+  }
+
+  .reveal-ticket-back .danger-ticket-message {
+    font-size: 12px !important;
+  }
+
+  .reveal-ticket-back .danger-ticket-destination strong {
+    font-size: 17px !important;
+  }
+}

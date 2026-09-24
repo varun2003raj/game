@@ -135,6 +135,12 @@ const SurvivalLevel5 = lazy(
   () => import("./pages/survival/levels/Level5")
 );
 
+const SurvivalLevel6 = lazy(
+  () => import("./pages/survival/levels/Level6")
+);
+
+
+
 function AppContent() {
   const { pathname } = useLocation();
 
@@ -271,6 +277,11 @@ function AppContent() {
 <Route
   path="/survival-challenge/stats"
   element={<SurvivalStats />}
+/>
+
+<Route
+  path="/survival-challenge/level-6"
+  element={<SurvivalLevel6 />}
 />
 
             {/* CTF */}

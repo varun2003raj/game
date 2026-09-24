@@ -67,7 +67,6 @@ def survival_current(request):
     # ---------------------------------------------------------
 
     try:
-
         run.inventory
 
     except SurvivalInventory.DoesNotExist:
@@ -474,6 +473,7 @@ def complete_survival_level(request):
 
             # Give travel ticket
             inventory.ticket = True
+
             inventory.save()
 
             # Unlock Level 2
@@ -499,8 +499,9 @@ def complete_survival_level(request):
                 )
             )
 
-            # Player successfully collected the map
+            # Give Map
             inventory.map_collected = True
+
             inventory.save()
 
             # Unlock Level 3
@@ -520,6 +521,24 @@ def complete_survival_level(request):
 
         elif level_number == 3:
 
+            inventory, _ = (
+                SurvivalInventory.objects.get_or_create(
+                    survival_run=run
+                )
+            )
+
+            # -------------------------------------------------
+            # LEVEL 3 REWARD
+            # -------------------------------------------------
+            # Player completed Marbles.
+            # Give the Fuel Can.
+            # -------------------------------------------------
+
+            inventory.fuel_can = True
+
+            inventory.save()
+
+            # Unlock Level 4
             run.current_level = 4
 
             SurvivalLevelProgress.objects.get_or_create(
@@ -536,6 +555,26 @@ def complete_survival_level(request):
 
         elif level_number == 4:
 
+            inventory, _ = (
+                SurvivalInventory.objects.get_or_create(
+                    survival_run=run
+                )
+            )
+
+            # -------------------------------------------------
+            # LEVEL 4 REWARD
+            # -------------------------------------------------
+            # Player completed Hide & Seek.
+            # Give all 3 keys.
+            # -------------------------------------------------
+
+            inventory.key_1 = True
+            inventory.key_2 = True
+            inventory.key_3 = True
+
+            inventory.save()
+
+            # Unlock Level 5
             run.current_level = 5
 
             SurvivalLevelProgress.objects.get_or_create(
@@ -554,13 +593,10 @@ def complete_survival_level(request):
 
             # IMPORTANT:
             #
-            # DO NOT set:
+            # DO NOT mark the run COMPLETED here.
             #
-            # run.status = "COMPLETED"
+            # Level 6 / Final Door uses this same run.
             #
-            # DO NOT create a new SurvivalRun.
-            #
-            # Level 6 / Final Escape will use this SAME run.
 
             run.current_level = 5
 
@@ -570,15 +606,13 @@ def complete_survival_level(request):
                 )
             )
 
-            # Mark Glass Bridge as completed
+            # Mark Glass Bridge completed
             inventory.glass_bridge_completed = True
 
             inventory.save()
 
-            # Keep the SurvivalRun ACTIVE.
-            #
-            # The Reset button is the ONLY thing
-            # that starts a completely new SurvivalRun.
+            # Keep run IN_PROGRESS.
+            # Level 6 will finish the survival run.
 
     # =========================================================
     # SAVE RUN

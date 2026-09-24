@@ -963,6 +963,9 @@ export default function Level1() {
   const [hasTicket, setHasTicket] =
     useState(false);
 
+  const [ticketTurned, setTicketTurned] =
+    useState(false);
+
   /*
    * Prevent duplicate backend completion requests.
    */
@@ -1035,6 +1038,11 @@ export default function Level1() {
       <div className="level1-screen">
 
         <Station />
+
+        <Train
+          doorOpen={false}
+          departing={false}
+        />
 
         <div className="intro-story">
 
@@ -1228,37 +1236,19 @@ export default function Level1() {
 
         <Ticket />
 
-        {!hasTicket ? (
+        {!hasTicket && (
 
           <button
             className="collect-ticket-button"
             onClick={() => {
 
               setHasTicket(true);
+              setPhase(PHASE.BOARDING);
 
             }}
           >
             🎫 COLLECT TICKET
           </button>
-
-        ) : (
-
-          <button
-            className="board-ticket-button"
-            onClick={() =>
-              setPhase(PHASE.BOARDING)
-            }
-          >
-            🚆 BOARD THE TRAIN
-          </button>
-
-        )}
-
-        {hasTicket && (
-
-          <div className="inventory-ticket">
-            ✓ TICKET COLLECTED
-          </div>
 
         )}
 
@@ -1304,7 +1294,34 @@ export default function Level1() {
             UNKNOWN DESTINATION
           </div>
 
-          <DangerousTicket />
+          <div
+            className={`reveal-ticket-perspective ${
+              ticketTurned ? "is-turned" : ""
+            }`}
+          >
+
+            <div className="reveal-ticket-card">
+
+              <div className="reveal-ticket-face reveal-ticket-front">
+                <Ticket />
+              </div>
+
+              <div className="reveal-ticket-face reveal-ticket-back">
+                <DangerousTicket />
+              </div>
+
+            </div>
+
+          </div>
+
+          {!ticketTurned && (
+            <button
+              className="turn-ticket-button"
+              onClick={() => setTicketTurned(true)}
+            >
+              TURN BACK OF THE TICKET
+            </button>
+          )}
 
           <div className="danger-final-text">
 
@@ -1320,15 +1337,17 @@ export default function Level1() {
               The train is gone.
             </p>
 
-            <button
-              className="return-lobby-button"
-              onClick={completeLevel1}
-              disabled={savingCompletion}
-            >
-              {savingCompletion
-                ? "SAVING PROGRESS..."
-                : "← RETURN TO SURVIVAL LOBBY"}
-            </button>
+            {ticketTurned && (
+              <button
+                className="return-lobby-button"
+                onClick={completeLevel1}
+                disabled={savingCompletion}
+              >
+                {savingCompletion
+                  ? "SAVING PROGRESS..."
+                  : "← RETURN TO SURVIVAL LOBBY"}
+              </button>
+            )}
 
           </div>
 

@@ -3855,3 +3855,1469 @@ button {
     right: 8%;
   }
 }
+
+
+/* =========================================================
+   LEVEL 3 MARBLES GAME
+   PLAYER = EXACT SAME CHARACTER AS STRANGER
+   ONLY THE CLOTHING/BODY COLOR IS DIFFERENT
+========================================================= */
+
+/* Use the exact same dimensions and structure as the stranger. */
+.cinematic-table-scene .stranger-silhouette,
+.cinematic-table-scene .player-black-character {
+  width: 190px !important;
+  height: 300px !important;
+  z-index: 15 !important;
+  filter: drop-shadow(0 20px 22px rgba(0,0,0,.5)) !important;
+}
+
+/* Same placement size/shape; only position differs. */
+.cinematic-table-scene .player-black-character {
+  right: 1% !important;
+  bottom: 2% !important;
+  left: auto !important;
+  top: auto !important;
+}
+
+/* EXACT same head as stranger. */
+.cinematic-table-scene .player-black-character .opponent-head {
+  left: 72px !important;
+  top: 0 !important;
+  width: 48px !important;
+  height: 48px !important;
+  background: #b87955 !important;
+  border-radius: 50% !important;
+  box-shadow:
+    inset -7px -7px 12px rgba(0,0,0,.25),
+    0 0 18px rgba(255,200,150,.06) !important;
+}
+
+/* EXACT same body dimensions as stranger — BLACK only. */
+.cinematic-table-scene .player-black-character .opponent-torso {
+  left: 50px !important;
+  top: 55px !important;
+  width: 94px !important;
+  height: 135px !important;
+  border-radius: 22px 22px 10px 10px !important;
+
+  background: linear-gradient(
+    145deg,
+    #292d32 0%,
+    #111419 55%,
+    #050608 100%
+  ) !important;
+
+  border: 2px solid rgba(235,235,235,.42) !important;
+
+  box-shadow:
+    inset 0 0 18px rgba(255,255,255,.09),
+    0 0 20px rgba(0,0,0,.8),
+    0 0 8px rgba(255,255,255,.08) !important;
+}
+
+/* EXACT same arms as stranger — BLACK only. */
+.cinematic-table-scene .player-black-character .opponent-arm {
+  top: 63px !important;
+  width: 20px !important;
+  height: 120px !important;
+  border-radius: 14px !important;
+
+  background: linear-gradient(
+    180deg,
+    #20242a,
+    #0b0d10
+  ) !important;
+
+  border: 1px solid rgba(235,235,235,.24) !important;
+  box-shadow: 0 0 8px rgba(255,255,255,.06) !important;
+}
+
+.cinematic-table-scene .player-black-character .opponent-arm.left {
+  left: 34px !important;
+  transform: rotate(20deg) !important;
+}
+
+.cinematic-table-scene .player-black-character .opponent-arm.right {
+  left: 140px !important;
+  transform: rotate(-20deg) !important;
+}
+
+/* Keep the blue stranger exactly as it is. */
+.cinematic-table-scene .stranger-silhouette .opponent-head {
+  background: #b87955 !important;
+}
+
+.cinematic-table-scene .stranger-silhouette .opponent-torso {
+  background: linear-gradient(180deg,#1d5fa5,#0c2d56) !important;
+}
+
+.cinematic-table-scene .stranger-silhouette .opponent-arm {
+  background: #174b82 !important;
+}
+
+/* =========================================================
+   LEVEL 3 — FULL LEVEL POLISH
+   Arrival, stranger dialogue, details, loss flow and ending.
+========================================================= */
+
+/* ---------- ARRIVAL: same clean Level 2-style sequence ---------- */
+.level3-arrival-page,
+.level3-arrival-scene {
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.level3-arrival-train .train {
+  left: 3% !important;
+  bottom: 24% !important;
+  transform: translateX(-125vw) !important;
+  animation: level3Level2TrainArrival 6.5s cubic-bezier(.32,.08,.24,1) forwards !important;
+}
+
+@keyframes level3Level2TrainArrival {
+  from { transform: translateX(-125vw) !important; }
+  to { transform: translateX(0) !important; }
+}
+
+/* Player is hidden until the train door opens, then walks once to center. */
+.level3-arrival-player .player {
+  left: 28.5% !important;
+  bottom: 24% !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.level3-arrival-player.walking .player {
+  left: 39% !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transition: left 2.8s cubic-bezier(.25,.7,.2,1) !important;
+}
+
+/* When walking finishes, the player remains exactly where he stopped. */
+.level3-arrival-player:not(.walking) .player {
+  transition: none !important;
+}
+
+/* Story never makes the player walk again. */
+.level3-arrival-player:not(.walking) .player-walking {
+  animation: none !important;
+}
+
+/* ---------- STORY ---------- */
+.level3-no-fuel-story {
+  right: 6% !important;
+  top: 50% !important;
+  width: min(430px, 34vw) !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* ---------- STRANGER: blue, same station, same horizontal line ---------- */
+.level3-stranger-walker .player-body {
+  background: linear-gradient(180deg,#1d6fc2,#0b315d) !important;
+  border: 1px solid rgba(76,170,255,.38) !important;
+  box-shadow: inset 0 0 0 1px rgba(110,190,255,.12), 0 0 18px rgba(30,130,255,.10) !important;
+}
+
+.level3-stranger-walker .player-arm {
+  background: #15518d !important;
+  border: 1px solid rgba(100,180,255,.18) !important;
+}
+
+.level3-stranger-walker .player-leg {
+  background: #0d3765 !important;
+}
+
+/* Question on the right; answer on the left, above the player. */
+.level3-fuel-question {
+  left: 30% !important;
+  bottom: calc(24% + 132px) !important;
+  width: 430px !important;
+  display: grid !important;
+  grid-template-columns: 105px 230px !important;
+  gap: 18px !important;
+  align-items: center !important;
+  justify-items: center !important;
+  animation: l3FuelQuestionIn .65s 3.25s ease both !important;
+}
+
+.fuel-question-bubble {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  width: 230px !important;
+  min-height: 68px !important;
+  padding: 14px 18px !important;
+}
+
+.fuel-yes-button {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  margin-top: 0 !important;
+  min-width: 92px !important;
+  padding: 12px 20px !important;
+}
+
+/* ---------- MARBLE DETAILS: force one viewport, no scrolling ---------- */
+.marble-details-page {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.marble-details-backdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  height: 100vh !important;
+  overflow: hidden !important;
+}
+
+.marble-details-content {
+  position: relative !important;
+  width: min(980px, 90vw) !important;
+  height: 100vh !important;
+  min-height: 0 !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  padding: 18px 0 !important;
+  justify-content: center !important;
+}
+
+/* ---------- MARBLE GAME: lower the stranger to the player's line ---------- */
+.cinematic-table-scene .stranger-silhouette {
+  top: auto !important;
+  bottom: 2% !important;
+  left: 1% !important;
+}
+
+.cinematic-table-scene .player-silhouette {
+  top: auto !important;
+  bottom: 2% !important;
+  right: 1% !important;
+}
+
+/* ---------- LOSS SCREEN: centered message + two actions ---------- */
+.level3-loss-card {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.level3-loss-card h1 {
+  color: #f4d36e !important;
+}
+
+.level3-loss-actions {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+  margin-top: 8px !important;
+}
+
+.level3-loss-actions .result-button,
+.level3-loss-actions .secondary-result-button {
+  width: min(280px, 80vw) !important;
+  min-width: 240px !important;
+  box-sizing: border-box !important;
+}
+
+.secondary-result-button {
+  padding: 15px 28px;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 8px;
+  background: rgba(255,255,255,.035);
+  color: rgba(255,255,255,.78);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .16em;
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+
+.secondary-result-button:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.5);
+}
+
+/* ---------- VICTORY: same Level 2 boarding rhythm ---------- */
+.level3-victory-cinematic,
+.level3-victory-scene {
+  width: 100vw !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  overflow: hidden !important;
+}
+
+.level3-victory-train .train {
+  left: 3% !important;
+  bottom: 24% !important;
+  transform: none !important;
+}
+
+.level3-victory-stranger {
+  left: 47% !important;
+  bottom: 24% !important;
+  width: 48px !important;
+  height: 132px !important;
+  z-index: 85 !important;
+}
+
+.level3-victory-player {
+  left: 76% !important;
+  bottom: 24% !important;
+  width: 48px !important;
+  height: 132px !important;
+  z-index: 90 !important;
+  transition: left 2.8s cubic-bezier(.25,.7,.2,1) !important;
+}
+
+.level3-victory-player.walking {
+  left: 28.5% !important;
+}
+
+.level3-victory-player .player {
+  left: 0 !important;
+  bottom: 0 !important;
+}
+
+/* Fuel can sits beside the player's hand while he carries it. */
+.victory-fuel-can {
+  position: absolute;
+  left: 39px;
+  top: 61px;
+  width: 19px;
+  height: 31px;
+  z-index: 5;
+  transform: rotate(5deg);
+  filter: drop-shadow(0 3px 5px rgba(0,0,0,.65));
+}
+
+.victory-fuel-can-body {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 19px;
+  height: 25px;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  border: 1px solid #dcae4d;
+  border-radius: 3px;
+  background: linear-gradient(135deg,#d68a1c,#713a08);
+  color: #fff0ba;
+  font-size: 4px;
+  font-weight: 900;
+  letter-spacing: .03em;
+}
+
+.victory-fuel-can-cap {
+  position: absolute;
+  z-index: 2;
+  left: 6px;
+  top: 1px;
+  width: 7px;
+  height: 6px;
+  border: 1px solid #c7963e;
+  border-bottom: 0;
+  border-radius: 2px 2px 0 0;
+  background: #7d430b;
+}
+
+.victory-fuel-can.fuel-in-hand {
+  animation: fuelCanHandBounce .42s ease-in-out infinite alternate;
+}
+
+@keyframes fuelCanHandBounce {
+  from { transform: rotate(5deg) translateY(0); }
+  to { transform: rotate(-3deg) translateY(-1px); }
+}
+
+/* Hide the carried can once the player has entered the train. */
+.stage-inside .victory-fuel-can,
+.stage-closed .victory-fuel-can,
+.stage-depart .victory-fuel-can {
+  display: none !important;
+}
+
+/* Stranger remains standing at the station while the player boards. */
+.level3-victory-stranger .player {
+  left: 0 !important;
+  bottom: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* The departure follows the same long, clean train movement as Level 2. */
+.stage-depart .level3-victory-train .train {
+  animation: level3VictoryTrainDepart 5.5s linear forwards !important;
+}
+
+@keyframes level3VictoryTrainDepart {
+  from { transform: translateX(0); }
+  to { transform: translateX(160vw); }
+}
+
+/* Ending text stays centered and clean during the departure. */
+.stage-depart .departing-text {
+  top: 38% !important;
+}
+
+@media (max-height: 760px) {
+  .marble-details-content {
+    padding: 10px 0 !important;
+    transform: scale(.92);
+    transform-origin: center center;
+  }
+}
+
+
+/* =========================================================
+   FINAL LEVEL 2 MATCH — LEVEL 3 ARRIVAL / DIALOGUE
+   Keep the train and player as the same direct elements used by Level 2.
+========================================================= */
+.level3-arrival-scene > .level3-arrival-train {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 30 !important;
+  pointer-events: none !important;
+}
+
+.level3-arrival-scene > .level3-arrival-train .train {
+  left: 3% !important;
+  bottom: 24% !important;
+  transform: translateX(-125vw) !important;
+  animation: level3-exact-level2-train-in 6.5s cubic-bezier(.32,.08,.24,1) forwards !important;
+  will-change: transform;
+}
+
+@keyframes level3-exact-level2-train-in {
+  from { transform: translateX(-125vw) !important; }
+  to   { transform: translateX(0) !important; }
+}
+
+/* Exact Level-2-style player placement: train door -> center. */
+.level3-arrival-scene > .player.level3-arrival-player {
+  position: absolute !important;
+  left: 28.5% !important;
+  bottom: 24% !important;
+  width: 48px !important;
+  height: 132px !important;
+  z-index: 70 !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: left 2.8s cubic-bezier(.25,.7,.2,1) !important;
+}
+
+.level3-arrival-scene > .player.level3-arrival-player.arrival-visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.level3-arrival-scene > .player.level3-arrival-player.player-walking {
+  left: 46% !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* The dialogue is positioned explicitly relative to the two characters:
+   NEED FUEL? = right of stranger
+   YES = left of player */
+.level3-fuel-question {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: calc(24% + 145px) !important;
+  width: 100% !important;
+  height: 90px !important;
+  z-index: 180 !important;
+  display: block !important;
+  pointer-events: none !important;
+  animation: none !important;
+}
+
+.level3-fuel-question .fuel-question-bubble {
+  position: absolute !important;
+  left: 52% !important;
+  top: 0 !important;
+  width: 190px !important;
+  min-height: 64px !important;
+  margin: 0 !important;
+  transform: none !important;
+  pointer-events: none !important;
+}
+
+.level3-fuel-question .fuel-yes-button {
+  position: absolute !important;
+  left: 31% !important;
+  top: 17px !important;
+  min-width: 92px !important;
+  margin: 0 !important;
+  padding: 12px 20px !important;
+  z-index: 2 !important;
+  pointer-events: auto !important;
+}
+
+/* =========================================================
+   FINAL LEVEL 2 MATCH — LEVEL 3 ENDING
+   Player starts on the right, walks left into the same train,
+   door closes, then train departs. Stranger remains at station.
+========================================================= */
+.level3-victory-scene > .level3-victory-train {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 30 !important;
+}
+
+.level3-victory-scene > .level3-victory-train .train {
+  left: 3% !important;
+  bottom: 24% !important;
+  width: 720px !important;
+  height: 250px !important;
+  transform: translateX(0) !important;
+}
+
+.level3-victory-scene > .level3-victory-player {
+  position: absolute !important;
+  left: 76% !important;
+  bottom: 24% !important;
+  width: 48px !important;
+  height: 132px !important;
+  z-index: 70 !important;
+  transition: left 2.5s cubic-bezier(.45,0,.25,1) !important;
+}
+
+.level3-victory-scene > .level3-victory-player.walking {
+  left: 25% !important;
+}
+
+.level3-victory-player > .player {
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 48px !important;
+  height: 132px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Fuel can stays beside the player's hand while he boards. */
+.level3-victory-player .victory-fuel-can {
+  position: absolute !important;
+  left: 37px !important;
+  top: 66px !important;
+  z-index: 100 !important;
+  width: 25px !important;
+  height: 35px !important;
+  pointer-events: none !important;
+}
+
+/* Stranger remains fixed at the station, same character proportions. */
+.level3-victory-scene > .level3-victory-stranger {
+  position: absolute !important;
+  left: 47% !important;
+  bottom: 24% !important;
+  width: 48px !important;
+  height: 132px !important;
+  z-index: 80 !important;
+}
+
+.level3-victory-stranger > .player {
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 48px !important;
+  height: 132px !important;
+}
+
+.stage-depart .level3-victory-train .train {
+  transform: translateX(0) !important;
+  animation: level3-exact-departure 4.5s cubic-bezier(.45,.05,.55,.95) forwards !important;
+}
+
+@keyframes level3-exact-departure {
+  from { transform: translateX(0); }
+  to   { transform: translateX(180vw); }
+}
+
+/* =========================================================
+   LEVEL 3 — FINAL FIX
+   Match the Level 2 arrival/player exactly.
+========================================================= */
+
+/* The Level 3 arrival uses the same full-screen coordinate system as Level 2. */
+.level3-arrival-page.level3-arrival-scene {
+  position: relative !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  overflow: hidden !important;
+  background: #07090b !important;
+}
+
+/* ---------------- ARRIVAL TRAIN ---------------- */
+.level3-arrival-scene > .level3-arrival-train {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 30 !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+}
+
+.level3-arrival-scene > .level3-arrival-train > .train {
+  left: 3% !important;
+  bottom: 24% !important;
+  width: 720px !important;
+  height: 250px !important;
+  transform: translateX(-65vw) !important;
+  animation: level3-final-train-arrival 5.5s cubic-bezier(.32,.08,.24,1) forwards !important;
+  transition: none !important;
+  will-change: transform !important;
+}
+
+@keyframes level3-final-train-arrival {
+  0%   { transform: translateX(-65vw) !important; }
+  25%  { transform: translateX(-52vw) !important; }
+  50%  { transform: translateX(-30vw) !important; }
+  72%  { transform: translateX(-10vw) !important; }
+  88%  { transform: translateX(-2vw) !important; }
+  96%  { transform: translateX(.5vw) !important; }
+  100% { transform: translateX(0) !important; }
+}
+
+/* ---------------- ARRIVAL PLAYER ----------------
+   Direct child = exactly the Level 2 structure.
+*/
+.level3-arrival-scene > .player {
+  position: absolute !important;
+  left: 28.5% !important;
+  bottom: 24% !important;
+  width: 48px !important;
+  height: 132px !important;
+  z-index: 70 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: none !important;
+  transition: left 2.8s cubic-bezier(.45,.05,.25,1) !important;
+}
+
+.level3-arrival-scene > .player.player-walking {
+  left: 46% !important;
+  transition: left 2.8s cubic-bezier(.45,.05,.25,1) !important;
+}
+
+/* Keep him at the exact place where the walk ended when the story appears. */
+.level3-arrival-scene > .player.arrival-finished {
+  left: 46% !important;
+  transition: none !important;
+}
+
+.level3-arrival-scene > .player.player-walking .player-arm.arm-left {
+  animation: level3-final-walk-arm-left .42s ease-in-out infinite alternate !important;
+  transform-origin: top center !important;
+}
+
+.level3-arrival-scene > .player.player-walking .player-arm.arm-right {
+  animation: level3-final-walk-arm-right .42s ease-in-out infinite alternate !important;
+  transform-origin: top center !important;
+}
+
+.level3-arrival-scene > .player.player-walking .player-leg.leg-left {
+  animation: level3-final-walk-leg-left .42s ease-in-out infinite alternate !important;
+  transform-origin: top center !important;
+}
+
+.level3-arrival-scene > .player.player-walking .player-leg.leg-right {
+  animation: level3-final-walk-leg-right .42s ease-in-out infinite alternate !important;
+  transform-origin: top center !important;
+}
+
+@keyframes level3-final-walk-arm-left {
+  from { transform: rotate(18deg); }
+  to   { transform: rotate(-18deg); }
+}
+@keyframes level3-final-walk-arm-right {
+  from { transform: rotate(-18deg); }
+  to   { transform: rotate(18deg); }
+}
+@keyframes level3-final-walk-leg-left {
+  from { transform: rotate(-10deg); }
+  to   { transform: rotate(12deg); }
+}
+@keyframes level3-final-walk-leg-right {
+  from { transform: rotate(12deg); }
+  to   { transform: rotate(-10deg); }
+}
+
+/* ---------------- DIALOGUE POSITIONS ----------------
+   Stranger is around 43%; player is around 39%.
+   Bubble = immediately to the stranger's right.
+   YES = immediately to the player's left.
+*/
+.level3-stranger-scene .level3-fuel-question {
+  position: absolute !important;
+  inset: auto 0 0 0 !important;
+  width: 100% !important;
+  height: 145px !important;
+  bottom: 24% !important;
+  z-index: 180 !important;
+  pointer-events: none !important;
+  animation: none !important;
+}
+
+.level3-stranger-scene .fuel-question-bubble {
+  position: absolute !important;
+  left: 47.5% !important;
+  top: -22px !important;
+  width: 180px !important;
+  min-height: 56px !important;
+  padding: 12px 16px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  pointer-events: none !important;
+}
+
+.level3-stranger-scene .fuel-question-bubble::before {
+  left: 38px !important;
+  bottom: -10px !important;
+  width: 17px !important;
+  height: 17px !important;
+}
+
+.level3-stranger-scene .fuel-question-bubble::after {
+  left: 25px !important;
+  bottom: -20px !important;
+  width: 8px !important;
+  height: 8px !important;
+}
+
+.level3-stranger-scene .fuel-yes-button {
+  position: absolute !important;
+  left: 30.5% !important;
+  top: -10px !important;
+  min-width: 82px !important;
+  padding: 10px 17px !important;
+  margin: 0 !important;
+  pointer-events: auto !important;
+}
+
+/* Keep the black player identical to the Level 1 / Level 2 character. */
+.level3-final-player .player {
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 48px !important;
+  height: 132px !important;
+  filter: drop-shadow(0 8px 7px rgba(0,0,0,.45)) !important;
+}
+
+/* Blue stranger: same proportions, different uniform. */
+.level3-stranger-walker .player {
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 48px !important;
+  height: 132px !important;
+}
+
+
+/* Final character appearance: use the exact Level-1/Level-2 player body. */
+.level3-final-player .player-head,
+.level3-victory-player .player-head {
+  background: linear-gradient(135deg, #d49a73, #a9674a) !important;
+  border: 2px solid #633e30 !important;
+}
+
+.level3-final-player .player-body,
+.level3-victory-player .player-body {
+  background: linear-gradient(to right, #293d4b, #172531, #2d4351) !important;
+  border: 2px solid #0d151b !important;
+  box-shadow: 0 5px 10px rgba(0,0,0,.4) !important;
+}
+
+.level3-final-player .player-arm,
+.level3-victory-player .player-arm {
+  background: linear-gradient(to bottom, #304554, #182832) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.level3-final-player .player-leg,
+.level3-victory-player .player-leg {
+  background: linear-gradient(to right, #253642, #111b22) !important;
+  border: 0 !important;
+}
+
+/* Dialogue hugs the two heads instead of floating in the middle of the scene. */
+.level3-stranger-scene .fuel-question-bubble {
+  left: 45.5% !important;
+}
+
+.level3-stranger-scene .fuel-yes-button {
+  left: 32.5% !important;
+}
+
+
+/* =========================================================
+   LEVEL 3 — STRANGER / FUEL DIALOGUE FINAL POSITION
+   The question appears ONLY after the stranger has finished
+   walking to the player.  Both controls sit close to the heads.
+========================================================= */
+
+.level3-fuel-question {
+  left: 39.8% !important;
+  bottom: calc(24% + 142px) !important;
+  width: 185px !important;
+  z-index: 180 !important;
+  margin: 0 !important;
+  opacity: 1 !important;
+  animation: none !important;
+  transform: none !important;
+  pointer-events: none !important;
+}
+
+.fuel-question-bubble {
+  width: 185px !important;
+  min-height: 58px !important;
+  padding: 12px 16px !important;
+  border-radius: 34px !important;
+}
+
+.fuel-question-bubble::before {
+  left: 42px !important;
+  bottom: -10px !important;
+  width: 17px !important;
+  height: 17px !important;
+}
+
+.fuel-question-bubble::after {
+  left: 28px !important;
+  bottom: -20px !important;
+  width: 8px !important;
+  height: 8px !important;
+}
+
+.fuel-question-bubble span {
+  font-size: 14px !important;
+  letter-spacing: .06em !important;
+  white-space: nowrap !important;
+}
+
+/* YES is directly above the player's head, not underneath the question. */
+.level3-stranger-scene > .fuel-yes-button {
+  position: absolute !important;
+  left: 38.1% !important;
+  bottom: calc(24% + 145px) !important;
+  z-index: 181 !important;
+  min-width: 62px !important;
+  height: 38px !important;
+  margin: 0 !important;
+  padding: 7px 16px !important;
+  font-size: 11px !important;
+  line-height: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Keep the characters on the exact same ground line as Level 2. */
+.level3-final-player {
+  left: 39% !important;
+  bottom: 24% !important;
+}
+
+.level3-stranger-walker {
+  left: 43% !important;
+  bottom: 24% !important;
+}
+
+/* =========================================================
+   FINAL TRAIN ARRIVAL OVERRIDE
+   Animate the TRAIN CONTAINER, not .train itself.
+   This prevents Level1/Level3 transform rules from cancelling
+   the arrival animation.
+========================================================= */
+.level3-arrival-scene > .level3-arrival-train {
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 100 !important;
+  overflow: visible !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: none !important;
+  transform: translate3d(-100vw, 0, 0) !important;
+  animation: level3TrainContainerArrival 6.5s cubic-bezier(.32,.08,.24,1) forwards !important;
+  will-change: transform !important;
+}
+
+.level3-arrival-scene > .level3-arrival-train > .train {
+  position: absolute !important;
+  left: 3% !important;
+  bottom: 24% !important;
+  width: 720px !important;
+  height: 250px !important;
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 101 !important;
+}
+
+@keyframes level3TrainContainerArrival {
+  0% {
+    transform: translate3d(-100vw, 0, 0) !important;
+  }
+  18% {
+    transform: translate3d(-72vw, 0, 0) !important;
+  }
+  42% {
+    transform: translate3d(-42vw, 0, 0) !important;
+  }
+  68% {
+    transform: translate3d(-17vw, 0, 0) !important;
+  }
+  86% {
+    transform: translate3d(-4vw, 0, 0) !important;
+  }
+  95% {
+    transform: translate3d(.6vw, 0, 0) !important;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) !important;
+  }
+}
+
+/* Keep the player below the train visually until the door opens,
+   then show him at the door and walk him out. */
+.level3-arrival-scene > .player {
+  z-index: 110 !important;
+}
+
+
+/* =========================================================
+   LEVEL 3 — EXACT LEVEL 2 ARRIVAL REFERENCE
+   This block is intentionally LAST so no earlier Level 3
+   train rules can override the arrival animation.
+   ========================================================= */
+.level3-arrival-page.level3-arrival-scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.level3-arrival-page .level3-arrival-train {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* EXACT movement pattern used by Level 2. */
+.level3-arrival-page .level3-arrival-train .train {
+  position: absolute;
+  left: 3%;
+  bottom: 24%;
+  width: 720px;
+  height: 250px;
+  transform: translateX(-125vw);
+  animation: level3-exact-level2-arrival 7s forwards;
+  will-change: transform;
+  visibility: visible;
+  opacity: 1;
+}
+
+@keyframes level3-exact-level2-arrival {
+  0%   { transform: translateX(-125vw); }
+  35%  { transform: translateX(-78vw); }
+  58%  { transform: translateX(-38vw); }
+  76%  { transform: translateX(-12vw); }
+  88%  { transform: translateX(-3vw); }
+  95%  { transform: translateX(0.7vw); }
+  100% { transform: translateX(0); }
+}
+
+/* Player is the SAME Level 2 player: direct child of the scene. */
+.level3-arrival-page.level3-arrival-scene > .player {
+  position: absolute;
+  left: 28.5%;
+  bottom: 24%;
+  width: 48px;
+  height: 132px;
+  z-index: 70;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: left 2.8s cubic-bezier(.45,.05,.25,1);
+  will-change: left;
+}
+
+/* Door opens -> player becomes visible. */
+.level3-arrival-page.level3-arrival-scene > .player:not(.player-walking) {
+  opacity: 1;
+  visibility: visible;
+}
+
+.level3-arrival-page.level3-arrival-scene > .player.player-walking {
+  left: 39%;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Keep the player's feet on the same ground line as Level 2. */
+.level3-arrival-page.level3-arrival-scene > .player .player-head,
+.level3-arrival-page.level3-arrival-scene > .player .player-body,
+.level3-arrival-page.level3-arrival-scene > .player .player-arm,
+.level3-arrival-page.level3-arrival-scene > .player .player-leg {
+  box-sizing: border-box;
+}
+
+/* Arrival status stays above the scene but never hides the train. */
+.level3-arrival-page .level3-arrival-status {
+  z-index: 80;
+}
+
+/* =========================================================
+   FINAL USER REQUEST — LEVEL 3 CINEMATIC / GAME OVER FIX
+   This block is intentionally LAST so it wins over older patches.
+========================================================= */
+
+/* ---------- ARRIVAL: TRAIN FROM LEFT ---------- */
+.level3-arrival-page.level3-arrival-scene {
+  position: relative !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  overflow: hidden !important;
+}
+
+.level3-arrival-scene > .level3-arrival-train {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 30 !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+.level3-arrival-scene > .level3-arrival-train > .train {
+  position: absolute !important;
+  left: 3% !important;
+  bottom: 24% !important;
+  width: 720px !important;
+  height: 250px !important;
+  transform: translateX(-125vw) !important;
+  animation: level3FinalTrainArrival 7s cubic-bezier(.32,.08,.24,1) forwards !important;
+  will-change: transform !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+@keyframes level3FinalTrainArrival {
+  0%   { transform: translateX(-125vw) !important; }
+  35%  { transform: translateX(-78vw) !important; }
+  58%  { transform: translateX(-38vw) !important; }
+  76%  { transform: translateX(-12vw) !important; }
+  88%  { transform: translateX(-3vw) !important; }
+  95%  { transform: translateX(.7vw) !important; }
+  100% { transform: translateX(0) !important; }
+}
+
+/* ---------- ARRIVAL: PLAYER EXITS DOOR -> CENTER ---------- */
+.level3-arrival-scene > .level3-arrival-player {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 70 !important;
+  pointer-events: none !important;
+}
+
+.level3-arrival-scene > .level3-arrival-player .player {
+  left: 28.5% !important;
+  bottom: 24% !important;
+  z-index: 71 !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transition: left 2.8s cubic-bezier(.45,.05,.25,1) !important;
+  will-change: left !important;
+}
+
+.level3-arrival-scene > .level3-arrival-player.walking .player {
+  left: 39% !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.level3-arrival-scene > .level3-arrival-player.walking .player-arm.arm-left,
+.level3-arrival-scene > .level3-arrival-player.walking .player-arm.arm-right,
+.level3-arrival-scene > .level3-arrival-player.walking .player-leg.leg-left,
+.level3-arrival-scene > .level3-arrival-player.walking .player-leg.leg-right {
+  animation-duration: .42s !important;
+  animation-iteration-count: infinite !important;
+  animation-direction: alternate !important;
+  animation-timing-function: ease-in-out !important;
+}
+
+.level3-arrival-scene > .level3-arrival-player.walking .player-arm.arm-left {
+  animation-name: level3ArrivalArmLeft !important;
+}
+.level3-arrival-scene > .level3-arrival-player.walking .player-arm.arm-right {
+  animation-name: level3ArrivalArmRight !important;
+}
+.level3-arrival-scene > .level3-arrival-player.walking .player-leg.leg-left {
+  animation-name: level3ArrivalLegLeft !important;
+}
+.level3-arrival-scene > .level3-arrival-player.walking .player-leg.leg-right {
+  animation-name: level3ArrivalLegRight !important;
+}
+
+@keyframes level3ArrivalArmLeft {
+  from { transform: rotate(14deg); }
+  to { transform: rotate(-14deg); }
+}
+@keyframes level3ArrivalArmRight {
+  from { transform: rotate(-14deg); }
+  to { transform: rotate(14deg); }
+}
+@keyframes level3ArrivalLegLeft {
+  from { transform: rotate(9deg); }
+  to { transform: rotate(-9deg); }
+}
+@keyframes level3ArrivalLegRight {
+  from { transform: rotate(-9deg); }
+  to { transform: rotate(9deg); }
+}
+
+/* Keep the arrival story on the right while the train remains visible on the left. */
+.level3-arrival-scene .level3-no-fuel-story {
+  position: absolute !important;
+  right: 6% !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 140 !important;
+  width: min(430px,34vw) !important;
+}
+
+/* ---------- STRANGER TALK: PLAYER + STRANGER VERY CLOSE ---------- */
+.level3-stranger-scene {
+  position: relative !important;
+  min-height: 100vh !important;
+  overflow: hidden !important;
+}
+
+.level3-stranger-scene .level3-station3-static-train {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 30 !important;
+  pointer-events: none !important;
+}
+
+.level3-stranger-scene .level3-station3-static-train .train {
+  left: 3% !important;
+  bottom: 24% !important;
+  transform: none !important;
+  animation: none !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Player remains near the center. */
+.level3-stranger-scene .level3-final-player {
+  left: 40.5% !important;
+  bottom: 24% !important;
+  z-index: 75 !important;
+}
+
+/* Stranger finishes only a short distance from the player. */
+.level3-stranger-scene .level3-stranger-walker {
+  left: 45% !important;
+  bottom: 24% !important;
+  z-index: 80 !important;
+}
+
+.level3-stranger-scene .level3-stranger-walker .player {
+  left: 0 !important;
+  bottom: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Dialogue sits directly above the two characters. */
+.level3-stranger-scene .level3-fuel-question {
+  left: 42.2% !important;
+  bottom: calc(24% + 142px) !important;
+  z-index: 150 !important;
+  width: 220px !important;
+}
+
+.level3-stranger-scene .fuel-question-bubble {
+  position: relative !important;
+  left: 0 !important;
+  top: 0 !important;
+}
+
+/* YES is directly below the dialogue, close to the conversation. */
+.level3-stranger-scene .fuel-yes-button {
+  position: absolute !important;
+  left: 43.2% !important;
+  bottom: calc(24% + 78px) !important;
+  top: auto !important;
+  z-index: 151 !important;
+  min-width: 82px !important;
+  margin: 0 !important;
+}
+
+/* ---------- VICTORY: SAME CONVERSATION POSITION ---------- */
+.level3-victory-cinematic {
+  position: relative !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  overflow: hidden !important;
+}
+
+.level3-victory-scene {
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100vh !important;
+  overflow: hidden !important;
+}
+
+.level3-victory-train {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 30 !important;
+  pointer-events: none !important;
+}
+
+.level3-victory-train .train {
+  left: 3% !important;
+  bottom: 24% !important;
+  transform: none !important;
+  animation: none !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Stranger stays exactly near the previous conversation position and BLUE. */
+.level3-victory-stranger {
+  position: absolute !important;
+  left: 45% !important;
+  bottom: 24% !important;
+  width: 48px !important;
+  height: 132px !important;
+  z-index: 85 !important;
+}
+
+.level3-victory-stranger .player {
+  left: 0 !important;
+  bottom: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.level3-victory-stranger .player-head,
+.victory-stranger-blue .player-head {
+  background: #8e6b4f !important;
+}
+
+.level3-victory-stranger .player-body,
+.victory-stranger-blue .player-body {
+  background: #185ba8 !important;
+  border: 2px solid #0d315f !important;
+  box-shadow: inset 0 0 0 1px rgba(110,190,255,.28), 0 0 18px rgba(30,130,255,.12) !important;
+}
+
+.level3-victory-stranger .player-arm,
+.victory-stranger-blue .player-arm {
+  background: #154f91 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.level3-victory-stranger .player-leg,
+.victory-stranger-blue .player-leg {
+  background: #0f3766 !important;
+  border: 0 !important;
+}
+
+/* Player starts where the conversation happened, carrying the fuel. */
+.level3-victory-player {
+  position: absolute !important;
+  left: 40.5% !important;
+  bottom: 24% !important;
+  width: 48px !important;
+  height: 132px !important;
+  z-index: 90 !important;
+  transition: left 3.1s cubic-bezier(.42,.05,.22,1) !important;
+}
+
+/* Then he walks directly to the train door. */
+.level3-victory-player.walking {
+  left: 26% !important;
+}
+
+.level3-victory-player .player {
+  left: 0 !important;
+  bottom: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Keep the normal player appearance — do NOT turn the player black here. */
+.level3-victory-player .player-head {
+  background: linear-gradient(135deg, #d49a73, #a9674a) !important;
+  border: 2px solid #633e30 !important;
+}
+
+.level3-victory-player .player-body {
+  background: linear-gradient(to right, #293d4b, #172531, #2d4351) !important;
+  border: 2px solid #0d151b !important;
+  box-shadow: 0 5px 10px rgba(0,0,0,.4) !important;
+}
+
+.level3-victory-player .player-arm {
+  background: linear-gradient(to bottom, #304554, #182832) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.level3-victory-player .player-leg {
+  background: linear-gradient(to right, #253642, #111b22) !important;
+  border: 0 !important;
+}
+
+/* Smooth walking animation while the player goes to the train. */
+.stage-walk .level3-victory-player .player-arm.arm-left,
+.stage-walk .level3-victory-player .player-arm.arm-right,
+.stage-walk .level3-victory-player .player-leg.leg-left,
+.stage-walk .level3-victory-player .player-leg.leg-right {
+  animation-duration: .42s !important;
+  animation-iteration-count: infinite !important;
+  animation-direction: alternate !important;
+  animation-timing-function: ease-in-out !important;
+}
+
+/* Fuel stays with the player during the walk and disappears once inside. */
+.stage-inside .victory-fuel-can,
+.stage-closed .victory-fuel-can,
+.stage-depart .victory-fuel-can {
+  display: none !important;
+}
+
+/* Door closes before departure. */
+.stage-depart .level3-victory-train .train {
+  animation: level3FinalVictoryTrainDepart 5.5s linear forwards !important;
+  transform: translateX(0) !important;
+}
+
+@keyframes level3FinalVictoryTrainDepart {
+  from { transform: translateX(0) !important; }
+  to { transform: translateX(160vw) !important; }
+}
+
+/* ---------- GAME OVER: EVERYTHING IN THE TRUE CENTER ---------- */
+.level3-page.result-page {
+  position: relative !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  overflow: hidden !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 0 !important;
+}
+
+.level3-page.result-page .result-card.level3-loss-card {
+  position: relative !important;
+  z-index: 20 !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  transform: none !important;
+  width: min(620px, 90vw) !important;
+  min-height: 0 !important;
+  box-sizing: border-box !important;
+  padding: 42px 45px !important;
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.level3-page.result-page .result-kicker,
+.level3-page.result-page .result-icon,
+.level3-page.result-page h1,
+.level3-page.result-page p,
+.level3-page.result-page .final-marble-score,
+.level3-page.result-page .level3-loss-actions {
+  position: relative !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.level3-page.result-page h1 {
+  margin-top: 15px !important;
+  margin-bottom: 12px !important;
+}
+
+.level3-page.result-page p {
+  margin-top: 0 !important;
+  margin-bottom: 22px !important;
+  max-width: 500px !important;
+  text-align: center !important;
+}
+
+.level3-page.result-page .final-marble-score {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  margin: 18px auto 24px !important;
+}
+
+.level3-page.result-page .level3-loss-actions {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  gap: 10px !important;
+}
+
+.level3-page.result-page .level3-loss-actions .result-button,
+.level3-page.result-page .level3-loss-actions .secondary-result-button {
+  margin: 0 auto !important;
+}
+
+@media (max-width: 900px) {
+  .level3-stranger-scene .level3-final-player { left: 38% !important; }
+  .level3-stranger-scene .level3-stranger-walker { left: 44% !important; }
+  .level3-stranger-scene .level3-fuel-question { left: 39% !important; }
+  .level3-stranger-scene .fuel-yes-button { left: 41% !important; }
+  .level3-victory-player { left: 38% !important; }
+  .level3-victory-player.walking { left: 24% !important; }
+  .level3-victory-stranger { left: 44% !important; }
+}
