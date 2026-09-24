@@ -23,7 +23,7 @@ import api from "../../../api/axios";
 import mapImage from "../../../assets/survival/map.png";
 
 import "./Level1.css";
-import "./level2.css";
+import "./Level2.css";
 
 
 /* =========================================================

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../../api/axios";
-import "./level4.css";
+import "./Level4.css";
 
 /* =========================================================
    LEVEL 4 — 2D CINEMATIC HIDE & SEEK

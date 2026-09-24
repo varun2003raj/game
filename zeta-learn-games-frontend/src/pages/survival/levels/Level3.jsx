@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../../api/axios";
-import "./level3.css";
+import "./Level3.css";
 import "./Level1.css";
 
 const GAME_TIME = 180;
